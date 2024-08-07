@@ -123,9 +123,11 @@ class class1 {
                 } else {
 
                     var PictureArray = [];
-                    for (var i = 0; i < req.files.length; i++) {
-                        await PictureArray.push(Ip + "/public/" + req.files[i].filename)
-                    }
+        if (req.files && req.files.length > 0) {
+          for (var i = 0; i < req.files.length; i++) {
+            await PictureArray.push(Ip + "/public/" + req.files[i].filename);
+          }
+          }
 
                     if (req.body.UserName && req.body.Phone) {
 
