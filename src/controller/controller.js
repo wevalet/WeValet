@@ -32,7 +32,7 @@ if (os.hostname() == "DESKTOP-796LHPC") {
   var Ip = process.env.IpAddress;
 } else {
   // var Ip = "http://13.200.187.159";
-  var Ip = "http://65.2.158.253:3500";
+  var Ip = "http://localhost:3500";
 }
 
 const axios = require("axios");
@@ -230,6 +230,7 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static qrcode = async (req, res) => {
     try {
       let number = req.body.qrnumber;
@@ -252,6 +253,7 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static b = async (req, res) => {
     try {
       var User = await Todo2.findOne({ UserName: req.body.UserName });
@@ -678,6 +680,7 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static f = async (req, res) => {
     try {
       if (req.body.Fcm) {
@@ -777,6 +780,7 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static g = async (req, res) => {
     try {
       // var inputData = await Todo3.findOne({});
@@ -860,14 +864,14 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static h = async (req, res) => {
     try {
       if (req.files["valetTicket"] && req.files["carPicture"] && req.UserName) {
         const headerValue = req.get("Authorization");
 
         var User = await Todo8.findOne({ Username: req.UserName });
-        console.log(headerValue);
-        console.log(User);
+
         if (User) {
           if (User.token == headerValue) {
             const valetTicketPictures = req.files["valetTicket"].map(
@@ -934,17 +938,14 @@ class class1 {
                   postData
                 );
 
-                if (
-                  response.status === 200 &&
-                  response?.data?.message?.length
-                ) {
+                if (response.status === 200 && response.data.message.length) {
                   const UserNameData = response.data.message[0];
 
                   var FcmTokenUser = await Todo.find({
                     UserName: UserNameData,
                   });
                   var FcmToken = await FcmTokenUser[0].Fcm;
-                  console.log(FcmToken)
+
                   axios
                     .post(`${Ip}/StatusChange`, postData)
                     .then((response) => {
@@ -966,21 +967,19 @@ class class1 {
                         },
                         token: FcmToken,
                       };
+
                       fcm
                         .send(message)
                         .then((response) => {
                           var a = {
-                            message:
-                              "Valet Parked Car Sucessfully & Notification sent successfully",
+                            message: "",
                             status: `${HTTP.SUCCESS}`,
                           };
                           res.status(HTTP.SUCCESS).json(a);
                         })
                         .catch((error) => {
-                          console.log(error);
                           var a = {
-                            message:
-                              "Valet Parked Car Sucessfully & Notification Does Not Send",
+                            message: "",
                             status: `${HTTP.INTERNAL_SERVER_ERROR}`,
                           };
                           res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
@@ -990,6 +989,10 @@ class class1 {
                       console.error("Error:", error);
                     });
                 } else {
+                  console.error(
+                    "Request failed with status code:",
+                    response.status
+                  );
                   var a = {
                     message: "Request failed with status code:",
                     status: `${HTTP.NOT_VERIFIED}`,
@@ -997,8 +1000,9 @@ class class1 {
                   res.status(HTTP.NOT_VERIFIED).json(a);
                 }
               } catch (error) {
+                console.error("An error occurred:", error);
                 var a = {
-                  message: "Something Went Wrong",
+                  message: "Something went wrong!!",
                   status: `${HTTP.INTERNAL_SERVER_ERROR}`,
                 };
                 res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
@@ -1379,10 +1383,10 @@ class class1 {
 
   static i = async (req, res) => {
     try {
-      if (req.Username) {
+      if (req.UserName) {
         const headerValue = req.get("Authorization");
 
-        var User = await Todo8.findOne({ Username: req.Username });
+        var User = await Todo8.findOne({ Username: req.UserName });
 
         if (User) {
           if (User.token == headerValue) {
@@ -2894,16 +2898,14 @@ class class1 {
                         .send(message)
                         .then((response) => {
                           var a = {
-                            message:
-                              "Your request has been accepted. Thank you",
+                            message: "",
                             status: `${HTTP.SUCCESS}`,
                           };
                           res.status(HTTP.SUCCESS).json(a);
                         })
                         .catch((error) => {
                           var a = {
-                            message:
-                              "Wallet Can Take Action Sucessfully & Notification Does Not Send",
+                            message: "",
                             status: `${HTTP.INTERNAL_SERVER_ERROR}`,
                           };
                           res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
@@ -6864,7 +6866,7 @@ class class2 {
 
         var User = await Todo2.find({ UserName: req.UserName });
 
-        if (User.length > 0 && headerValue === User[0].token) {
+        if (headerValue == User[0].token) {
           var User2 = await Todo8.find({
             BusinessManagerUserName: req.UserName,
           });
@@ -7251,6 +7253,7 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static n = async (req, res) => {
     try {
       if (req.UserName) {
@@ -7264,31 +7267,41 @@ class class2 {
               Parklocation: User.UnitName,
               status: "Parked",
             });
+
             var SendData = [];
-
             for (var i = 0; i < User2.length; i++) {
+              var member = "";
               var User3 = await Todo.find({ UserName: User2[i].Member[0] });
+              if (User3.length) {
+                if (
+                  User3[0]?.VehicleDetail[0]?.RegistrationNumber ==
+                  User2[i].RegistrationNumber
+                ) {
+                  var PushData = User3[0].VehicleDetail[0];
+                } else {
+                  var PushData = User3[0].VehicleDetail[1];
+                }
 
-              if (
-                User3[0].VehicleDetail[0].RegistrationNumber ==
-                User2[i].RegistrationNumber
-              ) {
-                var PushData = User3[0].VehicleDetail[0];
-              } else {
-                var PushData = User3[0].VehicleDetail[1];
+                if (User2[i].Member.length) {
+                  var member = User2[i].Member[0];
+                  for (var k = 0; k < User3[0].Member.length; k++) {
+                    if (User3[0].Member[k][0].Name == User2[i].CarBringer) {
+                      var member = User3[0].Member[k][0].Name;
+                    }
+                  }
+                }
+
+                await SendData.push({
+                  Name1: User2[i].CarParkBy,
+                  Name2: member,
+                  RegistrationNumber: User2[i].RegistrationNumber,
+                  Make: PushData.CompanyName,
+                  Model: PushData.Model,
+                });
               }
-
-              await SendData.push({
-                Name1: User2[i].CarParkBy,
-                Name2: User2[i].Member[0],
-                RegistrationNumber: User2[i].RegistrationNumber,
-                Make: PushData.CompanyName,
-                Model: PushData.Model,
-              });
             }
 
             var SendData2 = SendData.reverse();
-
             var message2 = {
               message: "Data Load Successfully",
               data: SendData2,
@@ -7316,6 +7329,7 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static o = async (req, res) => {
     try {
       if (req.UserName) {
