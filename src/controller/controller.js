@@ -31,8 +31,8 @@ const os = require("os");
 if (os.hostname() == "DESKTOP-796LHPC") {
   var Ip = process.env.IpAddress;
 } else {
-  // var Ip = "http://13.200.187.159";
-  var Ip = "http://localhost:3500";
+  var Ip = "http://65.2.158.253:3500";
+  // var Ip = "http://localhost:3500";
 }
 
 const axios = require("axios");
@@ -1596,6 +1596,11 @@ class class1 {
                   res.status(HTTP.SUCCESS).json(a);
                 })
                 .catch((error) => {
+                  var a = {
+                    message: "Something went wrong!!",
+                    status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+                  };
+                  res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
                   console.error("Error:", error);
                 });
             } else {
@@ -1874,11 +1879,6 @@ class class1 {
 
         if (User) {
           if (User.token == headerValue) {
-            // var a = [];
-            // for (var i = 0; i < req.files.length; i++) {
-            //     await a.push(Ip + "/public/" + req.files[i].filename)
-            // }
-
             var Parklocation = await User.BusinessUnitName;
 
             var AwsState = await Todo2.find({ UnitName: Parklocation });
@@ -2150,6 +2150,12 @@ class class1 {
                 });
             }
 
+            var ParkedCar1 = await Todo4.find({
+              RegistrationNumber: req.body.RegistrationNumber,
+              status: "",
+              CarPictureUploadStatus: "1",
+            });
+
             if (ParkedCar1.length !== 0) {
               await Todo8.findOneAndUpdate(
                 { Username: req.UserName },
@@ -2253,15 +2259,30 @@ class class1 {
                       })
                       .catch((error) => {
                         console.error("Error:", error);
+                        var a = {
+                          message: `Something went wrong.`,
+                          status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+                        };
+                        res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
                       });
                   } else {
                     console.error(
                       "Request failed with status code:",
                       response.status
                     );
+                    var a = {
+                      message: `Request failed with status code: ${response.status}`,
+                      status: `${response.status}`,
+                    };
+                    res.status(response.status).json(a);
                   }
                 } catch (error) {
                   console.error("An error occurred:", error);
+                  var a = {
+                    message: "Something went wrong!!",
+                    status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+                  };
+                  res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
                 }
               }
               fetchData();
@@ -2272,107 +2293,6 @@ class class1 {
               };
               res.status(HTTP.NOT_FOUND).json(a);
             }
-
-            // var ParkedCar1 = await Todo4.find({ RegistrationNumber: req.body.RegistrationNumber })
-
-            // await Todo8.findOneAndUpdate({ Username: req.UserName }, {
-            //     $set: {
-            //         ValetStatus: 0
-            //     }
-            // }, { returnOriginal: false })
-
-            // // ParkedCar1[0].valetTicketPicture = a;
-            // ParkedCar1[0].valetTicketPicture = locations;
-            // ParkedCar1[0].ParkInTime = currentTimeInSurat;
-            // ParkedCar1[0].status = "Parked";
-            // // ParkedCar1[0].status2 = "Parked";
-            // ParkedCar1[0].CarPictureUploadStatus = "0"
-
-            // ParkedCar1[0].save();
-
-            // let data2 = new Todo7({
-            //     UserName: response.data.message[0],
-            //     Message: "Car is parked",
-            //     ParkInTime: currentTimeInSurat
-            // });
-
-            // await data2.save();
-
-            // async function fetchData() {
-            //     try {
-
-            //         const response = await axios.post(`${Ip}/NumberToMember`, postData);
-
-            //         if (response.status === 200) {
-
-            //             const UserNameData = response.data.message[0];
-
-            //             var FcmTokenUser = await Todo.find({ UserName: UserNameData })
-
-            //             var array1 = await FcmTokenUser[0].ActiveParkingUser;
-            //             var RemoveElement = await ParkedCar1[0].CarBringer;
-
-            //             FcmTokenUser[0].ActiveParkingUser = array1.filter(function (item) {
-            //                 return item !== RemoveElement
-            //             })
-
-            //             await FcmTokenUser[0].save();
-
-            //             // var ActivePushParkingUser = await FcmTokenUser[0].UserName;
-            //             // FcmTokenUser[0].ActiveParkingUser.push(ActivePushParkingUser);
-            //             // await FcmTokenUser[0].save();
-
-            //             var FcmToken = await FcmTokenUser[0].Fcm;
-
-            //             axios.post(`${Ip}/StatusChange`, postData)
-            //                 .then(response => {
-
-            //                     const message = {
-            //                         notification: {
-            //                             title: 'Your vehicle is parked, Thank You',
-            //                             sound: 'default'
-            //                         },
-            //                         android: {
-            //                             notification: {
-            //                                 sound: 'default'
-            //                             }
-            //                         },
-            //                         apns: {
-            //                             payload: {
-            //                                 aps: {
-            //                                     sound: 'default'
-            //                                 }
-            //                             }
-            //                         },
-            //                         token: FcmToken,
-            //                     };
-
-            //                     fcm.send(message)
-            //                         .then((response) => {
-            //                             var a = { "message": "Valet ticket uploaded successfully & notification sent to customer", "status": `${HTTP.SUCCESS}` }
-            //                             res.status(HTTP.SUCCESS).json(a);
-
-            //                         })
-            //                         .catch((error) => {
-            //                             var a = { "message": "Valet ticket uploaded successfully & notification sent to customer", "status": `${HTTP.SUCCESS}` }
-            //                             res.status(HTTP.SUCCESS).json(a);
-            //                         });
-
-            //                 })
-            //                 .catch(error => {
-            //                     console.error('Error:', error);
-            //                 });
-
-            //         } else {
-            //             console.error('Request failed with status code:', response.status);
-            //         }
-
-            //     } catch (error) {
-            //         console.error('An error occurred:', error);
-            //     }
-            // }
-
-            // fetchData();
           } else {
             var a = {
               message: "Token has expired",
@@ -2484,6 +2404,7 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static l = async (req, res) => {
     try {
       var ParkedCar = await Todo4.find({
@@ -4526,6 +4447,7 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static H = async (req, res) => {
     try {
       var PetLogic3 = await Todo.findOne({ Phone: req.Phone });
@@ -4653,6 +4575,7 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static I = async (req, res) => {
     try {
       var PetLogic3 = await Todo.findOne({ Phone: req.Phone });
@@ -5261,6 +5184,7 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static O = async (req, res) => {
     try {
       var userName = "";
@@ -5364,6 +5288,7 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static P = async (req, res) => {
     try {
       var User = await Todo.find({});
@@ -5387,7 +5312,11 @@ class class1 {
             }
           }
 
-          if (User[i].VehicleDetail[1]) {
+          if (
+            User[i]?.VehicleDetail &&
+            User[i]?.VehicleDetail.length > 1 &&
+            User[i].VehicleDetail[1]
+          ) {
             if (
               User[i].VehicleDetail[1].RegistrationNumber ==
               req.body.RegistrationNumber
