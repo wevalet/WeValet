@@ -2221,7 +2221,6 @@ class class1 {
                         const message = {
                           notification: {
                             title: "Your vehicle is parked, Thank You",
-                            sound: "default",
                           },
                           android: {
                             notification: {
@@ -2241,6 +2240,7 @@ class class1 {
                         fcm
                           .send(message)
                           .then((response) => {
+                            console.log("FCM Response:", response);
                             var a = {
                               message:
                                 "Valet ticket uploaded successfully & notification sent to customer",
@@ -2249,6 +2249,7 @@ class class1 {
                             res.status(HTTP.SUCCESS).json(a);
                           })
                           .catch((error) => {
+                            console.error("FCM Error:", error);
                             var a = {
                               message:
                                 "Valet ticket uploaded successfully & notification sent to customer",
