@@ -40,7 +40,8 @@ const axios = require("axios");
 const multer = require("multer");
 
 const admin = require("firebase-admin");
-const serviceAccount = require("../../Fcm/valet-user-app-firebase-adminsdk-ecf3t-2f1bf6948a.json");
+// const serviceAccount = require("../../Fcm/valet-user-app-firebase-adminsdk-ecf3t-2f1bf6948a.json");
+const serviceAccount = require("../../Fcm/config");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -704,7 +705,11 @@ class class1 {
             UserPassword
           );
           if (Passwordmatch) {
-            const token = jwt.sign({ UserName: LowerCaseUsername }, SECRET_KEY);
+            const token = jwt.sign(
+              { UserName: LowerCaseUsername },
+              SECRET_KEY,
+              { expiresIn: "1d" }
+            );
 
             function startsWithValidCountryCode(phoneNumber) {
               const validCodes = ["+91"];
