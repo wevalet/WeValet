@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <title>Request Car</title>
+    <style>
+      .gradient-custom-3 {
+        background: #e0f7fa;
+        background: -webkit-linear-gradient(
+          to right,
+          rgba(224, 247, 250, 0.7),
+          rgba(255, 255, 255, 0.5)
+        );
+        background: linear-gradient(
+          to right,
+          rgba(224, 247, 250, 0.7),
+          rgba(255, 255, 255, 0.5)
+        );
+      }
+
+      .gradient-custom-4 {
+        background: #80deea;
+        background: -webkit-linear-gradient(
+          to right,
+          rgba(128, 222, 234, 1),
+          rgba(0, 172, 193, 1)
+        );
+        background: linear-gradient(
+          to right,
+          rgba(128, 222, 234, 1),
+          rgba(0, 172, 193, 1)
+        );
+      }
+
+      .logo-container {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .logo-container img {
+        max-width: 120px;
+        height: auto;
+      }
+
+      .input-box {
+        max-width: 80px;
+        margin: 0 auto;
+        text-align: center;
+        border: 1px solid #00acc1;
+        border-radius: 5px;
+        padding: 8px;
+        font-size: 1rem;
+        color: #00acc1;
+        background-color: #e0f7fa;
+      }
+
+      .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      .btn-request {
+        background-color: #00acc1;
+        color: white;
+        font-size: 0.9rem;
+        padding: 8px 12px;
+      }
+
+      .card-body {
+        padding: 20px;
+      }
+
+      .car-container {
+        position: relative;
+        margin-bottom: 30px;
+      }
+
+      .car-body {
+        position: relative;
+        width: 200px;
+        height: 100px;
+        background-color: #00acc1;
+        border-radius: 15px;
+        margin: 0 auto;
+      }
+
+      .car-body::before,
+      .car-body::after {
+        content: "";
+        position: absolute;
+        bottom: -20px;
+        width: 40px;
+        height: 40px;
+        background-color: #37474f;
+        border-radius: 50%;
+      }
+
+      .car-body::before {
+        left: 10px;
+      }
+
+      .car-body::after {
+        right: 10px;
+      }
+
+      .car-window {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        width: 50%;
+        height: 40px;
+        background-color: #e0f7fa;
+        border-radius: 5px;
+      }
+
+      .app-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 5px;
+      }
+
+      .app-links img {
+        max-width: 120px;
+        height: auto;
+      }
+
+      .download-text {
+        text-align: center;
+        font-size: 0.85rem;
+        color: #00acc1;
+        margin-bottom: 3px;
+        font-weight: bold;
+      }
+
+      @media (max-width: 767px) {
+        .card {
+          border-radius: 15px;
+          width: 100%;
+          max-width: 400px;
+          margin: 0 auto;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+
+        .card-body {
+          padding: 10px;
+          flex-grow: 1;
+        }
+
+        .logo-container {
+          margin-bottom: 10px;
+        }
+
+        .button-group {
+          margin-bottom: 5px;
+        }
+
+        .app-links {
+          margin-top: 5px;
+        }
+
+        .download-text {
+          margin-bottom: 5px;
+        }
+      }
+
+      .card {
+        border-radius: 15px;
+        width: 90%;
+        max-width: 360px;
+        margin: 0 auto;
+      }
+
+      .card-body {
+        padding: 15px;
+      }
+
+      .custom-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: green;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+
+      .popup-content {
+        text-align: center;
+      }
+
+      .popup-content button {
+        background-color: white;
+        color: green;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .popup-content button:hover {
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
+  <body>
+    <section
+      class="vh-100 bg-image"
+      style="
+        background-image: url('/A.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      "
+    >
+      <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+          <div
+            class="row d-flex justify-content-center align-items-center h-100"
+          >
+            <div class="col-12 col-md-9 col-lg-7 col-xl-5">
+              <div class="card">
+                <div class="card-body p-4">
+                  <div class="logo-container">
+                    <% if (business?.Profile?.length) { %>
+                    <img src="<%= business.Profile[0] %>" alt="Logo" />
+                    <% } else { %>
+                    <img src="/logo.png" alt="Default Logo" />
+                    <% } %>
+                  </div>
+
+                  <div class="mb-3 text-center">
+                    <label class="form-label fs-5" for="vehicleNumber"
+                      >Vehicle Number</label
+                    >
+                    <div class="input-box fs-4 p-0" id="vehicleNumber">
+                      <%= detail.carNumber %>
+                    </div>
+                  </div>
+
+                  <form
+                    id="requestForm"
+                    action="/RequestForCar"
+                    method="POST"
+                    onsubmit="return handleSubmit(event)"
+                  >
+                    <input
+                      type="hidden"
+                      id="business"
+                      name="businessName"
+                      value="<%= business._id %>"
+                    />
+                    <input
+                      type="hidden"
+                      id="carNumber"
+                      name="carNumber"
+                      value="<%= detail.carNumber %>"
+                    />
+                    <div class="form-floating mb-3">
+                      <input
+                        type="text"
+                        id="form3Example1cg"
+                        class="form-control form-control-sm"
+                        name="tokenNumber"
+                        value="<%= token %>"
+                      />
+                      <label class="form-label" for="form3Example1cg">
+                        Token Number
+                      </label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                      <input
+                        type="text"
+                        id="form3Example3cg"
+                        class="form-control form-control-sm"
+                        name="otp"
+                      />
+                      <label class="form-label" for="form3Example3cg">
+                        OTP
+                      </label>
+                    </div>
+
+                    <div class="button-group">
+                      <button
+                        type="submit"
+                        class="btn btn-request btn-lg gradient-custom-4 text-body"
+                      >
+                        Request Car
+                      </button>
+                    </div>
+                  </form>
+
+                  <div class="download-text">
+                    want more functionality, download now
+                  </div>
+                  <div class="app-links">
+                    <a href="#">
+                      <img src="/Playstore.png" alt="Play Store" />
+                    </a>
+                    <a href="#">
+                      <img src="/apple.png" alt="App Store" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Custom Popup -->
+    <div id="customPopup" class="custom-popup">
+      <div class="popup-content">
+        <p>Your car is on the way</p>
+        <button onclick="closePopup()">Close</button>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script>
+      function handleSubmit(event) {
+        event.preventDefault();
+        // Show custom popup
+        document.getElementById("customPopup").style.display = "block";
+        // Optionally, you can submit the form here if needed
+        // event.target.submit();
+      }
+
+      function closePopup() {
+        document.getElementById("customPopup").style.display = "none";
+      }
+    </script>
+  </body>
+</html>

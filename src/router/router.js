@@ -1,14 +1,15 @@
 var express = require("express");
 const router = express.Router();
 
-var { class1, class2 } = require("../controller/controller");
+var { class1, class2, QRCodeClass } = require("../controller/controller");
 
 var jwt = require("jsonwebtoken");
 var path = require("path");
 
-var { upload, upload2, upload3 } = require("../middleware/schema");
+var { upload, upload2, upload3, upload4 } = require("../middleware/schema");
 
 const HTTP = require("../../constant/response.constant");
+const { Todo2, HotelQrCodeHistory } = require("../model/schema");
 
 function verifyToken(req, res, next) {
   const token = req.headers["authorization"];
@@ -35,7 +36,7 @@ function verifyToken(req, res, next) {
 }
 router.post("/tokenqrdata", verifyToken, class1.tokenqrdata);
 router.post("/CreateUser", upload.array("picture"), class1.a);
-router.post("/qrcodebynumber", class1.qrcode);
+// router.post("/qrcodebynumber", class1.qrcode);
 router.get("/demo", class1.demo);
 router.post("/CreateBusiness", upload.array("picture"), class1.b);
 router.post("/AddVehicle", verifyToken, upload.array("picture"), class1.c);
@@ -85,7 +86,7 @@ router.get("/User", class1.t);
 router.post("/User", class1.u);
 router.get("/Customer", class1.v);
 router.get("/Customer/:id1", class1.w);
-router.get("/QrCode", class2.qrcode);
+// router.get("/QrCode", class2.qrcode);
 router.post("/Customer", class1.v2);
 router.post("/Customer/:id1", class1.w2);
 router.get("/Parking", class1.x);
@@ -171,5 +172,76 @@ router.get("/CancleMemberShip", verifyToken, class2.J);
 
 router.post("/WeekendPicture1", verifyToken, class2.K);
 router.post("/WeekendPicture2", verifyToken, class2.M);
+
+/* QRCODE ROUTES */
+
+// BUSINESS SECTION
+router.post("/GenerateQRCode", verifyToken, QRCodeClass.GenerateQRCode);
+router.get("/AllBusinessToken", verifyToken, QRCodeClass.AllBusinessToken);
+router.post(
+  "/GenerateQRCodesForBusiness",
+  verifyToken,
+  QRCodeClass.GenerateQRCodesForBusiness
+);
+
+// VALET SECTION
+router.post("/CarPark", verifyToken, QRCodeClass.CarPark);
+router.post("/RequestedCarCount", verifyToken, QRCodeClass.RequestedCarCount);
+router.get(
+  "/RequestedCarDetails",
+  verifyToken,
+  QRCodeClass.RequestedCarDetails
+);
+router.post("/CarRetrieve", verifyToken, QRCodeClass.CarRetrieve); //
+
+// USER SECTION
+router.post("/RequestForCar", QRCodeClass.RequestForCar);
+
+// router.get("/ddd", QRCodeClass.data);
+
+router.get("/request-car", async (req, res) => {
+  try {
+    const { businessName, token } = req.query;
+
+    if (!businessName || !token) {
+      return res.status(HTTP.BAD_REQUEST).json({
+        message: "Insufficient Data",
+        status: `${HTTP.BAD_REQUEST}`,
+      });
+    }
+
+    const business = await Todo2.findOne({ _id: businessName });
+    if (!business) {
+      res.status(HTTP.NOT_FOUND).json({
+        message: "Business not found!!",
+        status: `${HTTP.NOT_FOUND}`,
+      });
+      return false;
+    }
+
+    const detail = await HotelQrCodeHistory.findOne({
+      tokenNumber: token,
+      businessId: business._id,
+      assigned: true,
+      retrieved: false,
+    });
+    if (!detail) {
+      res.status(HTTP.NOT_FOUND).json({
+        message: "Car not found!!",
+        status: `${HTTP.NOT_FOUND}`,
+      });
+      return false;
+    }
+
+    res.render("scan", {
+      business: business,
+      token: token,
+      detail: detail,
+    });
+  } catch (error) {
+    console.error("Error loading scan page:", error);
+    res.status(500).send("Server Error");
+  }
+});
 
 module.exports = router;
