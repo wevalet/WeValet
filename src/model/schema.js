@@ -14,21 +14,23 @@ var UserSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  VehicleDetail: [{
-    data: Buffer,
-    contentType: String,
-    CompanyName: String,
-    Model: String,
-    RegistrationNumber: String,
-    Year: String,
-    BodyType: String,
-    Color: String,
-    Picture: Array,
-    status: String,
-    status2: String,
-    Member: Array,
-    StatusChange: String,
-  }],
+  VehicleDetail: [
+    {
+      data: Buffer,
+      contentType: String,
+      CompanyName: String,
+      Model: String,
+      RegistrationNumber: String,
+      Year: String,
+      BodyType: String,
+      Color: String,
+      Picture: Array,
+      status: String,
+      status2: String,
+      Member: Array,
+      StatusChange: String,
+    },
+  ],
   Member: Array,
   ActiveParkingUser: Array,
   Promocode: {
@@ -60,7 +62,7 @@ var UserSchema = new mongoose.Schema({
   },
   OfficialPlanExpiredDate: {
     type: String,
-  }
+  },
 });
 
 var Todo = mongoose.model("UserCollection", UserSchema);
@@ -144,17 +146,19 @@ const BusinessSchema = new mongoose.Schema({
   City: {
     type: String,
   },
-  UserWaitTime: [{
-    data: Buffer,
-    contentType: String,
-    Monday: Array,
-    Tuesday: Array,
-    Wednesday: Array,
-    Thursday: Array,
-    Friday: Array,
-    Saturday: Array,
-    Sunday: Array,
-  }],
+  UserWaitTime: [
+    {
+      data: Buffer,
+      contentType: String,
+      Monday: Array,
+      Tuesday: Array,
+      Wednesday: Array,
+      Thursday: Array,
+      Friday: Array,
+      Saturday: Array,
+      Sunday: Array,
+    },
+  ],
   AccountCreateDate: {
     type: String,
   },
@@ -163,13 +167,10 @@ const BusinessSchema = new mongoose.Schema({
   },
   PlanExpiredDate: {
     type: String,
-  }
+  },
 });
 
-const Todo2 = new mongoose.model(
-  "BusinessCollection",
-  BusinessSchema
-);
+const Todo2 = new mongoose.model("BusinessCollection", BusinessSchema);
 
 var CustomerSchema = new mongoose.Schema({
   Name: {
@@ -238,7 +239,7 @@ var CustomerSchema = new mongoose.Schema({
   },
   signuptoken: {
     type: String,
-  }
+  },
 });
 
 var Todo3 = mongoose.model("CustomerCollection", CustomerSchema);
@@ -273,21 +274,21 @@ const ParkDetailSchema = new mongoose.Schema({
   UpdateTimeDate: String,
   Member: Array,
   TotleParkRRequestedLength: String,
-  CarPictureUploadStatus: String
+  CarPictureUploadStatus: String,
 });
 
-const Todo4 = mongoose.model('ParkDetailCollection', ParkDetailSchema);
+const Todo4 = mongoose.model("ParkDetailCollection", ParkDetailSchema);
 
 const CompanyDetailSchema = new mongoose.Schema({
   CompanyName: {
-    type: String
+    type: String,
   },
   Model: {
-    type: Array
-  }
+    type: Array,
+  },
 });
 
-const Todo5 = mongoose.model('CompanyDetailCollection', CompanyDetailSchema); // One Company Name is Multiple ( 3 ) Times and i have find jeep 2 Time
+const Todo5 = mongoose.model("CompanyDetailCollection", CompanyDetailSchema); // One Company Name is Multiple ( 3 ) Times and i have find jeep 2 Time
 
 var IntimateSchema = new mongoose.Schema({
   Date: {
@@ -314,7 +315,7 @@ var IntimateSchema = new mongoose.Schema({
   },
   SenderUserName: {
     type: String,
-  }
+  },
 });
 
 var Todo6 = mongoose.model("IntimateCollection", IntimateSchema);
@@ -337,7 +338,7 @@ var NotificationSchema = new mongoose.Schema({
   },
   RegistrationNumber: {
     type: String,
-  }
+  },
 });
 
 var Todo7 = mongoose.model("NotificationCollection", NotificationSchema);
@@ -396,10 +397,8 @@ var ValetSchema = new mongoose.Schema({
   },
   PlanExpiredDate: {
     type: String,
-  }
+  },
 });
-
-
 
 var Todo8 = mongoose.model("ValetCollection", ValetSchema);
 
@@ -441,7 +440,7 @@ var PaymentSchema = new mongoose.Schema({
   },
   User: {
     type: String,
-  }
+  },
 });
 
 var Todo9 = mongoose.model("PaymentCollection", PaymentSchema);
@@ -461,9 +460,54 @@ var PictureSchema = new mongoose.Schema({
   },
   Pictures: {
     type: Array,
-  }
+  },
 });
 
 var Todo10 = mongoose.model("PictureCollection", PictureSchema);
 
-module.exports = { Todo, Todo2, Todo3, Todo4, Todo5, Todo6, Todo7, Todo8, Todo9, Todo10, Todo15 };
+const HotelQrSchema = new mongoose.Schema({
+  tokenNumber: { type: String, required: true },
+  qrCode: { type: String, required: true },
+  businessId: { type: String, required: true },
+  otp: { type: String, required: false },
+  carNumber: { type: String, required: false },
+  assigned: { type: Boolean, default: false },
+  retrieved: { type: Boolean, default: false },
+});
+
+var HotelQrCode = mongoose.model("HotelQrCodeCollection", HotelQrSchema);
+
+const HotelQrCodeHistorySchema = new mongoose.Schema({
+  tokenNumber: { type: String, required: true },
+  carNumber: { type: String, required: true },
+  businessId: { type: String, required: true },
+  valetId: { type: String, required: true },
+  otp: { type: String, required: false },
+  assignedDate: { type: String, required: true },
+  assigned: { type: Boolean, default: false },
+  retrieveRequestDate: { type: String, default: false },
+  retrieveRequest: { type: String, default: false },
+  retrievedDate: { type: String, default: false },
+  retrieved: { type: Boolean, default: false },
+});
+
+var HotelQrCodeHistory = mongoose.model(
+  "HotelQrCodeHistoryCollection",
+  HotelQrCodeHistorySchema
+);
+
+module.exports = {
+  Todo,
+  Todo2,
+  Todo3,
+  Todo4,
+  Todo5,
+  Todo6,
+  Todo7,
+  Todo8,
+  Todo9,
+  Todo10,
+  Todo15,
+  HotelQrCode,
+  HotelQrCodeHistory,
+};

@@ -10,9 +10,27 @@ var {
   Todo9,
   Todo10,
   Todo15,
+  HotelQrCode,
+  HotelQrCodeHistory,
 } = require("../model/schema");
 const HTTP = require("../../constant/response.constant");
-var QRCode = require("qrcode");
+
+// const express = require("express");
+// const bodyParser = require("body-parser");
+const QRCode = require("qrcode");
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
+
+// const app = express();
+
+// // Middleware
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(express.static("public"));
+
+// Function to generate OTP
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 var jwt = require("jsonwebtoken");
 var path = require("path");
@@ -31,8 +49,21 @@ const os = require("os");
 if (os.hostname() == "DESKTOP-796LHPC") {
   var Ip = process.env.IpAddress;
 } else {
-  var Ip = "http://65.2.158.253:3500";
-  // var Ip = "http://localhost:3500";
+  // var Ip = "http://65.2.158.253:3500";
+  var Ip = "http://localhost:3500";
+}
+
+const QRBaseUrl = `http://localhost:3500/request-car`;
+
+async function generateQRCode(qrUrl, i) {
+  const outputFileName = `public/qr_code_${i}_${Date.now()}.png`;
+
+  await QRCode.toFile(outputFileName, qrUrl, {
+    width: 200,
+    height: 200,
+  });
+
+  return outputFileName;
 }
 
 const axios = require("axios");
@@ -40,7 +71,6 @@ const axios = require("axios");
 const multer = require("multer");
 
 const admin = require("firebase-admin");
-// const serviceAccount = require("../../Fcm/valet-user-app-firebase-adminsdk-ecf3t-2f1bf6948a.json");
 const serviceAccount = require("../../Fcm/config");
 
 admin.initializeApp({
@@ -77,7 +107,7 @@ setInterval(async () => {
 const geolib = require("geolib");
 
 const AWS = require("aws-sdk");
-const { Console } = require("console");
+const { Console, log } = require("console");
 require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 
 function formatPhoneNumber(number, number2) {
@@ -225,29 +255,6 @@ class class1 {
     try {
       var a = { message: `Demo Api Call`, status: `${HTTP.SUCCESS}` };
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
-    } catch (e) {
-      console.log(e);
-      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
-      res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
-    }
-  };
-
-  static qrcode = async (req, res) => {
-    try {
-      let number = req.body.qrnumber;
-      if (number) {
-        QRCode.toDataURL(number, { version: 2 }, function (err, url) {
-          console.log(url);
-          var a = { message: url, status: `${HTTP.SUCCESS}` };
-          res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
-        });
-      } else {
-        var a = {
-          message: "Please Enter the number",
-          status: `${HTTP.INTERNAL_SERVER_ERROR}`,
-        };
-        res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
-      }
     } catch (e) {
       console.log(e);
       var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
@@ -705,11 +712,7 @@ class class1 {
             UserPassword
           );
           if (Passwordmatch) {
-            const token = jwt.sign(
-              { UserName: LowerCaseUsername },
-              SECRET_KEY,
-              { expiresIn: "1d" }
-            );
+            const token = jwt.sign({ UserName: LowerCaseUsername }, SECRET_KEY);
 
             function startsWithValidCountryCode(phoneNumber) {
               const validCodes = ["+91"];
@@ -2226,6 +2229,7 @@ class class1 {
                         const message = {
                           notification: {
                             title: "Your vehicle is parked, Thank You",
+                            sound: "default",
                           },
                           android: {
                             notification: {
@@ -2245,7 +2249,6 @@ class class1 {
                         fcm
                           .send(message)
                           .then((response) => {
-                            console.log("FCM Response:", response);
                             var a = {
                               message:
                                 "Valet ticket uploaded successfully & notification sent to customer",
@@ -2254,7 +2257,6 @@ class class1 {
                             res.status(HTTP.SUCCESS).json(a);
                           })
                           .catch((error) => {
-                            console.error("FCM Error:", error);
                             var a = {
                               message:
                                 "Valet ticket uploaded successfully & notification sent to customer",
@@ -2433,8 +2435,12 @@ class class1 {
             var VehicleParkBusiness = await Todo8.findOne({
               Username: ParkedCar[ParkedCar.length - 1].CarParkBy,
             });
-            var VehicleParkBusinessUserName =
-              VehicleParkBusiness.BusinessManagerUserName;
+            var VehicleParkBusinessUserName = VehicleParkBusiness.res
+              .status(HTTP.BAD_REQUEST)
+              .json({
+                message: "Business Not Found",
+                status: checkToken,
+              });
 
             var VehicleParkBusinessUserNameFullData = await Todo8.find({
               BusinessManagerUserName: VehicleParkBusinessUserName,
@@ -7927,59 +7933,6 @@ class class2 {
     }
   };
 
-  static qrcode = async (req, res) => {
-    try {
-      var User2 = await Todo3.findOne({ signuptoken: req.session.userid });
-      var User = await Todo3.findOne({ signuptoken: req.session.userid });
-
-      var Access1 = await User2.Access1;
-      var Access2 = await User2.Access2;
-      var Access3 = await User2.Access3;
-      var Access4 = await User2.Access4;
-      var Access5 = await User2.Access5;
-      var Access6 = await User2.Access6;
-      var Access7 = await User2.Access7;
-      var Access8 = await User2.Access8;
-      var Access9 = await User2.Access9;
-      var Access10 = await User2.Access10;
-      var Access11 = await User2.Access11;
-      var Access12 = await User2.Access12;
-      var Access13 = await User2.Access13;
-      var Access14 = await User2.Access14;
-      var Access15 = await User2.Access15;
-      var Access16 = await User2.Access16;
-
-      var User3 = await Todo9.find({});
-
-      res.render("QRCode", {
-        User3,
-        User2,
-        User,
-        Ip,
-        Access1,
-        Access2,
-        Access3,
-        Access4,
-        Access5,
-        Access6,
-        Access7,
-        Access8,
-        Access9,
-        Access10,
-        Access11,
-        Access12,
-        Access13,
-        Access14,
-        Access15,
-        Access16,
-      });
-    } catch (e) {
-      console.log(e);
-      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
-      res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
-    }
-  };
-
   static w = async (req, res) => {
     try {
       if (req.session.userid) {
@@ -9018,4 +8971,573 @@ class class2 {
   };
 }
 
-module.exports = { class1, class2 };
+class QRCodeClass {
+  static GenerateQRCode = async (req, res) => {
+    try {
+      if (req.UserName) {
+        const headerValue = req.get("Authorization");
+        const User = await Todo2.findOne({ UserName: req.UserName });
+        if (User) {
+          if (headerValue == User.token) {
+            const { startNumber, endNumber } = req.body;
+            if (!startNumber || !endNumber) {
+              return res.status(HTTP.BAD_REQUEST).json({
+                message: "Insufficient Data",
+                status: `${HTTP.BAD_REQUEST}`,
+              });
+            }
+
+            let qrCodes = [];
+            for (let i = startNumber; i <= endNumber; i++) {
+              const tokenNumber = i.toString();
+
+              // Check if token already exists
+              const existingToken = await HotelQrCode.findOne({
+                tokenNumber: tokenNumber,
+                businessId: User._id,
+              });
+              if (existingToken) {
+                continue; // Skip existing token
+              }
+
+              // Generate a new OTP and save it
+              const otp = generateOTP();
+
+              // Create a URL that the QR code should redirect to
+              const qrUrl = `${QRBaseUrl}?token=${tokenNumber}&businessName=${User._id}`;
+
+              // Generate the QR code with the URL
+              const qrCodeFileName = await generateQRCode(qrUrl, i);
+
+              // Save the QR code data in the database
+              const newCar = new HotelQrCode({
+                tokenNumber,
+                qrCode: `${Ip}/${qrCodeFileName}`,
+                businessId: User._id,
+                otp, // Store OTP here
+              });
+
+              await newCar.save();
+
+              // Add QR code data to the array for PDF generation
+              qrCodes.push({ tokenNumber, qrCode: qrCodeFileName });
+            }
+
+            // Generate PDF with all QR codes
+            const pdfFileName = "public/qr_codes.pdf";
+            const doc = new PDFDocument();
+            doc.pipe(fs.createWriteStream(pdfFileName));
+
+            qrCodes.forEach((qrCode, key) => {
+              if (key) {
+                doc.addPage();
+              }
+              doc
+                .fontSize(12)
+                .text(`Token Number: ${qrCode.tokenNumber}`, {
+                  align: "center",
+                })
+                .image(qrCode.qrCode, {
+                  fit: [200, 200],
+                  align: "center",
+                  valign: "center",
+                });
+            });
+
+            doc.end();
+
+            // Send the URL of the generated PDF
+            const pdfUrl = `${req.protocol}://${req.get(
+              "host"
+            )}/public/qr_codes.pdf`;
+
+            res.status(HTTP.SUCCESS).json({
+              message: "QR codes generated successfully!!",
+              pdfUrl,
+              status: `${HTTP.SUCCESS}`,
+            });
+          } else {
+            res.status(HTTP.UNAUTHORIZED).json({
+              message: "Token has expired",
+              status: `${HTTP.UNAUTHORIZED}`,
+            });
+          }
+        } else {
+          res.status(HTTP.NOT_FOUND).json({
+            message: "Account Not Exist",
+            status: `${HTTP.NOT_FOUND}`,
+          });
+        }
+      } else {
+        res.status(HTTP.BAD_REQUEST).json({
+          message: "Insufficient Data",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json({
+        message: `${e}`,
+        status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+      });
+    }
+  };
+
+  static AllBusinessToken = async (req, res) => {
+    try {
+      if (req.UserName) {
+        const headerValue = req.get("Authorization");
+        const User = await Todo2.findOne({ UserName: req.UserName });
+        if (User) {
+          if (headerValue == User.token) {
+            const tokens = await HotelQrCode.find({ businessId: User._id });
+
+            res.status(HTTP.SUCCESS).json({
+              message: "QR codes generated successfully!!",
+              data: tokens,
+              status: `${HTTP.SUCCESS}`,
+            });
+            return false;
+          } else {
+            res.status(HTTP.UNAUTHORIZED).json({
+              message: "Token has expired",
+              status: `${HTTP.UNAUTHORIZED}`,
+            });
+          }
+        } else {
+          res.status(HTTP.NOT_FOUND).json({
+            message: "Account Not Exist",
+            status: `${HTTP.NOT_FOUND}`,
+          });
+        }
+      } else {
+        res.status(HTTP.BAD_REQUEST).json({
+          message: "Insufficient Data",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json({
+        message: `${e}`,
+        status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+      });
+    }
+  };
+
+  static GenerateQRCodesForBusiness = async (req, res) => {
+    try {
+      if (req.UserName) {
+        const headerValue = req.get("Authorization");
+        const User = await Todo2.findOne({ UserName: req.UserName });
+
+        if (User) {
+          if (headerValue == User.token) {
+            const { from, to } = req.body;
+
+            const qrCodes = await HotelQrCode.find({
+              businessId: User._id,
+              ...(from && to
+                ? {
+                    tokenNumber: {
+                      $gte: from, // Greater than or equal to `from`
+                      $lte: to, // Less than or equal to `to`
+                    },
+                  }
+                : {}),
+            });
+
+            // Generate PDF
+            const doc = new PDFDocument();
+            doc.pipe(fs.createWriteStream("public/qr_codes.pdf"));
+
+            let i = 0;
+            for (const qrCode of qrCodes) {
+              const qrUrl = await QRCode.toDataURL(
+                `${QRBaseUrl}?token=${qrCode.tokenNumber}&businessName=${qrCode.businessId}`
+              );
+
+              if (i) {
+                doc.addPage();
+              }
+
+              doc
+                .fontSize(12)
+                .text(`Token Number: ${qrCode.tokenNumber}`, {
+                  align: "center",
+                })
+                .image(qrUrl, {
+                  fit: [200, 200],
+                  align: "center",
+                  valign: "center",
+                });
+              i++;
+            }
+            doc.end();
+
+            // Send the URL of the generated PDF
+            const pdfUrl = `${req.protocol}://${req.get(
+              "host"
+            )}/public/qr_codes.pdf`;
+
+            res.status(HTTP.SUCCESS).json({
+              message: "QR codes generated successfully!!",
+              pdfUrl,
+              status: `${HTTP.SUCCESS}`,
+            });
+          } else {
+            res.status(HTTP.UNAUTHORIZED).json({
+              message: "Token has expired",
+              status: `${HTTP.UNAUTHORIZED}`,
+            });
+          }
+        } else {
+          res.status(HTTP.NOT_FOUND).json({
+            message: "Account Not Exist",
+            status: `${HTTP.NOT_FOUND}`,
+          });
+        }
+      } else {
+        res.status(HTTP.BAD_REQUEST).json({
+          message: "Insufficient Data",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json({
+        message: `${e}`,
+        status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+      });
+    }
+  };
+
+  static CarPark = async (req, res) => {
+    try {
+      if (req.UserName) {
+        const headerValue = req.get("Authorization");
+        var User = await Todo8.findOne({ Username: req.UserName });
+        if (User) {
+          if (User.token == headerValue) {
+            const { tokenNumber, carNumber, OTP } = req.body;
+            if (!tokenNumber || !carNumber || !OTP) {
+              return res.status(HTTP.BAD_REQUEST).json({
+                message: "Insufficient Data",
+                status: `${HTTP.BAD_REQUEST}`,
+              });
+            }
+
+            const business = await Todo2.findOne({
+              UserName: User.BusinessManagerUserName,
+            });
+            if (!business) {
+              return res.status(HTTP.BAD_REQUEST).json({
+                message: "Business Not Found",
+                status: `${HTTP.BAD_REQUEST}`,
+              });
+            }
+
+            const check = await HotelQrCodeHistory.findOne({
+              tokenNumber: tokenNumber,
+              assigned: true,
+            });
+            if (check) {
+              return res.status(HTTP.BAD_REQUEST).json({
+                message: "This token is already assigned to another car",
+                status: `${HTTP.BAD_REQUEST}`,
+              });
+            }
+
+            const newCar = new HotelQrCodeHistory({
+              tokenNumber: tokenNumber,
+              carNumber: carNumber,
+              businessId: business._id,
+              valetId: User._id,
+              otp: OTP,
+              assignedDate: new Date(),
+              assigned: true,
+            });
+            await newCar.save();
+
+            res.status(HTTP.SUCCESS).json({
+              message: "Data has been saved successfully!!",
+              status: `${HTTP.SUCCESS}`,
+            });
+            return false;
+          } else {
+            var a = {
+              message: "Token has expired",
+              status: `${HTTP.UNAUTHORIZED}`,
+            };
+            res.status(HTTP.UNAUTHORIZED).json(a);
+          }
+        } else {
+          var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
+          res.status(HTTP.NOT_FOUND).json(a);
+        }
+      } else {
+        var a = { message: "Insufficient Data", status: `${HTTP.BAD_REQUEST}` };
+        res.status(HTTP.BAD_REQUEST).json(a);
+      }
+    } catch (e) {
+      console.log(e);
+      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+    }
+  };
+
+  static RequestForCar = async (req, res) => {
+    try {
+      const { businessName, tokenNumber, carNumber, otp } = req.body;
+      if (!businessName || !tokenNumber || !carNumber || !otp) {
+        return res.status(HTTP.BAD_REQUEST).json({
+          message: "Insufficient Data",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+
+      const business = await Todo2.findOne({ _id: businessName });
+      if (!business) {
+        return res.status(HTTP.BAD_REQUEST).json({
+          message: "Business Not Found",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+
+      const check = await HotelQrCodeHistory.findOne({
+        tokenNumber: tokenNumber,
+        carNumber: carNumber,
+        businessId: business._id,
+        otp: otp,
+        assigned: true,
+        retrieveRequest: false,
+      });
+      if (!check) {
+        return res.status(HTTP.BAD_REQUEST).json({
+          message: "Data not found!!",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+
+      const updateRequest = await HotelQrCodeHistory.findOneAndUpdate(
+        {
+          tokenNumber: tokenNumber,
+          carNumber: carNumber,
+          businessId: business._id,
+          otp: otp,
+          assigned: true,
+          retrieveRequest: false,
+        },
+        { $set: { retrieveRequestDate: new Date(), retrieveRequest: true } }
+      );
+      await updateRequest.save();
+
+      res.status(HTTP.SUCCESS).json({
+        message: "Request has been sented successfully!!",
+        status: `${HTTP.SUCCESS}`,
+      });
+      return false;
+    } catch (e) {
+      console.log(e);
+      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+    }
+  };
+
+  static RequestedCarCount = async (req, res) => {
+    try {
+      if (req.UserName) {
+        const headerValue = req.get("Authorization");
+        var User = await Todo8.findOne({ Username: req.UserName });
+        if (User) {
+          if (User.token == headerValue) {
+            const business = await Todo2.findOne({
+              UserName: User.BusinessManagerUserName,
+            });
+            if (!business) {
+              return res.status(HTTP.BAD_REQUEST).json({
+                message: "Business Not Found",
+                status: `${HTTP.BAD_REQUEST}`,
+              });
+            }
+
+            const count = await HotelQrCodeHistory.countDocuments({
+              valetId: User._id,
+              assigned: true,
+              retrieveRequest: true,
+              retrieved: false,
+            });
+            res.status(HTTP.SUCCESS).json({
+              message: "Data has been saved successfully!!",
+              count: count,
+              status: `${HTTP.SUCCESS}`,
+            });
+            return false;
+          } else {
+            var a = {
+              message: "Token has expired",
+              status: `${HTTP.UNAUTHORIZED}`,
+            };
+            res.status(HTTP.UNAUTHORIZED).json(a);
+          }
+        } else {
+          var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
+          res.status(HTTP.NOT_FOUND).json(a);
+        }
+      } else {
+        var a = { message: "Insufficient Data", status: `${HTTP.BAD_REQUEST}` };
+        res.status(HTTP.BAD_REQUEST).json(a);
+      }
+    } catch (e) {
+      console.log(e);
+      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+    }
+  };
+
+  static RequestedCarDetails = async (req, res) => {
+    try {
+      if (req.UserName) {
+        const headerValue = req.get("Authorization");
+        var User = await Todo8.findOne({ Username: req.UserName });
+        if (User) {
+          if (User.token == headerValue) {
+            const business = await Todo2.findOne({
+              UserName: User.BusinessManagerUserName,
+            });
+            if (!business) {
+              return res.status(HTTP.BAD_REQUEST).json({
+                message: "Business Not Found",
+                status: `${HTTP.BAD_REQUEST}`,
+              });
+            }
+
+            const data = await HotelQrCodeHistory.find({
+              valetId: User._id,
+              assigned: true,
+              retrieveRequest: true,
+              retrieved: false,
+            });
+            res.status(HTTP.SUCCESS).json({
+              message: "Data has been saved successfully!!",
+              data: data,
+              status: `${HTTP.SUCCESS}`,
+            });
+            return false;
+          } else {
+            var a = {
+              message: "Token has expired",
+              status: `${HTTP.UNAUTHORIZED}`,
+            };
+            res.status(HTTP.UNAUTHORIZED).json(a);
+          }
+        } else {
+          var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
+          res.status(HTTP.NOT_FOUND).json(a);
+        }
+      } else {
+        var a = { message: "Insufficient Data", status: `${HTTP.BAD_REQUEST}` };
+        res.status(HTTP.BAD_REQUEST).json(a);
+      }
+    } catch (e) {
+      console.log(e);
+      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+    }
+  };
+
+  static CarRetrieve = async (req, res) => {
+    try {
+      if (req.UserName) {
+        const headerValue = req.get("Authorization");
+        var User = await Todo8.findOne({ Username: req.UserName });
+        if (User) {
+          if (User.token == headerValue) {
+            const { id } = req.body;
+            if (!id) {
+              return res.status(HTTP.BAD_REQUEST).json({
+                message: "Insufficient Data",
+                status: `${HTTP.BAD_REQUEST}`,
+              });
+            }
+
+            const check = await HotelQrCodeHistory.findOne({
+              _id: id,
+              valetId: User._id,
+            });
+            if (!check) {
+              return res.status(HTTP.BAD_REQUEST).json({
+                message: "Car not found!!",
+                status: `${HTTP.BAD_REQUEST}`,
+              });
+            }
+
+            const updateRequest = await HotelQrCodeHistory.findOneAndUpdate(
+              {
+                _id: id,
+                valetId: User._id,
+              },
+              {
+                $set: {
+                  retrievedDate: new Date(),
+                  retrieved: true,
+                  assigned: false,
+                },
+              }
+            );
+            await updateRequest.save();
+
+            res.status(HTTP.SUCCESS).json({
+              message: "Car has been retrived successfully!!",
+              status: `${HTTP.SUCCESS}`,
+            });
+            return false;
+          } else {
+            var a = {
+              message: "Token has expired",
+              status: `${HTTP.UNAUTHORIZED}`,
+            };
+            res.status(HTTP.UNAUTHORIZED).json(a);
+          }
+        } else {
+          var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
+          res.status(HTTP.NOT_FOUND).json(a);
+        }
+      } else {
+        var a = { message: "Insufficient Data", status: `${HTTP.BAD_REQUEST}` };
+        res.status(HTTP.BAD_REQUEST).json(a);
+      }
+    } catch (e) {
+      console.log(e);
+      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+    }
+  };
+
+  static data = async (req, res) => {
+    try {
+      // Find the token with the provided token number
+      const car = await HotelQrCode.find({});
+      const car1 = await Todo2.find({});
+      res.send({ car, car1 });
+      return false;
+
+      if (!car) {
+        return res.status(400).send("Invalid token number.");
+      }
+
+      // Render the scan page with the car number
+      res.render("scan", {
+        businessName: businessName,
+        tokenNumber: car.tokenNumber,
+      });
+    } catch (error) {
+      console.error("Error loading scan page:", error);
+      res.status(500).send("Server Error");
+    }
+  };
+
+  
+}
+
+module.exports = { class1, class2, QRCodeClass };

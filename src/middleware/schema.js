@@ -16,11 +16,11 @@ var upload = multer({ storage: storage });
 
 const fileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/');
+    cb(null, "public/");
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + file.originalname;
-    cb(null,uniqueSuffix);
+    const uniqueSuffix = Date.now() + "-" + file.originalname;
+    cb(null, uniqueSuffix);
   },
 });
 
@@ -37,7 +37,19 @@ const upload3 = multer({
       req.upload_error = true;
       cb(new Error("Only .png, .jpg, or .jpeg format allowed!"));
     }
-  }, 
+  },
 });
 
-module.exports = { upload , upload2 , upload3 };
+const qrStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "public/"));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + file.filename);
+  },
+});
+
+const upload4 = multer({ storage: qrStorage });
+
+module.exports = { upload, upload2, upload3, upload4 };
