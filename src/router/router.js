@@ -197,6 +197,8 @@ router.post("/CarRetrieve", verifyToken, QRCodeClass.CarRetrieve); //
 // USER SECTION
 router.post("/RequestForCar", QRCodeClass.RequestForCar);
 
+router.post("/verify-otp", QRCodeClass.verifyOtp);
+
 // router.get("/ddd", QRCodeClass.data);
 
 router.get("/request-car", async (req, res) => {
@@ -233,11 +235,12 @@ router.get("/request-car", async (req, res) => {
       return false;
     }
 
-    res.render("scan", {
-      business: business,
-      token: token,
-      detail: detail,
-    });
+    // res.render("scan", {
+    //   business: business,
+    //   token: token,
+    //   detail: detail,
+    // });
+    res.status(200).json({ business, token, detail });
   } catch (error) {
     console.error("Error loading scan page:", error);
     res.status(500).send("Server Error");

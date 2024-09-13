@@ -49,11 +49,11 @@ const os = require("os");
 if (os.hostname() == "DESKTOP-796LHPC") {
   var Ip = process.env.IpAddress;
 } else {
-  // var Ip = "http://65.2.158.253:3500";
-  var Ip = "http://localhost:3500";
+  var Ip = "http://65.2.158.253:3500";
+  // var Ip = "http://localhost:3500";
 }
 
-const QRBaseUrl = `http://localhost:3500/request-car`;
+const QRBaseUrl = `https://valetapp.wevalet.in//request-car`;
 
 async function generateQRCode(qrUrl, i) {
   const outputFileName = `public/qr_code_${i}_${Date.now()}.png`;
@@ -9286,6 +9286,64 @@ class QRCodeClass {
     }
   };
 
+  // static RequestForCar = async (req, res) => {
+  //   try {
+  //     const { businessName, tokenNumber, carNumber, otp } = req.body;
+  //     if (!businessName || !tokenNumber || !carNumber || !otp) {
+  //       return res.status(HTTP.BAD_REQUEST).json({
+  //         message: "Insufficient Data",
+  //         status: `${HTTP.BAD_REQUEST}`,
+  //       });
+  //     }
+
+  //     const business = await Todo2.findOne({ _id: businessName });
+  //     if (!business) {
+  //       return res.status(HTTP.BAD_REQUEST).json({
+  //         message: "Business Not Found",
+  //         status: `${HTTP.BAD_REQUEST}`,
+  //       });
+  //     }
+
+  //     const check = await HotelQrCodeHistory.findOne({
+  //       tokenNumber: tokenNumber,
+  //       carNumber: carNumber,
+  //       businessId: business._id,
+  //       otp: otp,
+  //       assigned: true,
+  //       retrieveRequest: false,
+  //     });
+  //     if (!check) {
+  //       return res.status(HTTP.BAD_REQUEST).json({
+  //         message: "Data not found!!",
+  //         status: `${HTTP.BAD_REQUEST}`,
+  //       });
+  //     }
+
+  //     const updateRequest = await HotelQrCodeHistory.findOneAndUpdate(
+  //       {
+  //         tokenNumber: tokenNumber,
+  //         carNumber: carNumber,
+  //         businessId: business._id,
+  //         otp: otp,
+  //         assigned: true,
+  //         retrieveRequest: false,
+  //       },
+  //       { $set: { retrieveRequestDate: new Date(), retrieveRequest: true } }
+  //     );
+  //     await updateRequest.save();
+
+  //     res.status(HTTP.SUCCESS).json({
+  //       message: "Request has been sented successfully!!",
+  //       status: `${HTTP.SUCCESS}`,
+  //     });
+  //     return false;
+  //   } catch (e) {
+  //     console.log(e);
+  //     var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+  //     res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+  //   }
+  // };
+
   static RequestForCar = async (req, res) => {
     try {
       const { businessName, tokenNumber, carNumber, otp } = req.body;
@@ -9330,10 +9388,18 @@ class QRCodeClass {
         },
         { $set: { retrieveRequestDate: new Date(), retrieveRequest: true } }
       );
+
+      if (!updateRequest) {
+        return res.status(HTTP.BAD_REQUEST).json({
+          message: "Request already sent",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+
       await updateRequest.save();
 
       res.status(HTTP.SUCCESS).json({
-        message: "Request has been sented successfully!!",
+        message: "Request has been sent successfully!!",
         status: `${HTTP.SUCCESS}`,
       });
       return false;
@@ -9446,6 +9512,50 @@ class QRCodeClass {
     }
   };
 
+  static verifyOtp = async (req, res) => {
+    try {
+      const { businessName, tokenNumber, carNumber, otp } = req.body;
+      if (!businessName || !tokenNumber || !carNumber || !otp) {
+        return res.status(HTTP.BAD_REQUEST).json({
+          message: "Insufficient Data",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+
+      const business = await Todo2.findOne({ _id: businessName });
+      if (!business) {
+        return res.status(HTTP.BAD_REQUEST).json({
+          message: "Business Not Found",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+
+      const check = await HotelQrCodeHistory.findOne({
+        tokenNumber: tokenNumber,
+        carNumber: carNumber,
+        businessId: business._id,
+        otp: otp,
+        assigned: true,
+        retrieveRequest: false,
+      });
+      if (!check) {
+        return res.status(HTTP.BAD_REQUEST).json({
+          message: "Data not found!!",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+
+      res.status(HTTP.SUCCESS).json({
+        message: "OTP verified successfully",
+        status: `${HTTP.SUCCESS}`,
+      });
+    } catch (e) {
+      console.log(e);
+      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+    }
+  };
+
   static CarRetrieve = async (req, res) => {
     try {
       if (req.UserName) {
@@ -9536,8 +9646,6 @@ class QRCodeClass {
       res.status(500).send("Server Error");
     }
   };
-
-  
 }
 
 module.exports = { class1, class2, QRCodeClass };
