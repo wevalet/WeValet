@@ -56,7 +56,7 @@ if (os.hostname() == "DESKTOP-796LHPC") {
 const QRBaseUrl = `https://valetapp.wevalet.in//request-car`;
 
 async function generateQRCode(qrUrl, i) {
-  const outputFileName = `public/qr_code_${i}_${Date.now()}.png`;
+  const outputFileName = `src/public/qr_code_${i}_${Date.now()}.png`;
 
   await QRCode.toFile(outputFileName, qrUrl, {
     width: 200,
@@ -4997,6 +4997,7 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static N = async (req, res) => {
     try {
       if (req.Phone) {
@@ -9024,7 +9025,7 @@ class QRCodeClass {
             }
 
             // Generate PDF with all QR codes
-            const pdfFileName = "public/qr_codes.pdf";
+            const pdfFileName = "src/public/qr_codes.pdf";
             const doc = new PDFDocument();
             doc.pipe(fs.createWriteStream(pdfFileName));
 
