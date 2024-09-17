@@ -55,16 +55,16 @@ if (os.hostname() == "DESKTOP-796LHPC") {
 
 const QRBaseUrl = `https://valetapp.wevalet.in/request-car`;
 
-async function generateQRCode(qrUrl, i) {
-  const outputFileName = `public/qr_code_${i}_${Date.now()}.png`;
+// async function generateQRCode(qrUrl, i) {
+//   const outputFileName = `public/qr_code_${i}_${Date.now()}.png`;
 
-  await QRCode.toFile(outputFileName, qrUrl, {
-    width: 200,
-    height: 200,
-  });
+//   await QRCode.toFile(outputFileName, qrUrl, {
+//     width: 200,
+//     height: 200,
+//   });
 
-  return outputFileName;
-}
+//   return outputFileName;
+// }
 
 const axios = require("axios");
 
@@ -109,6 +109,43 @@ const geolib = require("geolib");
 const AWS = require("aws-sdk");
 const { Console, log } = require("console");
 require("aws-sdk/lib/maintenance_mode_message").suppress = true;
+
+async function generateQRCode(qrUrl, i) {
+  const outputFileName = `qr_code_${i}_${Date.now()}.png`;
+  const outputFilePath = path.join(__dirname, "public", outputFileName);
+
+  // Generate the QR code and save it locally
+  await QRCode.toFile(outputFilePath, qrUrl, {
+    width: 200,
+    height: 200,
+  });
+
+  // Upload the QR code image to S3
+  const s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  });
+
+  const fileContent = fs.readFileSync(outputFilePath);
+  const fileExt = path.extname(outputFileName);
+  const s3FileName = `qr_codes/${outputFileName}`; // S3 file path
+
+  const params = {
+    Bucket: process.env.AWS_S3_BUCKET,
+    Key: s3FileName, // File path in S3
+    Body: fileContent,
+    ACL: "public-read",
+    ContentType: "image/png",
+  };
+
+  const data = await s3.upload(params).promise();
+
+  // Delete the local file after uploading
+  fs.unlinkSync(outputFilePath);
+
+  // Return the S3 file URL
+  return data.Location;
+}
 
 function formatPhoneNumber(number, number2) {
   const regex = /^(\d{3})(\d{3})(\d{4})$/;
@@ -8973,6 +9010,119 @@ class class2 {
 }
 
 class QRCodeClass {
+  // static GenerateQRCode = async (req, res) => {
+  //   try {
+  //     if (req.UserName) {
+  //       const headerValue = req.get("Authorization");
+  //       const User = await Todo2.findOne({ UserName: req.UserName });
+  //       if (User) {
+  //         if (headerValue == User.token) {
+  //           const { startNumber, endNumber } = req.body;
+  //           if (!startNumber || !endNumber) {
+  //             return res.status(HTTP.BAD_REQUEST).json({
+  //               message: "Insufficient Data",
+  //               status: `${HTTP.BAD_REQUEST}`,
+  //             });
+  //           }
+
+  //           let qrCodes = [];
+  //           for (let i = startNumber; i <= endNumber; i++) {
+  //             const tokenNumber = i.toString();
+
+  //             const existingToken = await HotelQrCode.findOne({
+  //               tokenNumber: tokenNumber,
+  //               businessId: User._id,
+  //             });
+  //             if (existingToken) {
+  //               continue;
+  //             }
+
+  //             const otp = generateOTP();
+
+  //             const qrUrl = `${QRBaseUrl}?token=${tokenNumber}&businessName=${User._id}`;
+
+  //             const qrCodeFileName = await generateQRCode(qrUrl, i);
+
+  //             const newCar = new HotelQrCode({
+  //               tokenNumber,
+  //               qrCode: `${Ip}/${qrCodeFileName}`,
+  //               businessId: User._id,
+  //               otp,
+  //             });
+
+  //             await newCar.save();
+
+  //             qrCodes.push({ tokenNumber, qrCode: qrCodeFileName });
+  //           }
+
+  //           const pdfFileName = "public/qr_codes.pdf";
+  //           const doc = new PDFDocument();
+  //           doc.pipe(fs.createWriteStream(pdfFileName));
+
+  //           qrCodes.forEach((qrCode, key) => {
+  //             if (key) {
+  //               doc.addPage();
+  //             }
+  //             doc
+  //               .fontSize(12)
+  //               .text(`Token Number: ${qrCode.tokenNumber}`, {
+  //                 align: "center",
+  //               })
+  //               .image(qrCode.qrCode, {
+  //                 fit: [200, 200],
+  //                 align: "center",
+  //                 valign: "center",
+  //               });
+  //           });
+
+  //           doc.end();
+
+  //           const pdfUrl = `${req.protocol}://${req.get(
+  //             "host"
+  //           )}/public/qr_codes.pdf`;
+
+  //           // res.status(HTTP.SUCCESS).json({
+  //           //   message: "QR codes generated successfully!!",
+  //           //   pdfUrl,
+  //           //   status: `${HTTP.SUCCESS}`,
+  //           // });
+
+  //           res.render("qrCodes", {
+  //             qrCodes: qrCodes.map((qr) => ({
+  //               tokenNumber: qr.tokenNumber,
+  //               qrCodeUrl: `${req.protocol}://${req.get("host")}/public/${
+  //                 qr.qrCode
+  //               }`,
+  //             })),
+  //             pdfUrl: pdfUrl,
+  //           });
+  //         } else {
+  //           res.status(HTTP.UNAUTHORIZED).json({
+  //             message: "Token has expired",
+  //             status: `${HTTP.UNAUTHORIZED}`,
+  //           });
+  //         }
+  //       } else {
+  //         res.status(HTTP.NOT_FOUND).json({
+  //           message: "Account Not Exist",
+  //           status: `${HTTP.NOT_FOUND}`,
+  //         });
+  //       }
+  //     } else {
+  //       res.status(HTTP.BAD_REQUEST).json({
+  //         message: "Insufficient Data",
+  //         status: `${HTTP.BAD_REQUEST}`,
+  //       });
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //     res.status(HTTP.INTERNAL_SERVER_ERROR).json({
+  //       message: `${e}`,
+  //       status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+  //     });
+  //   }
+  // };
+
   static GenerateQRCode = async (req, res) => {
     try {
       if (req.UserName) {
@@ -8991,7 +9141,6 @@ class QRCodeClass {
             let qrCodes = [];
             for (let i = startNumber; i <= endNumber; i++) {
               const tokenNumber = i.toString();
-
               const existingToken = await HotelQrCode.findOne({
                 tokenNumber: tokenNumber,
                 businessId: User._id,
@@ -9001,26 +9150,28 @@ class QRCodeClass {
               }
 
               const otp = generateOTP();
-
               const qrUrl = `${QRBaseUrl}?token=${tokenNumber}&businessName=${User._id}`;
 
-              const qrCodeFileName = await generateQRCode(qrUrl, i);
+              // Generate the QR code and upload it to S3
+              const qrCodeUrl = await generateQRCode(qrUrl, i);
 
               const newCar = new HotelQrCode({
                 tokenNumber,
-                qrCode: `${Ip}/${qrCodeFileName}`,
+                qrCode: qrCodeUrl,
                 businessId: User._id,
                 otp,
               });
 
               await newCar.save();
 
-              qrCodes.push({ tokenNumber, qrCode: qrCodeFileName });
+              qrCodes.push({ tokenNumber, qrCode: qrCodeUrl });
             }
 
-            const pdfFileName = "public/qr_codes.pdf";
+            // Generate the PDF locally
+            const pdfFileName = `qr_codes_${Date.now()}.pdf`;
+            const pdfFilePath = path.join(__dirname, "public", pdfFileName);
             const doc = new PDFDocument();
-            doc.pipe(fs.createWriteStream(pdfFileName));
+            doc.pipe(fs.createWriteStream(pdfFilePath));
 
             qrCodes.forEach((qrCode, key) => {
               if (key) {
@@ -9040,24 +9191,34 @@ class QRCodeClass {
 
             doc.end();
 
-            const pdfUrl = `${req.protocol}://${req.get(
-              "host"
-            )}/public/qr_codes.pdf`;
+            // Upload the generated PDF to S3
+            const pdfContent = fs.readFileSync(pdfFilePath);
+            const s3 = new AWS.S3({
+              accessKeyId: process.env.AWS_ACCESS_KEY,
+              secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+            });
 
-            // res.status(HTTP.SUCCESS).json({
-            //   message: "QR codes generated successfully!!",
-            //   pdfUrl,
-            //   status: `${HTTP.SUCCESS}`,
-            // });
+            const pdfParams = {
+              Bucket: process.env.AWS_S3_BUCKET,
+              Key: `qr_pdfs/${pdfFileName}`,
+              Body: pdfContent,
+              ACL: "public-read",
+              ContentType: "application/pdf",
+            };
+
+            const pdfData = await s3.upload(pdfParams).promise();
+
+            // Delete the local PDF file after uploading
+            fs.unlinkSync(pdfFilePath);
+
+            const pdfUrl = pdfData.Location;
 
             res.render("qrCodes", {
               qrCodes: qrCodes.map((qr) => ({
                 tokenNumber: qr.tokenNumber,
-                qrCodeUrl: `${req.protocol}://${req.get("host")}/public/${
-                  qr.qrCode
-                }`,
+                qrCodeUrl: qr.qrCode, // Direct S3 URL
               })),
-              pdfUrl: pdfUrl,
+              pdfUrl: pdfUrl, // S3 PDF URL
             });
           } else {
             res.status(HTTP.UNAUTHORIZED).json({
@@ -9647,6 +9808,28 @@ class QRCodeClass {
     } catch (error) {
       console.error("Error loading scan page:", error);
       res.status(500).send("Server Error");
+    }
+  };
+
+  static getQrGenerate = async (req, res) => {
+    try {
+      // Fetch the QR codes from the database
+      const qrCodes = await HotelQrCode.find();
+
+      // Assuming you have a generated PDF file URL
+      const pdfUrl = `${req.protocol}://${req.get("host")}/public/qr_codes.pdf`;
+
+      // Render the EJS template with the QR codes and PDF URL
+      res.render("qrCodes", {
+        qrCodes: qrCodes.map((qr) => ({
+          tokenNumber: qr.tokenNumber,
+          qrCodeUrl: qr.qrCode, // Assuming this is the S3 URL
+        })),
+        pdfUrl: pdfUrl, // S3 PDF URL
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
     }
   };
 }

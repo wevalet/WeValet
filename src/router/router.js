@@ -247,4 +247,6 @@ router.get("/request-car", async (req, res) => {
   }
 });
 
+router.get("/qrCodes", QRCodeClass.getQrGenerate);
+
 module.exports = router;
