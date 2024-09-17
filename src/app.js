@@ -9,7 +9,8 @@ const router = require("./router/router");
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static("public"));
+// app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "src/public")));
 app.use(cors());
 // app.use(express.static(path.join(__dirname, "public")));
 

@@ -111,8 +111,8 @@ const { Console, log } = require("console");
 require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 
 async function generateQRCode(qrUrl, i) {
-  const outputFileName = `qr_code_${i}_${Date.now()}.png`;
-  const outputFilePath = path.join(__dirname, "public", outputFileName);
+  // const outputFileName = `qr_code_${i}_${Date.now()}.png`;
+  const outputFileName = path.join(__dirname, "../public", `qr_code_${i}_${Date.now()}.png`);
 
   // Generate the QR code and save it locally
   await QRCode.toFile(outputFilePath, qrUrl, {
