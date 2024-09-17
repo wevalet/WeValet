@@ -53,10 +53,10 @@ if (os.hostname() == "DESKTOP-796LHPC") {
   // var Ip = "http://localhost:3500";
 }
 
-const QRBaseUrl = `https://valetapp.wevalet.in//request-car`;
+const QRBaseUrl = `https://valetapp.wevalet.in/request-car`;
 
 async function generateQRCode(qrUrl, i) {
-  const outputFileName = `src/public/qr_code_${i}_${Date.now()}.png`;
+  const outputFileName = `public/qr_code_${i}_${Date.now()}.png`;
 
   await QRCode.toFile(outputFileName, qrUrl, {
     width: 200,
@@ -8992,40 +8992,33 @@ class QRCodeClass {
             for (let i = startNumber; i <= endNumber; i++) {
               const tokenNumber = i.toString();
 
-              // Check if token already exists
               const existingToken = await HotelQrCode.findOne({
                 tokenNumber: tokenNumber,
                 businessId: User._id,
               });
               if (existingToken) {
-                continue; // Skip existing token
+                continue;
               }
 
-              // Generate a new OTP and save it
               const otp = generateOTP();
 
-              // Create a URL that the QR code should redirect to
               const qrUrl = `${QRBaseUrl}?token=${tokenNumber}&businessName=${User._id}`;
 
-              // Generate the QR code with the URL
               const qrCodeFileName = await generateQRCode(qrUrl, i);
 
-              // Save the QR code data in the database
               const newCar = new HotelQrCode({
                 tokenNumber,
                 qrCode: `${Ip}/${qrCodeFileName}`,
                 businessId: User._id,
-                otp, // Store OTP here
+                otp,
               });
 
               await newCar.save();
 
-              // Add QR code data to the array for PDF generation
               qrCodes.push({ tokenNumber, qrCode: qrCodeFileName });
             }
 
-            // Generate PDF with all QR codes
-            const pdfFileName = "src/public/qr_codes.pdf";
+            const pdfFileName = "public/qr_codes.pdf";
             const doc = new PDFDocument();
             doc.pipe(fs.createWriteStream(pdfFileName));
 
@@ -9047,15 +9040,24 @@ class QRCodeClass {
 
             doc.end();
 
-            // Send the URL of the generated PDF
             const pdfUrl = `${req.protocol}://${req.get(
               "host"
             )}/public/qr_codes.pdf`;
 
-            res.status(HTTP.SUCCESS).json({
-              message: "QR codes generated successfully!!",
-              pdfUrl,
-              status: `${HTTP.SUCCESS}`,
+            // res.status(HTTP.SUCCESS).json({
+            //   message: "QR codes generated successfully!!",
+            //   pdfUrl,
+            //   status: `${HTTP.SUCCESS}`,
+            // });
+
+            res.render("qrCodes", {
+              qrCodes: qrCodes.map((qr) => ({
+                tokenNumber: qr.tokenNumber,
+                qrCodeUrl: `${req.protocol}://${req.get("host")}/public/${
+                  qr.qrCode
+                }`,
+              })),
+              pdfUrl: pdfUrl,
             });
           } else {
             res.status(HTTP.UNAUTHORIZED).json({

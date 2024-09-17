@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generated QR Codes</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        margin: 20px;
+      }
+      .qr-code {
+        margin: 20px 0;
+        text-align: center;
+      }
+      .qr-code img {
+        border: 1px solid #ddd;
+        padding: 10px;
+        width: 200px;
+        height: 200px;
+      }
+      .token-number {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .download-options {
+        margin-top: 10px;
+      }
+      .download-link {
+        text-decoration: none;
+        color: #007bff;
+        margin-right: 15px;
+        font-size: 14px;
+      }
+      .download-link:hover {
+        text-decoration: underline;
+      }
+      .download-all {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .download-all a {
+        font-size: 18px;
+        text-decoration: none;
+        color: #007bff;
+      }
+      .download-all a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Generated QR Codes</h1>
+
+      <!-- Loop through the QR codes array and display each QR code -->
+      <% qrCodes.forEach(function(qrCode) { %>
+      <div class="qr-code">
+        <div class="token-number">Token Number: <%= qrCode.tokenNumber %></div>
+        <img
+          src="<%= qrCode.qrCodeUrl %>"
+          alt="QR Code for Token <%= qrCode.tokenNumber %>"
+        />
+
+        <div class="download-options">
+          <!-- Download JPG option -->
+          <a
+            class="download-link"
+            href="<%= qrCode.qrCodeUrl %>"
+            download="QR_<%= qrCode.tokenNumber %>.jpg"
+          >
+            Download JPG
+          </a>
+          <!-- Download PDF option -->
+          <a class="download-link" href="<%= pdfUrl %>"> Download PDF </a>
+        </div>
+      </div>
+      <% }); %>
+
+      <!-- Download all QR codes as a single PDF -->
+      <div class="download-all">
+        <a href="<%= pdfUrl %>">Download All QR Codes as PDF</a>
+      </div>
+    </div>
+  </body>
+</html>
