@@ -9650,126 +9650,133 @@ class QRCodeClass {
     }
   };
 
-  static getQrGenerate = async (req, res) => {
-    try {
-      // Fetch the QR codes from the database
-      const qrCodes = await HotelQrCode.find();
-
-      // Assuming you have a generated PDF file URL
-      const pdfUrl = `${req.protocol}://${req.get("host")}/public/qr_codes.pdf`;
-
-      // Render the EJS template with the QR codes and PDF URL
-      res.render("qrCodes", {
-        qrCodes: qrCodes.map((qr) => ({
-          tokenNumber: qr.tokenNumber,
-          qrCodeUrl: qr.qrCode, // Assuming this is the S3 URL
-        })),
-        pdfUrl: pdfUrl, // S3 PDF URL
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal Server Error");
-    }
-  };
-
   static GenerateQRCode = async (req, res) => {
     try {
-      if (req.UserName) {
-        const headerValue = req.get("Authorization");
-        const User = await Todo2.findOne({ UserName: req.UserName });
-        if (User) {
-          if (headerValue == User.token) {
-            const { startNumber, endNumber } = req.body;
-            if (!startNumber || !endNumber) {
-              return res.status(HTTP.BAD_REQUEST).json({
-                message: "Insufficient Data",
-                status: `${HTTP.BAD_REQUEST}`,
-              });
-            }
-
-            let qrCodes = [];
-            for (let i = startNumber; i <= endNumber; i++) {
-              const tokenNumber = i.toString();
-
-              const existingToken = await HotelQrCode.findOne({
-                tokenNumber: tokenNumber,
-                businessId: User._id,
-              });
-              if (existingToken) {
-                continue;
-              }
-
-              const otp = generateOTP();
-
-              const qrUrl = `${QRBaseUrl}?token=${tokenNumber}&businessName=${User._id}`;
-
-              const qrCodeFileName = await generateQRCode(qrUrl, i);
-
-              const newCar = new HotelQrCode({
-                tokenNumber,
-                qrCode: `${Ip}/${qrCodeFileName}`,
-                businessId: User._id,
-                otp,
-              });
-
-              await newCar.save();
-
-              qrCodes.push({ tokenNumber, qrCode: qrCodeFileName });
-            }
-
-            const pdfFileName = "public/qr_codes.pdf";
-            const doc = new PDFDocument();
-            doc.pipe(fs.createWriteStream(pdfFileName));
-
-            qrCodes.forEach((qrCode, key) => {
-              if (key) {
-                doc.addPage();
-              }
-              doc
-                .fontSize(12)
-                .text(`Token Number: ${qrCode.tokenNumber}`, {
-                  align: "center",
-                })
-                .image(qrCode.qrCode, {
-                  fit: [200, 200],
-                  align: "center",
-                  valign: "center",
-                });
-            });
-
-            doc.end();
-
-            const pdfUrl = `${req.protocol}://${req.get(
-              "host"
-            )}/public/qr_codes.pdf`;
-
-            res.status(HTTP.SUCCESS).json({
-              message: "QR codes generated successfully!!",
-              pdfUrl,
-              status: `${HTTP.SUCCESS}`,
-            });
-          } else {
-            res.status(HTTP.UNAUTHORIZED).json({
-              message: "Token has expired",
-              status: `${HTTP.UNAUTHORIZED}`,
-            });
-          }
-        } else {
-          res.status(HTTP.NOT_FOUND).json({
-            message: "Account Not Exist",
-            status: `${HTTP.NOT_FOUND}`,
-          });
-        }
-      } else {
-        res.status(HTTP.BAD_REQUEST).json({
+      if (!req.UserName) {
+        return res.status(HTTP.BAD_REQUEST).json({
           message: "Insufficient Data",
           status: `${HTTP.BAD_REQUEST}`,
         });
       }
-    } catch (e) {
-      console.log(e);
+
+      const headerValue = req.get("Authorization");
+      const User = await Todo2.findOne({ UserName: req.UserName });
+
+      if (!User) {
+        return res.status(HTTP.NOT_FOUND).json({
+          message: "Account Not Exist",
+          status: `${HTTP.NOT_FOUND}`,
+        });
+      }
+
+      if (headerValue !== User.token) {
+        return res.status(HTTP.UNAUTHORIZED).json({
+          message: "Token has expired",
+          status: `${HTTP.UNAUTHORIZED}`,
+        });
+      }
+
+      const { startNumber, endNumber } = req.body;
+
+      if (!startNumber || !endNumber) {
+        return res.status(HTTP.BAD_REQUEST).json({
+          message: "Insufficient Data",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+
+      let qrCodes = [];
+
+      for (let i = startNumber; i <= endNumber; i++) {
+        const tokenNumber = i.toString();
+
+        const existingToken = await HotelQrCode.findOne({
+          tokenNumber: tokenNumber,
+          businessId: User._id,
+        });
+
+        if (existingToken) {
+          continue;
+        }
+
+        const otp = generateOTP();
+        const qrUrl = `${QRBaseUrl}?token=${tokenNumber}&businessName=${User._id}`;
+        const qrCodeFileName = await generateQRCode(qrUrl, i);
+
+        const newCar = new HotelQrCode({
+          tokenNumber,
+          qrCode: `${Ip}/${qrCodeFileName}`,
+          businessId: User._id,
+          otp,
+        });
+
+        await newCar.save();
+
+        qrCodes.push({ tokenNumber, qrCode: qrCodeFileName });
+      }
+
+      const pdfFileName = `qr_codes_${Date.now()}.pdf`;
+      const doc = new PDFDocument();
+      const pdfStream = fs.createWriteStream(pdfFileName);
+
+      doc.pipe(pdfStream);
+
+      qrCodes.forEach((qrCode, key) => {
+        if (key) {
+          doc.addPage();
+        }
+
+        doc
+          .fontSize(12)
+          .text(`Token Number: ${qrCode.tokenNumber}`, {
+            align: "center",
+          })
+          .image(qrCode.qrCode, {
+            fit: [200, 200],
+            align: "center",
+            valign: "center",
+          });
+      });
+
+      await new Promise((resolve, reject) => {
+        doc.end();
+        pdfStream.on("finish", resolve);
+        pdfStream.on("error", reject);
+      });
+
+      const s3 = new AWS.S3({
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      });
+
+      const params = {
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: `pdfs/${pdfFileName}`,
+        Body: fs.createReadStream(pdfFileName),
+        ACL: "public-read", // Ensures that the file is publicly accessible
+        ContentType: "application/pdf",
+      };
+
+      try {
+        const data = await s3.upload(params).promise();
+        const pdfUrl = data.Location; // Use the direct URL from S3 response
+
+        res.status(HTTP.SUCCESS).json({
+          message: "QR codes generated successfully!!",
+          pdfUrl, // Return the correct S3 URL for download
+          status: `${HTTP.SUCCESS}`,
+        });
+      } catch (error) {
+        console.error(error);
+        res.status(HTTP.INTERNAL_SERVER_ERROR).json({
+          message: error.message,
+          status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+        });
+      }
+    } catch (error) {
+      console.error(error);
       res.status(HTTP.INTERNAL_SERVER_ERROR).json({
-        message: `${e}`,
+        message: error.message,
         status: `${HTTP.INTERNAL_SERVER_ERROR}`,
       });
     }
