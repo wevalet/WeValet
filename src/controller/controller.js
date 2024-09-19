@@ -55,16 +55,16 @@ if (os.hostname() == "DESKTOP-796LHPC") {
 
 const QRBaseUrl = `https://valetapp.wevalet.in/request-car`;
 
-async function generateQRCode(qrUrl, i) {
-  const outputFileName = `public/qr_code_${i}_${Date.now()}.png`;
+// async function generateQRCode(qrUrl, i) {
+//   const outputFileName = `public/qr_code_${i}_${Date.now()}.png`;
 
-  await QRCode.toFile(outputFileName, qrUrl, {
-    width: 200,
-    height: 200,
-  });
+//   await QRCode.toFile(outputFileName, qrUrl, {
+//     width: 200,
+//     height: 200,
+//   });
 
-  return outputFileName;
-}
+//   return outputFileName;
+// }
 
 const axios = require("axios");
 
@@ -9726,16 +9726,14 @@ class QRCodeClass {
           doc.addPage();
         }
 
-        doc
-          .fontSize(12)
-          .text(`Token Number: ${qrCode.tokenNumber}`, {
-            align: "center",
-          })
-          .image(qrCode.qrCode, {
-            fit: [200, 200],
-            align: "center",
-            valign: "center",
-          });
+        doc.fontSize(12).text(`Token Number: ${qrCode.tokenNumber}`, {
+          align: "center",
+        });
+        // .image(qrCode.qrCode, {
+        //   fit: [200, 200],
+        //   align: "center",
+        //   valign: "center",
+        // });
       });
 
       await new Promise((resolve, reject) => {
