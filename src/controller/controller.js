@@ -54,6 +54,7 @@ if (os.hostname() == "DESKTOP-796LHPC") {
 }
 
 const QRBaseUrl = `https://valetapp.wevalet.in/`;
+// const QRBaseUrl = `http://localhost:5173/`;
 
 // async function generateQRCode(qrUrl, i) {
 //   const outputFileName = `public/qr_code_${i}_${Date.now()}.png`;
@@ -9359,6 +9360,7 @@ class QRCodeClass {
   static RequestForCar = async (req, res) => {
     try {
       const { businessName, tokenNumber, carNumber, otp } = req.body;
+      console.log("Received data:", req.body);
       if (!businessName || !tokenNumber || !carNumber || !otp) {
         return res.status(HTTP.BAD_REQUEST).json({
           message: "Insufficient Data",
