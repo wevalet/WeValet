@@ -53,7 +53,7 @@ if (os.hostname() == "DESKTOP-796LHPC") {
   // var Ip = "http://localhost:3500";
 }
 
-const QRBaseUrl = `https://valetapp.wevalet.in/`;
+const QRBaseUrl = `http://valetapp.wevalet.in/`;
 // const QRBaseUrl = `http://localhost:5173/`;
 
 // async function generateQRCode(qrUrl, i) {
