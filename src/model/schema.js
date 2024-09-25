@@ -489,6 +489,7 @@ const HotelQrCodeHistorySchema = new mongoose.Schema({
   retrieveRequest: { type: String, default: false },
   retrievedDate: { type: String, default: false },
   retrieved: { type: Boolean, default: false },
+  accepted: { type: Boolean, default: false },
 });
 
 var HotelQrCodeHistory = mongoose.model(

@@ -192,7 +192,9 @@ router.get(
   verifyToken,
   QRCodeClass.RequestedCarDetails
 );
-router.post("/CarRetrieve", verifyToken, QRCodeClass.CarRetrieve); //
+router.post("/CarRetrieve", verifyToken, QRCodeClass.CarRetrieve);
+router.post("/AcceptCar", verifyToken, QRCodeClass.AcceptCar);
+router.get("/AcceptedCarDetails", verifyToken, QRCodeClass.AcceptedCarDetails);
 
 // USER SECTION
 router.post("/RequestForCar", QRCodeClass.RequestForCar);
