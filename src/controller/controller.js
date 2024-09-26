@@ -9498,6 +9498,7 @@ class QRCodeClass {
               assigned: true,
               retrieveRequest: true,
               retrieved: false,
+              accepted: false,
             });
             res.status(HTTP.SUCCESS).json({
               message: "Data has been saved successfully!!",
@@ -9607,6 +9608,7 @@ class QRCodeClass {
                   retrievedDate: new Date(),
                   retrieved: true,
                   assigned: false,
+                  accepted: false,
                 },
               }
             );
@@ -9673,7 +9675,7 @@ class QRCodeClass {
               {
                 $set: {
                   retrievedDate: new Date(),
-                  retrieved: true,
+                  retrieved: false,
                   assigned: false,
                   accepted: true,
                 },
