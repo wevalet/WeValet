@@ -486,7 +486,7 @@ const HotelQrCodeHistorySchema = new mongoose.Schema({
   assignedDate: { type: String, required: true },
   assigned: { type: Boolean, default: false },
   retrieveRequestDate: { type: String, default: false },
-  retrieveRequest: { type: String, default: false },
+  retrieveRequest: { type: Boolean, default: false },
   retrievedDate: { type: String, default: false },
   retrieved: { type: Boolean, default: false },
   accepted: { type: Boolean, default: false },

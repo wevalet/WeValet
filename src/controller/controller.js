@@ -9360,7 +9360,6 @@ class QRCodeClass {
   static RequestForCar = async (req, res) => {
     try {
       const { businessName, tokenNumber, carNumber, otp } = req.body;
-      console.log("Received data:", req.body);
       if (!businessName || !tokenNumber || !carNumber || !otp) {
         return res.status(HTTP.BAD_REQUEST).json({
           message: "Insufficient Data",
@@ -9402,6 +9401,7 @@ class QRCodeClass {
         },
         { $set: { retrieveRequestDate: new Date(), retrieveRequest: true } }
       );
+      await updateRequest.save();
 
       if (!updateRequest) {
         return res.status(HTTP.BAD_REQUEST).json({
@@ -9446,7 +9446,6 @@ class QRCodeClass {
               assigned: true,
               retrieveRequest: true,
               retrieved: false,
-              accepted: false,
             });
             res.status(HTTP.SUCCESS).json({
               message: "Data has been saved successfully!!",
@@ -9498,6 +9497,7 @@ class QRCodeClass {
               assigned: true,
               retrieveRequest: true,
               retrieved: false,
+              accepted: false,
             });
             res.status(HTTP.SUCCESS).json({
               message: "Data has been saved successfully!!",
@@ -9607,7 +9607,6 @@ class QRCodeClass {
                   retrievedDate: new Date(),
                   retrieved: true,
                   assigned: false,
-                  accepted: false,
                 },
               }
             );
@@ -9673,9 +9672,9 @@ class QRCodeClass {
               },
               {
                 $set: {
-                  retrievedDate: new Date(),
+                  // retrievedDate: new Date(),
                   retrieved: false,
-                  assigned: false,
+                  assigned: true,
                   accepted: true,
                 },
               }
