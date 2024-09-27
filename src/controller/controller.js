@@ -9375,7 +9375,6 @@ class QRCodeClass {
           status: `${HTTP.BAD_REQUEST}`,
         });
       }
-      console.log(business);
 
       const check = await HotelQrCodeHistory.findOne({
         tokenNumber: tokenNumber,
@@ -9447,6 +9446,7 @@ class QRCodeClass {
               assigned: true,
               retrieveRequest: true,
               retrieved: false,
+              accepted: false,
             });
             res.status(HTTP.SUCCESS).json({
               message: "Data has been saved successfully!!",
@@ -9498,7 +9498,6 @@ class QRCodeClass {
               assigned: true,
               retrieveRequest: true,
               retrieved: false,
-              accepted: false,
             });
             res.status(HTTP.SUCCESS).json({
               message: "Data has been saved successfully!!",
