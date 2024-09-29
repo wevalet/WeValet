@@ -2422,6 +2422,224 @@ class class1 {
     }
   };
 
+  // static l = async (req, res) => {
+  //   try {
+  //     var ParkedCar = await Todo4.find({
+  //       RegistrationNumber: req.body.RegistrationNumber,
+  //       status: "Parked",
+  //     });
+
+  //     if (ParkedCar.length !== 0) {
+  //       const headerValue = req.get("Authorization");
+
+  //       var User = await Todo.findOne({ Phone: req.Phone });
+
+  //       if (User) {
+  //         if (
+  //           headerValue == User.token &&
+  //           ParkedCar[0].Member.includes(User.UserName)
+  //         ) {
+  //           var VehicleParkBusiness = await Todo8.findOne({
+  //             Username: ParkedCar[ParkedCar.length - 1].CarParkBy,
+  //           });
+  //           // if (!VehicleParkBusiness) {
+  //           //   return res.status(HTTP.BAD_REQUEST).json({
+  //           //     message: "Business Not Found",
+  //           //     status: checkToken,
+  //           //   });
+  //           // }
+  //           var VehicleParkBusinessUserName = VehicleParkBusiness.res
+  //             .status(HTTP.BAD_REQUEST)
+  //             .json({
+  //               message: "Business Not Found",
+  //               status: checkToken,
+  //             });
+
+  //           var VehicleParkBusinessUserNameFullData = await Todo8.find({
+  //             BusinessManagerUserName: VehicleParkBusinessUserName,
+  //           });
+
+  //           var registrationTokens = [];
+  //           for (
+  //             var i = 0;
+  //             i < VehicleParkBusinessUserNameFullData.length;
+  //             i++
+  //           ) {
+  //             if (VehicleParkBusinessUserNameFullData[i].Fcm) {
+  //               await registrationTokens.push(
+  //                 VehicleParkBusinessUserNameFullData[i].Fcm
+  //               );
+  //             }
+  //           }
+
+  //           const postData2 = {
+  //             UserName: VehicleParkBusinessUserName,
+  //           };
+
+  //           async function myAsyncFunction() {
+  //             try {
+  //               const response = await axios.post(`${Ip}/WaitTime`, postData2);
+  //               const data = response.data;
+  //               return data;
+  //             } catch (error) {
+  //               console.error("An error occurred:", error);
+  //               throw error;
+  //             }
+  //           }
+
+  //           const result = await myAsyncFunction();
+
+  //           ParkedCar[0].UserWaitTime[0] = result.message;
+  //           ParkedCar[0].status = "Requested";
+  //           ParkedCar[0].status2 = "Requested";
+  //           await ParkedCar[0].save();
+
+  //           var NotificationUserFcm = await ParkedCar[0].CarParkBy;
+
+  //           var NotificationUser = await Todo8.find({
+  //             Username: NotificationUserFcm,
+  //           });
+
+  //           var NotificationUserFcm3 = NotificationUser[0].Fcm;
+  //           var NotificationUserFcm2 = User.Fcm;
+
+  //           var VehicleParkedBusinessManagerUserName =
+  //             NotificationUser[0].BusinessManagerUserName;
+  //           var VehicleOwnerUserName = await ParkedCar[0].Member[0];
+  //           const postData = {
+  //             // RegistrationNumber: VehicleParkedBusinessManagerUserName,
+  //             RegistrationNumber: req.body.RegistrationNumber,
+  //             Status: "Requested",
+  //           };
+
+  //           const suratTimezone = "Asia/Kolkata";
+  //           const currentTimeInSurat2 = moment()
+  //             .tz(suratTimezone)
+  //             .format("YYYY-MM-DDTHH:mm:ss");
+  //           const currentTimeInSurat = moment().tz(suratTimezone);
+  //           const futureTimeInSurat = currentTimeInSurat.add(5, "minutes");
+  //           const formattedFutureTime = futureTimeInSurat.format(
+  //             "YYYY-MM-DDTHH:mm:ss"
+  //           );
+
+  //           let data2 = new Todo7({
+  //             UserName: VehicleOwnerUserName,
+  //             // Message: `Car is on the way , waiting time is : ${result.message} min`,
+  //             // ParkInTime: currentTimeInSurat2,
+  //             NotificationRemainingTime: formattedFutureTime,
+  //             RegistrationNumber: req.body.RegistrationNumber,
+  //             BusinessUserName: VehicleParkBusinessUserName,
+  //             ParkInTime: "",
+  //           });
+
+  //           await data2.save();
+
+  //           // var UserRequest = await Todo.findOne({ UserName: VehicleOwnerUserName })
+  //           // UserRequest.Request = UserRequest.Request + 1;
+  //           // UserRequest.save();
+
+  //           axios
+  //             .post(`${Ip}/StatusChange`, postData)
+  //             .then((response) => {
+  //               fcm
+  //                 .send({
+  //                   notification: {
+  //                     // title: `Your request has been accepted with wait time: ${result.message} Second`,
+  //                     title: `Your request has been forwarded to Valet for acceptance`,
+  //                   },
+  //                   android: {
+  //                     notification: {
+  //                       sound: "default",
+  //                     },
+  //                   },
+  //                   apns: {
+  //                     payload: {
+  //                       aps: {
+  //                         sound: "default",
+  //                       },
+  //                     },
+  //                   },
+  //                   token: NotificationUserFcm2,
+  //                 })
+  //                 .then((response) => {
+  //                   const message2 = {
+  //                     notification: {
+  //                       title: `${User.UserName} has requested for Car`,
+  //                     },
+  //                     android: {
+  //                       notification: {
+  //                         sound: "default",
+  //                       },
+  //                     },
+  //                     apns: {
+  //                       payload: {
+  //                         aps: {
+  //                           sound: "default",
+  //                         },
+  //                       },
+  //                     },
+  //                     tokens: registrationTokens,
+  //                   };
+
+  //                   fcm
+  //                     .sendMulticast(message2)
+  //                     .then((response) => {
+  //                       // var a = { "message": "User Can Send Request Sucessfully & Notification Send Sucessfully", "status": `${HTTP.INTERNAL_SERVER_ERROR}` }
+  //                       // res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+
+  //                       var a = {
+  //                         message:
+  //                           "User Request sent successfully to Valet for Acceptance",
+  //                         status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+  //                       };
+  //                       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+  //                     })
+  //                     .catch((error) => {
+  //                       console.error("Error sending notifications:", error);
+
+  //                       var a = {
+  //                         message: "Vehicle request sent successfully",
+  //                         status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+  //                       };
+  //                       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+  //                     });
+  //                 })
+  //                 .catch((error) => {
+  //                   var a = {
+  //                     message: "Vehicle request sent successfully",
+  //                     status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+  //                   };
+  //                   res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+  //                 });
+  //             })
+  //             .catch((error) => {
+  //               console.error("Error:", error);
+  //             });
+  //         } else {
+  //           var a = {
+  //             message: "Token has expired",
+  //             status: `${HTTP.UNAUTHORIZED}`,
+  //           };
+  //           res.status(HTTP.UNAUTHORIZED).json(a);
+  //         }
+  //       } else {
+  //         var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
+  //         res.status(HTTP.NOT_FOUND).json(a);
+  //       }
+  //     } else {
+  //       var a = {
+  //         message: "Car Not Find IN Parking Area",
+  //         status: `${HTTP.NOT_FOUND}`,
+  //       };
+  //       res.status(HTTP.NOT_FOUND).json(a);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //     var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+  //     res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+  //   }
+  // };
+
   static l = async (req, res) => {
     try {
       var ParkedCar = await Todo4.find({
@@ -2444,12 +2662,8 @@ class class1 {
             var VehicleParkBusiness = await Todo8.findOne({
               Username: ParkedCar[ParkedCar.length - 1].CarParkBy,
             });
-            var VehicleParkBusinessUserName = VehicleParkBusiness.res
-              .status(HTTP.BAD_REQUEST)
-              .json({
-                message: "Business Not Found",
-                status: checkToken,
-              });
+            var VehicleParkBusinessUserName =
+              VehicleParkBusiness.BusinessManagerUserName;
 
             var VehicleParkBusinessUserNameFullData = await Todo8.find({
               BusinessManagerUserName: VehicleParkBusinessUserName,
