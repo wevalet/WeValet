@@ -2239,7 +2239,6 @@ class class1 {
                         const message = {
                           notification: {
                             title: "Your vehicle is parked, Thank You",
-                            sound: "default",
                           },
                           android: {
                             notification: {
@@ -9544,7 +9543,6 @@ class QRCodeClass {
           status: `${HTTP.BAD_REQUEST}`,
         });
       }
-
       const check = await HotelQrCodeHistory.findOne({
         tokenNumber: tokenNumber,
         carNumber: carNumber,
@@ -9552,7 +9550,10 @@ class QRCodeClass {
         otp: otp,
         assigned: true,
         retrieveRequest: false,
+        accepted: false,
       });
+
+      console.log(check);
       if (!check) {
         return res.status(HTTP.BAD_REQUEST).json({
           message: "Data not found!!",
@@ -9576,6 +9577,7 @@ class QRCodeClass {
       if (req.UserName) {
         const headerValue = req.get("Authorization");
         var User = await Todo8.findOne({ Username: req.UserName });
+        console.log(User);
         if (User) {
           if (User.token == headerValue) {
             const { id } = req.body;
@@ -9585,7 +9587,6 @@ class QRCodeClass {
                 status: `${HTTP.BAD_REQUEST}`,
               });
             }
-
             const check = await HotelQrCodeHistory.findOne({
               _id: id,
               valetId: User._id,

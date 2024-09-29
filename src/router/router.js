@@ -213,7 +213,6 @@ router.get("/request-car", async (req, res) => {
         status: `${HTTP.BAD_REQUEST}`,
       });
     }
-
     const business = await Todo2.findOne({ _id: businessName });
     if (!business) {
       res.status(HTTP.NOT_FOUND).json({
