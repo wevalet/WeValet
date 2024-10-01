@@ -1,173 +1,181 @@
 <!DOCTYPE html>
 <html id="perfect-scrollbar-on">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="/WeValet/src/css/img/apple-icon.png"
+    />
+    <link rel="icon" type="image/png" href="/WeValet/src/css/img/favicon.png" />
+    <title> </title>
+    <!--     Fonts and icons     -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800"
+      rel="stylesheet"
+    />
+    <link
+      href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
+      rel="stylesheet"
+    />
+    <!-- Nucleo Icons -->
+    <link href="/WeValet/src/css/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link
+      href="/WeValet/src/css/css/black-dashboard.css?v=1.0.0"
+      rel="stylesheet"
+    />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="/WeValet/src/css/demo/demo.css" rel="stylesheet" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="/WeValet/src/css/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="/WeValet/src/css/img/favicon.png">
-  <title>
-  </title>
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
-  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-  <!-- Nucleo Icons -->
-  <link href="/WeValet/src/css/css/nucleo-icons.css" rel="stylesheet" />
-  <!-- CSS Files -->
-  <link href="/WeValet/src/css/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="/WeValet/src/css/demo/demo.css" rel="stylesheet" />
-
-  <style>
-    .content {
-      background-color: #0070C0;
-    }
-
-    .nav {
-      background-color: white;
-    }
-
-    .sidebar {
-      box-shadow: none;
-    }
-
-    body {
-      margin-top: -2px;
-      border-bottom: 2px solid #0070C0;
-    }
-
-    .form-control::placeholder {
-      color: #D1D1D4;
-    }
-
-    @media (min-width: 992px) {
-
-      .nav {
-        min-height: calc(100vh - 180px);
-      }
-
-      .card {
-        height: calc(100vh - 85px);
-      }
-
-      .sidebar .sidebar-wrapper {
-        background-color: #0070C0;
-        min-height: calc(100vh);
-        box-shadow: none;
-      }
-
-      #HideDiv,
-      #HidePicture10,
-      #HidePicture3 {
-        display: none;
-      }
-
-      .card-header {
-        display: none;
-      }
-
-    }
-
-    @media (max-width: 991px) {
-
-      #HidePicture4 {
-        display: none;
+    <style>
+      .content {
+        background-color: #0070c0;
       }
 
       .nav {
-        height: 100vh;
-        border-left: 1px solid #0070C0;
-        border-top: 1px solid #0070C0;
+        background-color: white;
       }
 
       .sidebar {
-        background: white;
+        box-shadow: none;
       }
 
-      .wrapper {
-        height: 100%;
+      body {
+        margin-top: -2px;
+        border-bottom: 2px solid #0070c0;
       }
 
-      .sidebar-wrapper {
-        margin-top: -1px;
-        margin-left: -1px;
+      .form-control::placeholder {
+        color: #d1d1d4;
       }
 
-      #HidePicture3 {
+      @media (min-width: 992px) {
+        .nav {
+          min-height: calc(100vh - 180px);
+        }
+
+        .card {
+          height: calc(100vh - 85px);
+        }
+
+        .sidebar .sidebar-wrapper {
+          background-color: #0070c0;
+          min-height: calc(100vh);
+          box-shadow: none;
+        }
+
+        #HideDiv,
+        #HidePicture10,
+        #HidePicture3 {
+          display: none;
+        }
+
+        .card-header {
+          display: none;
+        }
+      }
+
+      @media (max-width: 991px) {
+        #HidePicture4 {
+          display: none;
+        }
+
+        .nav {
+          height: 100vh;
+          border-left: 1px solid #0070c0;
+          border-top: 1px solid #0070c0;
+        }
+
+        .sidebar {
+          background: white;
+        }
+
+        .wrapper {
+          height: 100%;
+        }
+
+        .sidebar-wrapper {
+          margin-top: -1px;
+          margin-left: -1px;
+        }
+
+        #HidePicture3 {
+          display: none;
+        }
+
+        .navbar .navbar-nav .dropdown .dropdown-menu .dropdown-item {
+          margin-top: 0;
+          padding-left: 0px;
+        }
+
+        #UpDiv1 {
+          position: absolute;
+          top: 0px;
+        }
+
+        #UpDiv2 {
+          position: absolute;
+          top: 0px;
+          right: 0px;
+        }
+      }
+
+      .dropdown-menu {
+        min-width: 0rem;
+      }
+
+      .container-fluid {
+        position: relative;
+      }
+
+      p {
+        color: black;
+      }
+
+      .btn-primary {
+        color: #d1d1d4;
+        background-color: #0070c0;
+        background-image: none;
+      }
+
+      .card .card-body h1 {
+        color: black;
+        background-color: wheat;
+      }
+
+      .sidebar {
+        border: 1px solid #0070c0;
+      }
+
+      input[type="file"] {
         display: none;
       }
 
-      .navbar .navbar-nav .dropdown .dropdown-menu .dropdown-item {
-        margin-top: 0;
-        padding-left: 0px;
+      .custom-button {
+        background-color: transparent;
+        padding: 10px 20px;
+        cursor: pointer;
       }
 
-      #UpDiv1 {
-        position: absolute;
-        top: 0px;
+      body {
+        background-color: #0070c0;
       }
+    </style>
+  </head>
 
-      #UpDiv2 {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-      }
-
-    }
-
-    .dropdown-menu {
-      min-width: 0rem;
-    }
-
-    .container-fluid {
-      position: relative;
-    }
-
-    p {
-      color: black;
-    }
-
-    .btn-primary {
-      color: #D1D1D4;
-      background-color: #0070C0;
-      background-image: none;
-    }
-
-    .card .card-body h1 {
-      color:black;
-    background-color: wheat;
-    }
-
-    .sidebar {
-      border: 1px solid #0070C0;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-
-    .custom-button {
-      background-color: transparent;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
-
-    body {
-      background-color: #0070C0;
-    }
-   
-  </style>
-
-</head>
-
-<body class="">
-  <div class="wrapper">
-    <div class="sidebar">
-      <!--
+  <body class="">
+    <div class="wrapper">
+      <div class="sidebar">
+        <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red"
     -->
-      <div class="sidebar-wrapper">
-        <!-- <div class="logo">
+        <div class="sidebar-wrapper">
+          <!-- <div class="logo">
           <a href="javascript:void(0)" class="simple-text logo-mini">
             CT
           </a>
@@ -175,454 +183,536 @@
             Creative Tim
           </a>
         </div> -->
-        <ul class="nav" style="margin-top: 0px;">
-
-          <% if (Access1===1) { %>
+          <ul class="nav" style="margin-top: 0px">
+            <% if (Access1===1) { %>
             <li>
               <a href="/DashBoard">
-                <p onmouseover="this.style.color='#D1D1D4'" onmouseout="this.style.color='black'">Business Registration
+                <p
+                  onmouseover="this.style.color='#D1D1D4'"
+                  onmouseout="this.style.color='black'"
+                >
+                  Business Registration
+                </p>
+              </a>
+            </li>
+            <% } %> <% if (Access2===1) { %>
+            <li>
+              <a href="/User">
+                <p
+                  onmouseover="this.style.color='#D1D1D4'"
+                  onmouseout="this.style.color='black'"
+                >
+                  Users
+                </p>
+              </a>
+            </li>
+            <% } %> <% if (Access3===1) { %>
+            <li>
+              <a href="/Customer">
+                <p
+                  onmouseover="this.style.color='#D1D1D4'"
+                  onmouseout="this.style.color='black'"
+                >
+                  Customer
+                </p>
+              </a>
+            </li>
+            <% } %> <% if (Access5===1) { %>
+            <li>
+              <a href="/Parking">
+                <p
+                  onmouseover="this.style.color='#D1D1D4'"
+                  onmouseout="this.style.color='black'"
+                >
+                  Parking
+                </p>
+              </a>
+            </li>
+            <% } %> <% if (Access7===1) { %>
+            <li>
+              <a href="/Hotel">
+                <p
+                  onmouseover="this.style.color='#D1D1D4'"
+                  onmouseout="this.style.color='black'"
+                >
+                  Hotels
+                </p>
+              </a>
+            </li>
+            <% } %> <% if (Access9===1) { %>
+            <li>
+              <a href="/Restaurant">
+                <p
+                  onmouseover="this.style.color='#D1D1D4'"
+                  onmouseout="this.style.color='black'"
+                >
+                  Restaurants
+                </p>
+              </a>
+            </li>
+            <% } %> <% if (Access11===1) { %>
+            <li>
+              <a href="/Mall">
+                <p
+                  onmouseover="this.style.color='#D1D1D4'"
+                  onmouseout="this.style.color='black'"
+                >
+                  Shopping Malls
+                </p>
+              </a>
+            </li>
+            <% } %> <% if (Access13===1) { %>
+            <li>
+              <a href="/Other">
+                <p
+                  onmouseover="this.style.color='#D1D1D4'"
+                  onmouseout="this.style.color='black'"
+                >
+                  Other
+                </p>
+              </a>
+            </li>
+            <% } %> <% if (Access15===1) { %>
+            <li>
+              <a href="/Payment">
+                <p
+                  onmouseover="this.style.color='#D1D1D4'"
+                  onmouseout="this.style.color='black'"
+                >
+                  Payment
+                </p>
+              </a>
+            </li>
+            <% } %> <% if (Access16===1) { %>
+            <li>
+              <a href="/QRGenerate">
+                <p
+                  onmouseover="this.style.color='#D1D1D4'"
+                  onmouseout="this.style.color='black'"
+                >
+                  QRCode
                 </p>
               </a>
             </li>
             <% } %>
-
-              <% if (Access2===1) { %>
-                <li>
-                  <a href="/User">
-                    <p onmouseover="this.style.color='#D1D1D4'" onmouseout="this.style.color='black'">Users</p>
-                  </a>
-                </li>
-                <% } %>
-
-                  <% if (Access3===1) { %>
-                    <li>
-                      <a href="/Customer">
-                        <p onmouseover="this.style.color='#D1D1D4'" onmouseout="this.style.color='black'">Customer</p>
-                      </a>
-                    </li>
-                    <% } %>
-
-                      <% if (Access5===1) { %>
-                        <li>
-                          <a href="/Parking">
-                            <p onmouseover="this.style.color='#D1D1D4'" onmouseout="this.style.color='black'">Parking
-                            </p>
-                          </a>
-                        </li>
-                        <% } %>
-
-                          <% if (Access7===1) { %>
-                            <li>
-                              <a href="/Hotel">
-                                <p onmouseover="this.style.color='#D1D1D4'" onmouseout="this.style.color='black'">Hotels
-                                </p>
-                              </a>
-                            </li>
-                            <% } %>
-
-                              <% if (Access9===1) { %>
-                                <li>
-                                  <a href="/Restaurant">
-                                    <p onmouseover="this.style.color='#D1D1D4'" onmouseout="this.style.color='black'">
-                                      Restaurants</p>
-                                  </a>
-                                </li>
-                                <% } %>
-
-                                  <% if (Access11===1) { %>
-                                    <li>
-                                      <a href="/Mall">
-                                        <p onmouseover="this.style.color='#D1D1D4'"
-                                          onmouseout="this.style.color='black'">Shopping Malls</p>
-                                      </a>
-                                    </li>
-                                    <% } %>
-
-                                      <% if (Access13===1) { %>
-                                        <li>
-                                          <a href="/Other">
-                                            <p onmouseover="this.style.color='#D1D1D4'"
-                                              onmouseout="this.style.color='black'">Other</p>
-                                          </a>
-                                        </li>
-                                        <% } %>
-
-                                          <% if (Access15===1) { %>
-                                            <li>
-                                              <a href="/Payment">
-                                                <p onmouseover="this.style.color='#D1D1D4'"
-                                                  onmouseout="this.style.color='black'">Payment</p>
-                                              </a>
-                                            </li>
-                                            <% } %>
-                                            <% if (Access16===1) { %>
-                                              <li>
-                                                <a href="/QRCode">
-                                                  <p onmouseover="this.style.color='#D1D1D4'"
-                                                    onmouseout="this.style.color='black'">QRCode</p>
-                                                </a>
-                                              </li>
-                                              <% } %>
-        </ul>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="main-panel">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
-        <div class="container-fluid">
-          <div class="navbar-wrapper" id="UpDiv1">
-            <div class="navbar-toggle d-inline">
-              <button type="button" class="navbar-toggler" id="HidePicture2">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-              </button>
+      <div class="main-panel">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+          <div class="container-fluid">
+            <div class="navbar-wrapper" id="UpDiv1">
+              <div class="navbar-toggle d-inline">
+                <button type="button" class="navbar-toggler" id="HidePicture2">
+                  <span class="navbar-toggler-bar bar1"></span>
+                  <span class="navbar-toggler-bar bar2"></span>
+                  <span class="navbar-toggler-bar bar3"></span>
+                </button>
+              </div>
+              <ul class="navbar-nav ml-auto" id="HidePicture10">
+                <li class="dropdown nav-item" id="HidePicture">
+                  <img
+                    src="http://65.2.158.253/public/logo.png"
+                    alt="Profile Photo"
+                    width="30px"
+                    height="30px"
+                  />
+                </li>
+              </ul>
+              <a
+                class="navbar-brand"
+                href="javascript:void(0)"
+                style="color: #d1d1d4"
+                id="HidePicture4"
+                >Dashboard</a
+              >
             </div>
-            <ul class="navbar-nav ml-auto" id="HidePicture10">
-              <li class="dropdown nav-item" id="HidePicture">
-                <img src="http://65.2.158.253/public/logo.png" alt="Profile Photo" width="30px" height="30px">
-              </li>
-            </ul>
-            <a class="navbar-brand" href="javascript:void(0)" style="color: #D1D1D4;" id="HidePicture4">Dashboard</a>
-          </div>
-          <div class="navbar-wrapper" id="UpDiv2">
-            <div class="navbar-toggle d-inline">
-              <!-- <button class="navbar-toggler" id="HidePicture1" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="navbar-wrapper" id="UpDiv2">
+              <div class="navbar-toggle d-inline">
+                <!-- <button class="navbar-toggler" id="HidePicture1" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-bar navbar-kebab"></span>
                 <span class="navbar-toggler-bar navbar-kebab"></span>
                 <span class="navbar-toggler-bar navbar-kebab"></span>
               </button>  -->
-              <ul class="navbar-nav ml-auto" id="HideDiv">
+                <ul class="navbar-nav ml-auto" id="HideDiv">
+                  <li class="dropdown nav-item">
+                    <a
+                      style="color: black"
+                      onmouseover="this.style.color='#D1D1D4'"
+                      onmouseout="this.style.color='black'"
+                      href="#"
+                      class="dropdown-toggle nav-link"
+                      data-toggle="dropdown"
+                    >
+                      <%=User2.Username%>
+                    </a>
+                    <ul class="dropdown-menu dropdown-navbar">
+                      <li class="nav-link">
+                        <a
+                          style="color: black; background-color: transparent"
+                          onmouseover="this.style.color='#D1D1D4'"
+                          onmouseout="this.style.color='black'"
+                          href="Change"
+                          class="nav-item dropdown-item"
+                          >Change Password</a
+                        >
+                      </li>
+                      <li class="nav-link">
+                        <a
+                          style="color: black; background-color: transparent"
+                          onmouseover="this.style.color='#D1D1D4'"
+                          onmouseout="this.style.color='black'"
+                          href="Logout"
+                          class="nav-item dropdown-item"
+                          >Log out</a
+                        >
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="collapse navbar-collapse" id="navigation">
+              <ul class="navbar-nav ml-auto">
+                <li class="dropdown nav-item" id="HidePicture">
+                  <a class="dropdown-toggle nav-link" data-toggle="dropdown">
+                    <img
+                      src="http://65.2.158.253/public/logo.png"
+                      alt="Profile Photo"
+                      width="30px"
+                      height="30px"
+                    />
+                  </a>
+                </li>
                 <li class="dropdown nav-item">
-                  <a style="color: black;" onmouseover="this.style.color='#D1D1D4'"
-                    onmouseout="this.style.color='black'" href="#" class="dropdown-toggle nav-link"
-                    data-toggle="dropdown">
+                  <a
+                    style="color: black"
+                    onmouseover="this.style.color='#D1D1D4'"
+                    onmouseout="this.style.color='black'"
+                    href="#"
+                    class="dropdown-toggle nav-link"
+                    data-toggle="dropdown"
+                  >
                     <%=User2.Username%>
+                    <div class="photo"></div>
+                    <b class="caret d-none d-lg-block d-xl-block"></b>
+                    <p class="d-lg-none">Log out</p>
                   </a>
                   <ul class="dropdown-menu dropdown-navbar">
-                    <li class="nav-link"><a style="color: black;background-color: transparent;"
-                        onmouseover="this.style.color='#D1D1D4'" onmouseout="this.style.color='black'" href="Change"
-                        class="nav-item dropdown-item">Change Password</a></li>
-                    <li class="nav-link"><a style="color: black;background-color: transparent;"
-                        onmouseover="this.style.color='#D1D1D4'" onmouseout="this.style.color='black'" href="Logout"
-                        class="nav-item dropdown-item">Log out</a></li>
+                    <li class="nav-link">
+                      <a
+                        style="color: black; background-color: transparent"
+                        onmouseover="this.style.color='#D1D1D4'"
+                        onmouseout="this.style.color='black'"
+                        href="Change"
+                        class="nav-item dropdown-item"
+                        >Change Password</a
+                      >
+                    </li>
+                    <li class="nav-link">
+                      <a
+                        style="color: black; background-color: transparent"
+                        onmouseover="this.style.color='#D1D1D4'"
+                        onmouseout="this.style.color='black'"
+                        href="Logout"
+                        class="nav-item dropdown-item"
+                        >Log out</a
+                      >
+                    </li>
                   </ul>
                 </li>
+                <li class="separator d-lg-none"></li>
               </ul>
             </div>
           </div>
-          <div class="collapse navbar-collapse" id="navigation">
-            <ul class="navbar-nav ml-auto">
-              <li class="dropdown nav-item" id="HidePicture">
-                <a class="dropdown-toggle nav-link" data-toggle="dropdown">
-                  <img src="http://65.2.158.253/public/logo.png" alt="Profile Photo" width="30px" height="30px">
-                </a>
-              </li>
-              <li class="dropdown nav-item">
-                <a style="color: black;" onmouseover="this.style.color='#D1D1D4'" onmouseout="this.style.color='black'"
-                  href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                  <%=User2.Username%>
-                    <div class="photo">
-                    </div>
-                    <b class="caret d-none d-lg-block d-xl-block"></b>
-                    <p class="d-lg-none">
-                      Log out
-                    </p>
-                </a>
-                <ul class="dropdown-menu dropdown-navbar">
-                  <li class="nav-link"><a style="color: black;background-color: transparent;"
-                      onmouseover="this.style.color='#D1D1D4'" onmouseout="this.style.color='black'" href="Change"
-                      class="nav-item dropdown-item">Change Password</a></li>
-                  <li class="nav-link"><a style="color: black;background-color: transparent;"
-                      onmouseover="this.style.color='#D1D1D4'" onmouseout="this.style.color='black'" href="Logout"
-                      class="nav-item dropdown-item">Log out</a></li>
-                </ul>
-              </li>
-              <li class="separator d-lg-none"></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <div class="modal modal-search fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="SEARCH">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <i class="tim-icons icon-simple-remove"></i>
-              </button>
+        </nav>
+        <div
+          class="modal modal-search fade"
+          id="searchModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="searchModal"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inlineFormInputGroup"
+                  placeholder="SEARCH"
+                />
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <i class="tim-icons icon-simple-remove"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- End Navbar -->
-
+        <!-- End Navbar -->
 
         <div class="content">
           <div class="row">
             <div class="col-md-12">
               <div class="card">
                 <div class="card-body">
-              
-
-
                   <h1>Fenil</h1>
-
                 </div>
               </div>
             </div>
           </div>
-
         </div>
-
-
+      </div>
     </div>
-  </div>
 
-  <script>
+    <script>
+      function addKey() {
+        var keyCount = parseInt(document.querySelectorAll(".row").length) - 16;
 
-    function addKey() {
+        var newRow = document.createElement("div");
+        newRow.className = "row";
 
-      var keyCount = parseInt(document.querySelectorAll('.row').length) - 16;
+        var newCol1 = document.createElement("div");
+        newCol1.className = "col-md-6";
+        var newCol2 = document.createElement("div");
+        newCol2.className = "col-md-6";
 
-      var newRow = document.createElement('div');
-      newRow.className = 'row';
+        var newReviewBy = document.createElement("input");
+        newReviewBy.type = "text";
+        newReviewBy.className = "form-control";
+        newReviewBy.placeholder = "Review By " + keyCount;
+        newReviewBy.name = "ReviewBy" + keyCount;
 
-      var newCol1 = document.createElement('div');
-      newCol1.className = 'col-md-6';
-      var newCol2 = document.createElement('div');
-      newCol2.className = 'col-md-6';
+        var newReview = document.createElement("input");
+        newReview.type = "text";
+        newReview.className = "form-control";
+        newReview.placeholder = "Review " + keyCount;
+        newReview.name = "Review" + keyCount;
 
-      var newReviewBy = document.createElement('input');
-      newReviewBy.type = 'text';
-      newReviewBy.className = 'form-control';
-      newReviewBy.placeholder = 'Review By ' + keyCount;
-      newReviewBy.name = 'ReviewBy' + keyCount;
+        var label1 = document.createElement("label");
+        label1.appendChild(document.createTextNode("Review By " + keyCount));
+        var label2 = document.createElement("label");
+        label2.appendChild(document.createTextNode("Review " + keyCount));
 
-      var newReview = document.createElement('input');
-      newReview.type = 'text';
-      newReview.className = 'form-control';
-      newReview.placeholder = 'Review ' + keyCount;
-      newReview.name = 'Review' + keyCount;
+        newCol1.appendChild(label1);
+        newCol1.appendChild(newReviewBy);
 
-      var label1 = document.createElement('label');
-      label1.appendChild(document.createTextNode('Review By ' + keyCount));
-      var label2 = document.createElement('label');
-      label2.appendChild(document.createTextNode('Review ' + keyCount));
+        newCol2.appendChild(label2);
+        newCol2.appendChild(newReview);
 
-      newCol1.appendChild(label1);
-      newCol1.appendChild(newReviewBy);
+        newRow.appendChild(newCol1);
+        newRow.appendChild(newCol2);
 
-      newCol2.appendChild(label2);
-      newCol2.appendChild(newReview);
+        var container = document.getElementById("dynamicFieldsContainer");
+        container.appendChild(newRow);
+      }
+    </script>
 
-      newRow.appendChild(newCol1);
-      newRow.appendChild(newCol2);
+    <script src="/WeValet/src/css/js/core/jquery.min.js"></script>
+    <script src="/WeValet/src/css/js/core/popper.min.js"></script>
+    <script src="/WeValet/src/css/js/core/bootstrap.min.js"></script>
+    <script src="/WeValet/src/css/js/plugins/perfect-scrollbar.jquery.min.js"></script>
 
-      var container = document.getElementById('dynamicFieldsContainer');
-      container.appendChild(newRow);
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
-    }
+    <script src="/WeValet/src/css/js/plugins/chartjs.min.js"></script>
 
-  </script>
+    <script src="/WeValet/src/css/js/plugins/bootstrap-notify.js"></script>
+    <script src="/WeValet/src/css/js/black-dashboard.min.js?v=1.0.0"></script>
+    <script src="/WeValet/src/css/demo/demo.js"></script>
+    <script>
+      $(document).ready(function () {
+        $().ready(function () {
+          $sidebar = $(".sidebar");
+          $navbar = $(".navbar");
+          $main_panel = $(".main-panel");
 
+          $full_page = $(".full-page");
 
-  <script src="/WeValet/src/css/js/core/jquery.min.js"></script>
-  <script src="/WeValet/src/css/js/core/popper.min.js"></script>
-  <script src="/WeValet/src/css/js/core/bootstrap.min.js"></script>
-  <script src="/WeValet/src/css/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+          $sidebar_responsive = $("body > .navbar-collapse");
+          sidebar_mini_active = true;
+          white_color = false;
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+          window_width = $(window).width();
 
-  <script src="/WeValet/src/css/js/plugins/chartjs.min.js"></script>
+          fixed_plugin_open = $(
+            ".sidebar .sidebar-wrapper .nav li.active a p"
+          ).html();
 
-  <script src="/WeValet/src/css/js/plugins/bootstrap-notify.js"></script>
-  <script src="/WeValet/src/css/js/black-dashboard.min.js?v=1.0.0"></script>
-  <script src="/WeValet/src/css/demo/demo.js"></script>
-  <script>
-    $(document).ready(function () {
-      $().ready(function () {
-        $sidebar = $('.sidebar');
-        $navbar = $('.navbar');
-        $main_panel = $('.main-panel');
-
-        $full_page = $('.full-page');
-
-        $sidebar_responsive = $('body > .navbar-collapse');
-        sidebar_mini_active = true;
-        white_color = false;
-
-        window_width = $(window).width();
-
-        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
-
-
-
-        $('.fixed-plugin a').click(function (event) {
-          if ($(this).hasClass('switch-trigger')) {
-            if (event.stopPropagation) {
-              event.stopPropagation();
-            } else if (window.event) {
-              window.event.cancelBubble = true;
+          $(".fixed-plugin a").click(function (event) {
+            if ($(this).hasClass("switch-trigger")) {
+              if (event.stopPropagation) {
+                event.stopPropagation();
+              } else if (window.event) {
+                window.event.cancelBubble = true;
+              }
             }
-          }
-        });
+          });
 
-        $('.fixed-plugin .background-color span').click(function () {
-          $(this).siblings().removeClass('active');
-          $(this).addClass('active');
+          $(".fixed-plugin .background-color span").click(function () {
+            $(this).siblings().removeClass("active");
+            $(this).addClass("active");
 
-          var new_color = $(this).data('color');
+            var new_color = $(this).data("color");
 
-          if ($sidebar.length != 0) {
-            $sidebar.attr('data', new_color);
-          }
-
-          if ($main_panel.length != 0) {
-            $main_panel.attr('data', new_color);
-          }
-
-          if ($full_page.length != 0) {
-            $full_page.attr('filter-color', new_color);
-          }
-
-          if ($sidebar_responsive.length != 0) {
-            $sidebar_responsive.attr('data', new_color);
-          }
-        });
-
-        $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function () {
-          var $btn = $(this);
-
-          if (sidebar_mini_active == true) {
-            $('body').removeClass('sidebar-mini');
-            sidebar_mini_active = false;
-            blackDashboard.showSidebarMessage('Sidebar mini deactivated...');
-          } else {
-            $('body').addClass('sidebar-mini');
-            sidebar_mini_active = true;
-            blackDashboard.showSidebarMessage('Sidebar mini activated...');
-          }
-
-          // we simulate the window Resize so the charts will get updated in realtime.
-          var simulateWindowResize = setInterval(function () {
-            window.dispatchEvent(new Event('resize'));
-          }, 180);
-
-          // we stop the simulation of Window Resize after the animations are completed
-          setTimeout(function () {
-            clearInterval(simulateWindowResize);
-          }, 1000);
-        });
-
-        $('.switch-change-color input').on("switchChange.bootstrapSwitch", function () {
-          var $btn = $(this);
-
-          if (white_color == true) {
-
-            $('body').addClass('change-background');
-            setTimeout(function () {
-              $('body').removeClass('change-background');
-              $('body').removeClass('white-content');
-            }, 900);
-            white_color = false;
-          } else {
-
-            $('body').addClass('change-background');
-            setTimeout(function () {
-              $('body').removeClass('change-background');
-              $('body').addClass('white-content');
-            }, 900);
-
-            white_color = true;
-          }
-
-
-        });
-
-        $('.light-badge').click(function () {
-          $('body').addClass('white-content');
-        });
-
-        $('.dark-badge').click(function () {
-          $('body').removeClass('white-content');
-        });
-      });
-    });
-  </script>
-  <script>
-    $(document).ready(function () {
-      // Javascript method's body can be found in assets/js/demos.js
-      demo.initDashboardPageCharts();
-
-    });
-  </script>
-  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
-  <script>
-    window.TrackJS &&
-      TrackJS.install({
-        token: "ee6fab19c5a04ac1a32a645abde4613a",
-        application: "black-dashboard-free"
-      });
-  </script>
-
-  <script>
-    document.getElementById("callApiButton").addEventListener("click", async function () {
-
-      var inputFields = document.querySelectorAll('#myForm input[type="text"]');
-
-      var values = [];
-
-      inputFields.forEach(async function (input) {
-        values[input.id] = input.value;
-        await values.push(input.value)
-      });
-
-      // var inputValue1 = await document.getElementById("myInput1").value;
-
-      const url = 'Payment';
-      const data = {
-        DataArray: values,
-      };
-
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-      })
-        .then(response => response.json())
-        .then(data => {
-          if(data.message == "Payment Related Data Update Successfully"){
-              alert("Update Payment Amounts Successfully");
-              window.location.href = "/Payment";
-            }else{
-              alert("Does Not Update Payment Amounts");
+            if ($sidebar.length != 0) {
+              $sidebar.attr("data", new_color);
             }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert("Does Not Create User Account");
+
+            if ($main_panel.length != 0) {
+              $main_panel.attr("data", new_color);
+            }
+
+            if ($full_page.length != 0) {
+              $full_page.attr("filter-color", new_color);
+            }
+
+            if ($sidebar_responsive.length != 0) {
+              $sidebar_responsive.attr("data", new_color);
+            }
+          });
+
+          $(".switch-sidebar-mini input").on(
+            "switchChange.bootstrapSwitch",
+            function () {
+              var $btn = $(this);
+
+              if (sidebar_mini_active == true) {
+                $("body").removeClass("sidebar-mini");
+                sidebar_mini_active = false;
+                blackDashboard.showSidebarMessage(
+                  "Sidebar mini deactivated..."
+                );
+              } else {
+                $("body").addClass("sidebar-mini");
+                sidebar_mini_active = true;
+                blackDashboard.showSidebarMessage("Sidebar mini activated...");
+              }
+
+              // we simulate the window Resize so the charts will get updated in realtime.
+              var simulateWindowResize = setInterval(function () {
+                window.dispatchEvent(new Event("resize"));
+              }, 180);
+
+              // we stop the simulation of Window Resize after the animations are completed
+              setTimeout(function () {
+                clearInterval(simulateWindowResize);
+              }, 1000);
+            }
+          );
+
+          $(".switch-change-color input").on(
+            "switchChange.bootstrapSwitch",
+            function () {
+              var $btn = $(this);
+
+              if (white_color == true) {
+                $("body").addClass("change-background");
+                setTimeout(function () {
+                  $("body").removeClass("change-background");
+                  $("body").removeClass("white-content");
+                }, 900);
+                white_color = false;
+              } else {
+                $("body").addClass("change-background");
+                setTimeout(function () {
+                  $("body").removeClass("change-background");
+                  $("body").addClass("white-content");
+                }, 900);
+
+                white_color = true;
+              }
+            }
+          );
+
+          $(".light-badge").click(function () {
+            $("body").addClass("white-content");
+          });
+
+          $(".dark-badge").click(function () {
+            $("body").removeClass("white-content");
+          });
         });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        // Javascript method's body can be found in assets/js/demos.js
+        demo.initDashboardPageCharts();
+      });
+    </script>
+    <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+    <script>
+      window.TrackJS &&
+        TrackJS.install({
+          token: "ee6fab19c5a04ac1a32a645abde4613a",
+          application: "black-dashboard-free",
+        });
+    </script>
 
-    });
-  </script>
+    <script>
+      document
+        .getElementById("callApiButton")
+        .addEventListener("click", async function () {
+          var inputFields = document.querySelectorAll(
+            '#myForm input[type="text"]'
+          );
 
-  <script>
-    // Function to remove inline CSS properties
-    function removeInlineStyles(element) {
-      element.removeAttribute('style');
-    }
+          var values = [];
 
-    // Get the element by its ID or another selector
-    var myElement = document.getElementById('perfect-scrollbar-on');
+          inputFields.forEach(async function (input) {
+            values[input.id] = input.value;
+            await values.push(input.value);
+          });
 
-    // Call the function to remove inline styles
-    removeInlineStyles(myElement);
-  </script>
+          // var inputValue1 = await document.getElementById("myInput1").value;
 
-</body>
+          const url = "Payment";
+          const data = {
+            DataArray: values,
+          };
 
+          fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.message == "Payment Related Data Update Successfully") {
+                alert("Update Payment Amounts Successfully");
+                window.location.href = "/Payment";
+              } else {
+                alert("Does Not Update Payment Amounts");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Does Not Create User Account");
+            });
+        });
+    </script>
+
+    <script>
+      // Function to remove inline CSS properties
+      function removeInlineStyles(element) {
+        element.removeAttribute("style");
+      }
+
+      // Get the element by its ID or another selector
+      var myElement = document.getElementById("perfect-scrollbar-on");
+
+      // Call the function to remove inline styles
+      removeInlineStyles(myElement);
+    </script>
+  </body>
 </html>
