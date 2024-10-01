@@ -10127,6 +10127,109 @@ class QRCodeClass {
       });
     }
   };
+
+  static QRGenerate = async (req, res) => {
+    try {
+      const { UserName, startNumber, endNumber } = req.body;
+      if (!UserName || !startNumber || !endNumber) {
+        return res.status(HTTP.BAD_REQUEST).json({
+          message: "Insufficient Data",
+          status: `${HTTP.BAD_REQUEST}`,
+        });
+      }
+      const findUserByUsername = await Todo2.findOne({ UserName: UserName });
+      console.log(findUserByUsername._id);
+      if (!findUserByUsername) {
+        return res.status(HTTP.NOT_FOUND).json({
+          message: "Account Not Exist",
+          status: `${HTTP.NOT_FOUND}`,
+        });
+      }
+      const qrCodes = [];
+
+      const doc = new PDFDocument();
+
+      const pdfFileName = `qr_codes_${Date.now()}.pdf`;
+      const s3 = new AWS.S3({
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      });
+
+      const uploadParams = {
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: `pdfs/${pdfFileName}`,
+        Body: doc,
+        ACL: "public-read",
+        ContentType: "application/pdf",
+      };
+
+      for (let i = startNumber; i <= endNumber; i++) {
+        const tokenNumber = i.toString();
+
+        const existingToken = await HotelQrCode.findOne({
+          tokenNumber: tokenNumber,
+          businessId: findUserByUsername._id,
+        });
+
+        if (existingToken) {
+          continue;
+        }
+
+        const otp = generateOTP();
+        const qrUrl = `${QRBaseUrl}?token=${tokenNumber}&businessName=${findUserByUsername._id}`;
+        const qrCodeBuffer = await generateQRCode(qrUrl);
+
+        const newCar = new HotelQrCode({
+          tokenNumber,
+          qrCode: `${Ip}/qr_codes/${tokenNumber}`,
+          businessId: findUserByUsername._id,
+          otp,
+        });
+
+        await newCar.save();
+        qrCodes.push({ tokenNumber, qrCodeBuffer });
+
+        doc
+          .fontSize(12)
+          .text(`Token Number: ${tokenNumber}`, { align: "center" });
+        doc.image(qrCodeBuffer, {
+          fit: [200, 200],
+          align: "center",
+          valign: "center",
+        });
+
+        if (i < endNumber) {
+          doc.addPage();
+        }
+      }
+
+      doc.end();
+
+      // Upload PDF to S3
+      s3.upload(uploadParams, (err, data) => {
+        if (err) {
+          console.error(err);
+          return res.status(HTTP.INTERNAL_SERVER_ERROR).json({
+            message: err.message,
+            status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+          });
+        }
+        const pdfUrl = data.Location;
+
+        res.status(HTTP.SUCCESS).json({
+          message: "QR codes generated successfully!",
+          pdfUrl,
+          status: `${HTTP.SUCCESS}`,
+        });
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json({
+        message: error.message,
+        status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+      });
+    }
+  };
 }
 
 module.exports = { class1, class2, QRCodeClass };

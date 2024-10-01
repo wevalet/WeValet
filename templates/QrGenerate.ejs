@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+      .btn {
+        background-color: #28a745;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+      }
+      .btn:hover {
+        background-color: #218838;
+      }
+      .error {
+        color: red;
+        margin-bottom: 10px;
+      }
+      .success {
+        color: green;
+        margin-top: 20px;
+      }
+      .pdf-link {
+        text-align: center;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Generate QR Codes</h1>
+
+      <!-- Success/Error Messages will be shown here -->
+      <div id="message"></div>
+
+      <!-- Form for QR code generation -->
+      <form id="qrForm">
+        <div class="form-group">
+          <label for="UserName">User Name</label>
+          <input type="text" id="UserName" name="UserName" required />
+        </div>
+
+        <div class="form-group">
+          <label for="startNumber">Start Number</label>
+          <input type="number" id="startNumber" name="startNumber" required />
+        </div>
+
+        <div class="form-group">
+          <label for="endNumber">End Number</label>
+          <input type="number" id="endNumber" name="endNumber" required />
+        </div>
+
+        <button type="submit" class="btn">Generate QR Codes</button>
+      </form>
+
+      <!-- PDF download link -->
+      <div id="pdfLink" class="pdf-link" style="display: none">
+        <a id="downloadLink" href="#" target="_blank"
+          >Download Generated QR Codes PDF</a
+        >
+      </div>
+    </div>
+
+    <script>
+      // Handle form submission via AJAX
+      document
+        .getElementById("qrForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault(); // Prevent default form submission
+
+          const UserName = document.getElementById("UserName").value;
+          const startNumber = document.getElementById("startNumber").value;
+          const endNumber = document.getElementById("endNumber").value;
+
+          const formData = {
+            UserName,
+            startNumber,
+            endNumber,
+          };
+
+          try {
+            // Make AJAX POST request to the /QRGenerate API
+            const response = await fetch("/QRGenerate", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json", // Make sure you're sending JSON
+              },
+              body: JSON.stringify(formData), // Send form data as JSON
+            });
+
+            const result = await response.json();
+
+            // Handle success or error messages
+            if (response.ok) {
+              document.getElementById(
+                "message"
+              ).innerHTML = `<div class="success">${result.message}</div>`;
+
+              // Display the PDF download link
+              const pdfUrl = result.pdfUrl;
+              const downloadLink = document.getElementById("downloadLink");
+              downloadLink.href = pdfUrl;
+              document.getElementById("pdfLink").style.display = "block";
+            } else {
+              document.getElementById(
+                "message"
+              ).innerHTML = `<div class="error">${result.message}</div>`;
+            }
+          } catch (error) {
+            // Handle error response
+            document.getElementById(
+              "message"
+            ).innerHTML = `<div class="error">${error.message}</div>`;
+          }
+        });
+    </script>
+  </body>
+</html>

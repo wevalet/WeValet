@@ -184,6 +184,8 @@ router.post(
   QRCodeClass.GenerateQRCodesForBusiness
 );
 
+router.post("/QRGenerate", QRCodeClass.QRGenerate);
+
 // VALET SECTION
 router.post("/CarPark", verifyToken, QRCodeClass.CarPark);
 router.post("/RequestedCarCount", verifyToken, QRCodeClass.RequestedCarCount);
@@ -246,6 +248,14 @@ router.get("/request-car", async (req, res) => {
     console.error("Error loading scan page:", error);
     res.status(500).send("Server Error");
   }
+});
+
+router.get("/QRGenerate", (req, res) => {
+  res.render("QRGenerate", {
+    message: null,
+    pdfUrl: null,
+    status: null,
+  });
 });
 
 module.exports = router;
