@@ -251,7 +251,7 @@ router.get("/request-car", async (req, res) => {
 });
 
 router.get("/QRGenerate", (req, res) => {
-  res.render("QRGenerate", {
+  res.render("QrGenerate", {
     message: null,
     pdfUrl: null,
     status: null,
