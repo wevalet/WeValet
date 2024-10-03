@@ -20,6 +20,7 @@ const HTTP = require("../../constant/response.constant");
 const QRCode = require("qrcode");
 const PDFDocument = require("pdfkit");
 const fs = require("fs");
+const { getIO } = require("../socket"); // Adjust the path as necessary
 
 // const app = express();
 
@@ -88,6 +89,8 @@ admin.initializeApp({
 });
 
 const fcm = admin.messaging();
+
+
 
 setInterval(async () => {
   try {
@@ -9811,7 +9814,7 @@ class QRCodeClass {
                 status: `${HTTP.BAD_REQUEST}`,
               });
             }
-
+  
             const updateRequest = await HotelQrCodeHistory.findOneAndUpdate(
               {
                 _id: id,
@@ -9826,9 +9829,13 @@ class QRCodeClass {
               }
             );
             await updateRequest.save();
-
+  
+            // Emit the event to notify the frontend
+            const io = getIO(); // Get the io instance
+            io.emit("carRetrieved", { carId: id, status: "retrieved" });
+  
             res.status(HTTP.SUCCESS).json({
-              message: "Car has been retrived successfully!!",
+              message: "Car has been retrieved successfully!!",
               status: `${HTTP.SUCCESS}`,
             });
             return false;
