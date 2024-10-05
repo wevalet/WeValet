@@ -7,13 +7,21 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 require("./db/conn");
 const router = require("./router/router");
-const { initializeSocket } = require("./socket"); // Import the socket module
+const { initializeSocket } = require("./socket"); 
+
+const corsOptions = {
+    origin: "http://valetapp.wevalet.in/", // Frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+    credentials: true, // Enable credentials (cookies, authorization headers)
+    optionsSuccessStatus: 200, // Response status for successful preflight requests
+  };
 
 // Set up express middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static("public"));
+app.use(cors(corsOptions));
 
 // Create an HTTP server
 const server = http.createServer(app);

@@ -9770,7 +9770,6 @@ class QRCodeClass {
         accepted: false,
       });
 
-      console.log(check);
       if (!check) {
         return res.status(HTTP.BAD_REQUEST).json({
           message: "Data not found!!",
@@ -9794,7 +9793,6 @@ class QRCodeClass {
       if (req.UserName) {
         const headerValue = req.get("Authorization");
         var User = await Todo8.findOne({ Username: req.UserName });
-        console.log(User);
         if (User) {
           if (User.token == headerValue) {
             const { id } = req.body;
@@ -9830,9 +9828,9 @@ class QRCodeClass {
             );
             await updateRequest.save();
   
-            // Emit the event to notify the frontend
-            const io = getIO(); // Get the io instance
+            const io = getIO(); 
             io.emit("carRetrieved", { carId: id, status: "retrieved" });
+            console.log("Car Retrieved event emitted", { carId: id });
   
             res.status(HTTP.SUCCESS).json({
               message: "Car has been retrieved successfully!!",
