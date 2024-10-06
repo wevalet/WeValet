@@ -10,6 +10,7 @@ const router = require("./router/router");
 const { initializeSocket } = require("./socket"); 
 var path = require("path");
 const sessions = require("express-session");
+const oneDay = process.env.oneDay || 1000 * 60 * 60 * 24;
 
 const corsOptions = {
     origin: "http://valetapp.wevalet.in/", // Frontend URL
@@ -21,9 +22,6 @@ const corsOptions = {
 // Set up express middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
-app.use(express.static("public"));
-app.use(cors(corsOptions));
 app.use(
   sessions({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
@@ -32,6 +30,9 @@ app.use(
     resave: false,
   })
 );
+app.use(cors());
+app.use(express.static("public"));
+app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, "../..")));
 // app.use(express.static(path.join(__dirname, "..")));
