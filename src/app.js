@@ -9,6 +9,7 @@ require("./db/conn");
 const router = require("./router/router");
 const { initializeSocket } = require("./socket"); 
 var path = require("path");
+const sessions = require("express-session");
 
 const corsOptions = {
     origin: "http://valetapp.wevalet.in/", // Frontend URL
