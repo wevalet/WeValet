@@ -8,6 +8,7 @@ require("dotenv").config();
 require("./db/conn");
 const router = require("./router/router");
 const { initializeSocket } = require("./socket"); 
+var path = require("path");
 
 const corsOptions = {
     origin: "http://valetapp.wevalet.in/", // Frontend URL
@@ -22,6 +23,21 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static("public"));
 app.use(cors(corsOptions));
+app.use(
+  sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized: true,
+    cookie: { maxAge: oneDay },
+    resave: false,
+  })
+);
+
+app.use(express.static(path.join(__dirname, "../..")));
+// app.use(express.static(path.join(__dirname, "..")));
+var ejs = require("ejs");
+var ejs_folder_path = path.join(__dirname, "../templates");
+app.set("view engine", "ejs");
+app.set("views", ejs_folder_path);
 
 // Create an HTTP server
 const server = http.createServer(app);
