@@ -30,7 +30,6 @@ app.use(
     resave: false,
   })
 );
-app.use(cors());
 app.use(express.static("public"));
 app.use(cors(corsOptions));
 
