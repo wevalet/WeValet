@@ -9802,6 +9802,8 @@ class QRCodeClass {
                 status: `${HTTP.BAD_REQUEST}`,
               });
             }
+            console.log|(id)
+            console.log(User._id)
             const check = await HotelQrCodeHistory.findOne({
               _id: id,
               valetId: User._id,
@@ -9873,7 +9875,6 @@ class QRCodeClass {
                 status: `${HTTP.BAD_REQUEST}`,
               });
             }
-
             const check = await HotelQrCodeHistory.findOne({
               _id: id,
               valetId: User._id,

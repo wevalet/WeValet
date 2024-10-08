@@ -29,8 +29,9 @@ app.use(sessions({
     cookie: { maxAge: oneDay },
     resave: false,
 }));
-app.use(cors(corsOptions)); // Apply CORS middleware here
-app.use(express.static("public"));
+app.use(cors(corsOptions));
+// app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "../..")));
 
 // Set up static file serving for EJS
 var ejs = require("ejs");

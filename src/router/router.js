@@ -208,7 +208,6 @@ router.post("/verify-otp", QRCodeClass.verifyOtp);
 router.get("/request-car", async (req, res) => {
   try {
     const { businessName, token } = req.query;
-
     if (!businessName || !token) {
       return res.status(HTTP.BAD_REQUEST).json({
         message: "Insufficient Data",
