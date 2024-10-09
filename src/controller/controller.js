@@ -9455,7 +9455,6 @@ class QRCodeClass {
                 status: `${HTTP.BAD_REQUEST}`,
               });
             }
-
             const business = await Todo2.findOne({
               UserName: User.BusinessManagerUserName,
             });
@@ -9469,6 +9468,7 @@ class QRCodeClass {
             const check = await HotelQrCodeHistory.findOne({
               tokenNumber: tokenNumber,
               assigned: true,
+              businessId: business._id,
             });
             if (check) {
               return res.status(HTTP.BAD_REQUEST).json({
