@@ -5,7 +5,7 @@ let io;
 const initializeSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: ["http://valetapp.wevalet.in", "http://localhost:5173"],
+            origin: ["http://valetapp.wevalet.in", "http://localhost:5173", "https://valetapp.wevalet.in"],
             methods: ["GET", "POST"],
             credentials: true,
         },
@@ -14,8 +14,8 @@ const initializeSocket = (server) => {
     io.on("connection", (socket) => {
         console.log("New client connected");
 
-        socket.on("disconnect", () => {
-            console.log("Client disconnected");
+        socket.on("disconnect", (reason) => {
+            console.log("Client disconnected", reason);
         });
     });
 };

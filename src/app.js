@@ -12,15 +12,16 @@ const sessions = require("express-session");
 const oneDay = process.env.oneDay || 1000 * 60 * 60 * 24;
 
 const corsOptions = {
-    origin: ["http://valetapp.wevalet.in", "http://localhost:5173"],
+    origin: ["http://valetapp.wevalet.in", "http://localhost:5173", "https://valetapp.wevalet.in"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     optionsSuccessStatus: 200,
-};
+};  
 
 const app = express();
 
 // Set up express middleware
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(sessions({
@@ -29,7 +30,6 @@ app.use(sessions({
     cookie: { maxAge: oneDay },
     resave: false,
 }));
-app.use(cors(corsOptions));
 // app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "../..")));
 
