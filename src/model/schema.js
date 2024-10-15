@@ -479,7 +479,7 @@ var HotelQrCode = mongoose.model("HotelQrCodeCollection", HotelQrSchema);
 
 const HotelQrCodeHistorySchema = new mongoose.Schema({
   tokenNumber: { type: String, required: true },
-  carNumber: { type: String, required: true },
+  carNumber: { type: String, required: false, default: false },
   businessId: { type: String, required: true },
   valetId: { type: String, required: true },
   otp: { type: String, required: false },

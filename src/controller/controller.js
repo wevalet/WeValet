@@ -188,9 +188,8 @@ class class1 {
             const month = (await currentDate2.getMonth()) + 1;
             const day = await currentDate2.getDate();
 
-            let PlanExpiredDate = await `${year}-${
-              month < 10 ? "0" : ""
-            }${month}-${day < 10 ? "0" : ""}${day}`;
+            let PlanExpiredDate = await `${year}-${month < 10 ? "0" : ""
+              }${month}-${day < 10 ? "0" : ""}${day}`;
 
             if (req.body.RegistrationNumber) {
               const suratTimezone = "Asia/Kolkata";
@@ -392,9 +391,8 @@ class class1 {
         const month = (await currentDate2.getMonth()) + 1;
         const day = await currentDate2.getDate();
 
-        let PlanExpiredDate = await `${year}-${month < 10 ? "0" : ""}${month}-${
-          day < 10 ? "0" : ""
-        }${day}`;
+        let PlanExpiredDate = await `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+          }${day}`;
 
         if (req.body.Country) {
           var Country = await req.body.Country.toUpperCase();
@@ -2165,7 +2163,7 @@ class class1 {
 
               axios
                 .post(`${Ip}/StatusChange`, postData)
-                .then((response) => {})
+                .then((response) => { })
                 .catch((error) => {
                   console.error("Error:", error);
                 });
@@ -4740,9 +4738,8 @@ class class1 {
           const month = inputDateTime2.getMonth() + 1;
           const day = inputDateTime2.getDate();
 
-          let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${
-            day < 10 ? "0" : ""
-          }${day}`;
+          let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+            }${day}`;
 
           var a = await compareDates(inputDateTime, inputDateTime3);
 
@@ -4868,9 +4865,8 @@ class class1 {
           const month = inputDateTime2.getMonth() + 1;
           const day = inputDateTime2.getDate();
 
-          let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${
-            day < 10 ? "0" : ""
-          }${day}`;
+          let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+            }${day}`;
 
           var a = await compareDates(inputDateTime, inputDateTime3);
 
@@ -5328,9 +5324,8 @@ class class1 {
               const month = inputDateTime2.getMonth() + 1;
               const day = inputDateTime2.getDate();
 
-              let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${
-                day < 10 ? "0" : ""
-              }${day}`;
+              let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+                }${day}`;
 
               var a = await compareDates(inputDateTime, inputDateTime3);
 
@@ -6223,8 +6218,8 @@ class class1 {
 
           fcm
             .sendMulticast(message2)
-            .then((response) => {})
-            .catch((error) => {});
+            .then((response) => { })
+            .catch((error) => { });
 
           // Phase 4 complete //
 
@@ -6965,9 +6960,8 @@ class class2 {
               const month = (await currentDate2.getMonth()) + 1;
               const day = await currentDate2.getDate();
 
-              let PlanExpiredDate = await `${year}-${
-                month < 10 ? "0" : ""
-              }${month}-${day < 10 ? "0" : ""}${day}`;
+              let PlanExpiredDate = await `${year}-${month < 10 ? "0" : ""
+                }${month}-${day < 10 ? "0" : ""}${day}`;
 
               const hashedPassword = await bcrypt.hash(req.body.Password, 12);
               var UnitName = User[0].UnitName;
@@ -7891,7 +7885,7 @@ class class2 {
 
           fcm
             .send(message)
-            .then((response) => {})
+            .then((response) => { })
             .catch((error) => {
               console.log(error);
             });
@@ -8248,9 +8242,8 @@ class class2 {
           const month = inputDateTime2.getMonth() + 1;
           const day = inputDateTime2.getDate();
 
-          let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${
-            day < 10 ? "0" : ""
-          }${day}`;
+          let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+            }${day}`;
 
           var a = await compareDates(inputDateTime, inputDateTime3);
 
@@ -8370,9 +8363,8 @@ class class2 {
           const month = inputDateTime2.getMonth() + 1;
           const day = inputDateTime2.getDate();
 
-          let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${
-            day < 10 ? "0" : ""
-          }${day}`;
+          let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+            }${day}`;
 
           var a = await compareDates(inputDateTime, inputDateTime3);
 
@@ -8459,9 +8451,8 @@ class class2 {
       let month = (await currentDate.getMonth()) + 1;
       let day = await currentDate.getDate();
 
-      let PlanExpiredDate = await `${year}-${month < 10 ? "0" : ""}${month}-${
-        day < 10 ? "0" : ""
-      }${day}`;
+      let PlanExpiredDate = await `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+        }${day}`;
 
       if (req.Phone && req.body.PlanType) {
         var User = await Todo.findOne({ Phone: req.Phone });
@@ -9030,9 +9021,8 @@ class class2 {
             const month = (await currentDate2.getMonth()) + 1;
             const day = await currentDate2.getDate();
 
-            let PlanExpiredDate = await `${year}-${
-              month < 10 ? "0" : ""
-            }${month}-${day < 10 ? "0" : ""}${day}`;
+            let PlanExpiredDate = await `${year}-${month < 10 ? "0" : ""
+              }${month}-${day < 10 ? "0" : ""}${day}`;
 
             User.PlanExpiredDate = await PlanExpiredDate;
             User.OfficialPlanExpiredDate = await PlanExpiredDate;
@@ -9368,11 +9358,11 @@ class QRCodeClass {
               businessId: User._id,
               ...(from && to
                 ? {
-                    tokenNumber: {
-                      $gte: from, // Greater than or equal to `from`
-                      $lte: to, // Less than or equal to `to`
-                    },
-                  }
+                  tokenNumber: {
+                    $gte: from, // Greater than or equal to `from`
+                    $lte: to, // Less than or equal to `to`
+                  },
+                }
                 : {}),
             });
 
@@ -9449,7 +9439,7 @@ class QRCodeClass {
         if (User) {
           if (User.token == headerValue) {
             const { tokenNumber, carNumber, OTP } = req.body;
-            if (!tokenNumber || !carNumber || !OTP) {
+            if (!tokenNumber || !OTP) {
               return res.status(HTTP.BAD_REQUEST).json({
                 message: "Insufficient Data",
                 status: `${HTTP.BAD_REQUEST}`,
@@ -9576,7 +9566,7 @@ class QRCodeClass {
   static RequestForCar = async (req, res) => {
     try {
       const { businessName, tokenNumber, carNumber, otp } = req.body;
-      if (!businessName || !tokenNumber || !carNumber || !otp) {
+      if (!businessName || !tokenNumber || !otp) {
         return res.status(HTTP.BAD_REQUEST).json({
           message: "Insufficient Data",
           status: `${HTTP.BAD_REQUEST}`,
@@ -9593,7 +9583,7 @@ class QRCodeClass {
 
       const check = await HotelQrCodeHistory.findOne({
         tokenNumber: tokenNumber,
-        carNumber: carNumber,
+        // carNumber: carNumber,
         businessId: business._id,
         otp: otp,
         assigned: true,
@@ -9609,7 +9599,7 @@ class QRCodeClass {
       const updateRequest = await HotelQrCodeHistory.findOneAndUpdate(
         {
           tokenNumber: tokenNumber,
-          carNumber: carNumber,
+          // carNumber: carNumber,
           businessId: business._id,
           otp: otp,
           assigned: true,
@@ -9746,7 +9736,7 @@ class QRCodeClass {
   static verifyOtp = async (req, res) => {
     try {
       const { businessName, tokenNumber, carNumber, otp } = req.body;
-      if (!businessName || !tokenNumber || !carNumber || !otp) {
+      if (!businessName || !tokenNumber || !otp) {
         return res.status(HTTP.BAD_REQUEST).json({
           message: "Insufficient Data",
           status: `${HTTP.BAD_REQUEST}`,
@@ -9762,7 +9752,7 @@ class QRCodeClass {
       }
       const check = await HotelQrCodeHistory.findOne({
         tokenNumber: tokenNumber,
-        carNumber: carNumber,
+        // carNumber: carNumber,
         businessId: business._id,
         otp: otp,
         assigned: true,
@@ -9802,8 +9792,6 @@ class QRCodeClass {
                 status: `${HTTP.BAD_REQUEST}`,
               });
             }
-            console.log|(id)
-            console.log(User._id)
             const check = await HotelQrCodeHistory.findOne({
               _id: id,
               valetId: User._id,
@@ -9814,7 +9802,7 @@ class QRCodeClass {
                 status: `${HTTP.BAD_REQUEST}`,
               });
             }
-  
+
             const updateRequest = await HotelQrCodeHistory.findOneAndUpdate(
               {
                 _id: id,
@@ -9829,11 +9817,11 @@ class QRCodeClass {
               }
             );
             await updateRequest.save();
-  
-            const io = getIO(); 
+
+            const io = getIO();
             io.emit("carRetrieved", { carId: id, status: "retrieved" });
             console.log("Car Retrieved event emitted", { carId: id });
-  
+
             res.status(HTTP.SUCCESS).json({
               message: "Car has been retrieved successfully!!",
               status: `${HTTP.SUCCESS}`,
