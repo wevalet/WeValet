@@ -2983,7 +2983,8 @@ class class1 {
                   let data222 = new Todo7({
                     UserName: UserNameData,
                     Message:
-                      "Your vehicle is now available for pickup at the gate. Thank you",
+                      // "Your vehicle is now available for pickup at the gate. Thank you",
+                      "Your Request has been accepted. Thank you",
                     ParkInTime: "",
                     NotificationRemainingTime: formattedFutureTime3,
                   });
@@ -5868,7 +5869,7 @@ class class1 {
 
                 let data2 = new Todo7({
                   UserName: FcmTokenUserName,
-                  Message: "Car has been delivered",
+                  Message: "Vehicle has been delivered",
                   ParkInTime: formattedDateTime,
                 });
 
@@ -5879,7 +5880,7 @@ class class1 {
                   .then((response) => {
                     const message = {
                       notification: {
-                        title: "Car has been delivered",
+                        title: "Vehicle has been delivered",
                       },
                       android: {
                         notification: {
