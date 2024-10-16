@@ -2993,7 +2993,7 @@ class class1 {
 
                   if (result.message > 5) {
                     const futureTimeInSurat32 = currentTimeInSurat222.add(
-                      +3,
+                      +1,
                       "minutes"
                     );
                     const formattedFutureTime32 = futureTimeInSurat32.format(
