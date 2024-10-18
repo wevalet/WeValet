@@ -5,7 +5,7 @@ let io;
 const initializeSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: ["http://valetapp.wevalet.in", "http://localhost:5173", "https://valetapp.wevalet.in", "https://valetapp.wevalet.in/", "http://65.2.158.253:3500"],
+            origin: "*",
             methods: ["GET", "POST", "PUT", "DELETE"],
             credentials: true,
         },
