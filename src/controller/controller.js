@@ -55,6 +55,7 @@ if (os.hostname() == "DESKTOP-796LHPC") {
 }
 
 const QRBaseUrl = `http://valetapp.wevalet.in/`;
+const QRBaseUrlUs = `http://valetapp.wevalet.us/`;
 // const QRBaseUrl = `http://localhost:5173/`;
 
 // async function generateQRCode(qrUrl, i) {
@@ -10133,7 +10134,6 @@ class QRCodeClass {
         });
       }
       const findUserByUsername = await Todo2.findOne({ UserName: UserName });
-      console.log(findUserByUsername._id);
       if (!findUserByUsername) {
         return res.status(HTTP.NOT_FOUND).json({
           message: "Account Not Exist",
@@ -10171,7 +10171,13 @@ class QRCodeClass {
         }
 
         const otp = generateOTP();
-        const qrUrl = `${QRBaseUrl}?token=${tokenNumber}&businessName=${findUserByUsername._id}`;
+        let qrUrl;
+        if (findUserByUsername.Country == "INDIA") {
+          qrUrl = `${QRBaseUrl}?token=${tokenNumber}&businessName=${findUserByUsername._id}`;
+        } else {
+          qrUrl = `${QRBaseUrlUs}?token=${tokenNumber}&businessName=${findUserByUsername._id}`;
+        }
+
         const qrCodeBuffer = await generateQRCode(qrUrl);
 
         const newCar = new HotelQrCode({
