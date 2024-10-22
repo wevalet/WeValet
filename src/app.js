@@ -12,7 +12,7 @@ const sessions = require("express-session");
 const oneDay = process.env.oneDay || 1000 * 60 * 60 * 24;
 
 const corsOptions = {
-    origin: ["http://valetapp.wevalet.in", "http://localhost:5173", "https://valetapp.wevalet.in, http://valetapp.wevalet.us", "https://valetapp.wevalet.us"],
+    origin: ["http://valetapp.wevalet.in", "http://localhost:5173", "https://valetapp.wevalet.in", "http://valetapp.wevalet.us", "https://valetapp.wevalet.us"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     optionsSuccessStatus: 200,
