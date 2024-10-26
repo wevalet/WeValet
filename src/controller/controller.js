@@ -9135,35 +9135,35 @@ class class2 {
   static K = async (req, res) => {
     try {
       if (req.Phone && req.body.Date) {
-        var User = await Todo.findOne({ Phone: req.Phone });        
+        var User = await Todo.findOne({ Phone: req.Phone });
         if (User) {
           const headerValue = req.get("Authorization");
-  
+
           if (User.token == headerValue) {
             var VehicleDetailArray = [];
-  
+
             if (User.VehicleDetail) {
               for (var j = 0; j < User.VehicleDetail.length; j++) {
                 var PushVehicle = User.VehicleDetail[j];
-  
+
                 // Find ParkIn records including Pictures
                 var User2 = await Todo10.find({
                   Date: req.body.Date,
                   RegistrationNumber: PushVehicle.RegistrationNumber,
                   UserAction: "ParkIn",
                 }, 'Pictures'); // Include Pictures field in response
-  
+
                 // Find ParkOut records including Pictures
                 var User3 = await Todo10.find({
                   Date: req.body.Date,
                   RegistrationNumber: PushVehicle.RegistrationNumber,
                   UserAction: "ParkOut",
                 }, 'Pictures'); // Include Pictures field in response
-  
+
                 // Calculate lengths for ParkIn and ParkOut
                 var User2Length = User2.length > 0 ? 1 : 0;
                 var User3Length = User3.length > 0 ? 1 : 0;
-  
+
                 // Prepare response structure including pictures
                 await VehicleDetailArray.push({
                   RegistrationNumber: PushVehicle.RegistrationNumber,
@@ -9174,7 +9174,7 @@ class class2 {
                 });
               }
             }
-  
+
             var message2 = {
               message: "Data Load Successfully",
               data: VehicleDetailArray,
@@ -9202,7 +9202,7 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
-  
+
 
   // static M = async (req, res) => {
   //   try {
@@ -9270,20 +9270,20 @@ class class2 {
         req.body.UserAction
       ) {
         var User = await Todo.findOne({ Phone: req.Phone });
-  
+
         if (User) {
           const headerValue = req.get("Authorization");
-  
+
           if (User.token == headerValue) {
             var User2 = await Todo10.find({
               Date: req.body.Date,
               RegistrationNumber: req.body.RegistrationNumber,
               UserAction: req.body.UserAction,
             }, 'Pictures'); // Only retrieve Pictures field
-  
+
             // Extract all image URLs or data from the Pictures arrays
             var locations = User2.flatMap(record => record.Pictures);
-  
+
             var message2 = {
               message: "Data Load Successfully",
               images: locations, // Only images data
@@ -9311,7 +9311,7 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
-  
+
 }
 
 class QRCodeClass {
@@ -9577,6 +9577,18 @@ class QRCodeClass {
             if (!business) {
               return res.status(HTTP.BAD_REQUEST).json({
                 message: "Business Not Found",
+                status: `${HTTP.BAD_REQUEST}`,
+              });
+            }
+
+            const checkToken = await HotelQrCode.findOne({
+              tokenNumber: tokenNumber,
+              businessId: business._id,
+            })
+
+            if (!checkToken) {
+              return res.status(HTTP.BAD_REQUEST).json({
+                message: "This token is not register in your business",
                 status: `${HTTP.BAD_REQUEST}`,
               });
             }
