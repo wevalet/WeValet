@@ -9055,87 +9055,11 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
-  // static K = async (req, res) => {
-  //   try {
-  //     if (req.Phone && req.body.Date) {
-  //       var User = await Todo.findOne({ Phone: req.Phone });
-  //       console.log(req.Phone, req.body.Date)
-  //       if (User) {
-  //         const headerValue = req.get("Authorization");
-
-  //         if (User.token == headerValue) {
-  //           var VehicleDetailArray = [];
-
-  //           if (User.VehicleDetail) {
-  //             for (var j = 0; j < User.VehicleDetail.length; j++) {
-  //               var PushVehicle = User.VehicleDetail[j];
-
-  //               var User2 = await Todo10.find({
-  //                 Date: req.body.Date,
-  //                 RegistrationNumber: PushVehicle.RegistrationNumber,
-  //                 UserAction: "ParkIn",
-  //               });
-  //               var User3 = await Todo10.find({
-  //                 Date: req.body.Date,
-  //                 RegistrationNumber: PushVehicle.RegistrationNumber,
-  //                 UserAction: "ParkOut",
-  //               });
-
-  //               var User2Length;
-  //               var User3Length;
-
-  //               if (User2.length == 0) {
-  //                 User2Length = 0;
-  //               } else {
-  //                 User2Length = 1;
-  //               }
-
-  //               if (User3.length == 0) {
-  //                 User3Length = 0;
-  //               } else {
-  //                 User3Length = 1;
-  //               }
-
-  //               await VehicleDetailArray.push({
-  //                 RegistrationNumber: PushVehicle.RegistrationNumber,
-  //                 ParkIn: User2Length,
-  //                 ParkOut: User3Length,
-  //               });
-  //             }
-  //           }
-
-  //           var message2 = {
-  //             message: "Data Load Successfully",
-  //             data: VehicleDetailArray,
-  //             status: `${HTTP.SUCCESS}`,
-  //           };
-  //           res.status(HTTP.SUCCESS).json(message2);
-  //         } else {
-  //           var a = {
-  //             message: "Token has expired",
-  //             status: `${HTTP.UNAUTHORIZED}`,
-  //           };
-  //           res.status(HTTP.UNAUTHORIZED).json(a);
-  //         }
-  //       } else {
-  //         var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
-  //         res.status(HTTP.NOT_FOUND).json(a);
-  //       }
-  //     } else {
-  //       var a = { message: "Insufficient Data", status: `${HTTP.BAD_REQUEST}` };
-  //       res.status(HTTP.BAD_REQUEST).json(a);
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //     var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
-  //     res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
-  //   }
-  // };
-
   static K = async (req, res) => {
     try {
       if (req.Phone && req.body.Date) {
         var User = await Todo.findOne({ Phone: req.Phone });
+        console.log(req.Phone, req.body.Date)
         if (User) {
           const headerValue = req.get("Authorization");
 
@@ -9146,31 +9070,35 @@ class class2 {
               for (var j = 0; j < User.VehicleDetail.length; j++) {
                 var PushVehicle = User.VehicleDetail[j];
 
-                // Find ParkIn records including Pictures
                 var User2 = await Todo10.find({
                   Date: req.body.Date,
                   RegistrationNumber: PushVehicle.RegistrationNumber,
                   UserAction: "ParkIn",
-                }, 'Pictures'); // Include Pictures field in response
-
-                // Find ParkOut records including Pictures
+                });
                 var User3 = await Todo10.find({
                   Date: req.body.Date,
                   RegistrationNumber: PushVehicle.RegistrationNumber,
                   UserAction: "ParkOut",
-                }, 'Pictures'); // Include Pictures field in response
+                });
+                var User2Length;
+                var User3Length;
 
-                // Calculate lengths for ParkIn and ParkOut
-                var User2Length = User2.length > 0 ? 1 : 0;
-                var User3Length = User3.length > 0 ? 1 : 0;
+                if (User2.length == 0) {
+                  User2Length = 0;
+                } else {
+                  User2Length = 1;
+                }
 
-                // Prepare response structure including pictures
+                if (User3.length == 0) {
+                  User3Length = 0;
+                } else {
+                  User3Length = 1;
+                }
+
                 await VehicleDetailArray.push({
                   RegistrationNumber: PushVehicle.RegistrationNumber,
                   ParkIn: User2Length,
                   ParkOut: User3Length,
-                  ParkInPictures: User2.length > 0 ? User2.map(item => item.Pictures).flat() : [],
-                  ParkOutPictures: User3.length > 0 ? User3.map(item => item.Pictures).flat() : [],
                 });
               }
             }
@@ -9223,7 +9151,6 @@ class class2 {
   //             RegistrationNumber: req.body.RegistrationNumber,
   //             UserAction: req.body.UserAction,
   //           });
-
   //           // var locations = [];
 
   //           // for(var i=0;i<User2.length;i++){
@@ -9235,9 +9162,9 @@ class class2 {
   //           // }
 
   //           var message2 = {
+  //             status: `${HTTP.SUCCESS}`,
   //             message: "Data Load Successfully",
   //             data: User2,
-  //             status: `${HTTP.SUCCESS}`,
   //           };
   //           res.status(HTTP.SUCCESS).json(message2);
   //         } else {
@@ -9261,56 +9188,60 @@ class class2 {
   //     res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
   //   }
   // };
+
   static M = async (req, res) => {
     try {
-      if (
-        req.Phone &&
-        req.body.Date &&
-        req.body.RegistrationNumber &&
-        req.body.UserAction
-      ) {
-        var User = await Todo.findOne({ Phone: req.Phone });
+
+      if (req.Phone && req.body.Date && req.body.RegistrationNumber && req.body.UserAction) {
+
+        var User = await Todo.findOne({ Phone: req.Phone })
 
         if (User) {
-          const headerValue = req.get("Authorization");
+
+          const headerValue = req.get('Authorization');
 
           if (User.token == headerValue) {
-            var User2 = await Todo10.find({
-              Date: req.body.Date,
-              RegistrationNumber: req.body.RegistrationNumber,
-              UserAction: req.body.UserAction,
-            }, 'Pictures'); // Only retrieve Pictures field
 
-            // Extract all image URLs or data from the Pictures arrays
-            var locations = User2.flatMap(record => record.Pictures);
+            var User2 = await Todo10.find({ Date: req.body.Date, RegistrationNumber: req.body.RegistrationNumber, UserAction: req.body.UserAction })
 
-            var message2 = {
-              message: "Data Load Successfully",
-              images: locations, // Only images data
-              status: `${HTTP.SUCCESS}`,
-            };
+            // var locations = [];
+
+            // for(var i=0;i<User2.length;i++){
+
+            //     for(var j=0;j<User2[i].Pictures.length;j++){
+            //         await locations.push(User2[i].Pictures[j])
+            //     }
+
+            // }
+
+            var message2 = { "message": "Data Load Successfully", "data": User2, "status": `${HTTP.SUCCESS}` }
             res.status(HTTP.SUCCESS).json(message2);
+
           } else {
-            var a = {
-              message: "Token has expired",
-              status: `${HTTP.UNAUTHORIZED}`,
-            };
+            var a = { "message": "Token has expired", "status": `${HTTP.UNAUTHORIZED}` }
             res.status(HTTP.UNAUTHORIZED).json(a);
           }
+
         } else {
-          var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
+
+          var a = { "message": "Account Not Exist", "status": `${HTTP.NOT_FOUND}` }
           res.status(HTTP.NOT_FOUND).json(a);
+
         }
+
       } else {
-        var a = { message: "Insufficient Data", status: `${HTTP.BAD_REQUEST}` };
+        var a = { "message": "Insufficient Data", "status": `${HTTP.BAD_REQUEST}` }
         res.status(HTTP.BAD_REQUEST).json(a);
       }
+
     } catch (e) {
       console.log(e);
-      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+      var a = { "message": `${e}`, "status": `${HTTP.INTERNAL_SERVER_ERROR}` }
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
+
 
 }
 
