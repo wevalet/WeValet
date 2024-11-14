@@ -109,9 +109,11 @@ const BusinessSchema = new mongoose.Schema({
   },
   latitude: {
     type: String,
+    default: "0",
   },
   longitude: {
     type: String,
+    default: "0",
   },
   Profile: {
     type: Array,

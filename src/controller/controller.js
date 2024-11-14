@@ -2991,46 +2991,6 @@ class class1 {
                   });
 
                   await data222.save();
-
-                  if (result.message > 5) {
-                    const futureTimeInSurat32 = currentTimeInSurat222.add(
-                      +1,
-                      "minutes"
-                    );
-                    const formattedFutureTime32 = futureTimeInSurat32.format(
-                      "YYYY-MM-DDTHH:mm:ss"
-                    );
-
-                    let data2222 = new Todo7({
-                      UserName: UserNameData,
-                      Message: "Your vehicle is on the way, Thank You",
-                      ParkInTime: "",
-                      NotificationRemainingTime: formattedFutureTime32,
-                    });
-
-                    await data2222.save();
-                  } else {
-                    const futureTimeInSurat32 = currentTimeInSurat222.add(
-                      +1,
-                      "minutes"
-                    );
-                    const formattedFutureTime32 = futureTimeInSurat32.format(
-                      "YYYY-MM-DDTHH:mm:ss"
-                    );
-
-                    let data2222 = new Todo7({
-                      UserName: UserNameData,
-                      Message: "Your vehicle is on the way, Thank You",
-                      ParkInTime: "",
-                      NotificationRemainingTime: formattedFutureTime32,
-                    });
-
-                    await data2222.save();
-                  }
-
-                  User2.ValetStatus = 2;
-                  await User2.save();
-
                   axios
                     .post(`${Ip}/StatusChange`, postData)
                     .then((response) => {
@@ -3073,6 +3033,88 @@ class class1 {
                     .catch((error) => {
                       console.error("Error:", error);
                     });
+
+                  if (result.message > 5) {
+                    const futureTimeInSurat32 = currentTimeInSurat222.add(
+                      +1,
+                      "minutes"
+                    );
+                    const formattedFutureTime32 = futureTimeInSurat32.format(
+                      "YYYY-MM-DDTHH:mm:ss"
+                    );
+
+                    let data2222 = new Todo7({
+                      UserName: UserNameData,
+                      Message: "Your vehicle is on the way, Thank You",
+                      ParkInTime: "",
+                      NotificationRemainingTime: formattedFutureTime32,
+                    });
+
+                    await data2222.save();
+                  } else {
+                    const futureTimeInSurat32 = currentTimeInSurat222.add(
+                      +1,
+                      "minutes"
+                    );
+                    const formattedFutureTime32 = futureTimeInSurat32.format(
+                      "YYYY-MM-DDTHH:mm:ss"
+                    );
+
+                    let data2222 = new Todo7({
+                      UserName: UserNameData,
+                      Message: "Your vehicle is on the way, Thank You",
+                      ParkInTime: "",
+                      NotificationRemainingTime: formattedFutureTime32,
+                    });
+
+                    await data2222.save();
+                  }
+
+                  User2.ValetStatus = 2;
+                  await User2.save();
+
+                  // axios
+                  //   .post(`${Ip}/StatusChange`, postData)
+                  //   .then((response) => {
+                  //     const message = {
+                  //       notification: {
+                  //         title: "Your request has been accepted, Thank You",
+                  //       },
+                  //       android: {
+                  //         notification: {
+                  //           sound: "default",
+                  //         },
+                  //       },
+                  //       apns: {
+                  //         payload: {
+                  //           aps: {
+                  //             sound: "default",
+                  //           },
+                  //         },
+                  //       },
+                  //       token: FcmToken,
+                  //     };
+
+                  //     fcm
+                  //       .send(message)
+                  //       .then((response) => {
+                  //         var a = {
+                  //           message: "",
+                  //           status: `${HTTP.SUCCESS}`,
+                  //         };
+                  //         res.status(HTTP.SUCCESS).json(a);
+                  //       })
+                  //       .catch((error) => {
+                  //         var a = {
+                  //           message: "",
+                  //           status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+                  //         };
+                  //         res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+                  //       });
+                  //   })
+                  //   .catch((error) => {
+                  //     console.error("Error:", error);
+                  //   });
                 } else {
                   console.error(
                     "Request failed with status code:",
@@ -5372,6 +5414,9 @@ class class1 {
                 const data = response.data.message;
 
                 ParkedCar[ParkedCar.length - 1].WaitTime = data;
+                var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
+                var User222 = await Todo8.find({ Username: User22 });
+                var User2222 = await User222[0].Name;
               } else {
                 var User2 = await Todo2.find({
                   UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
@@ -5390,6 +5435,64 @@ class class1 {
                 const data = response.data.message;
 
                 ParkedCar[ParkedCar.length - 1].WaitTime = data;
+                var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
+                var User222 = await Todo8.find({ Username: User22 });
+                var User2222 = await User222[0].Name;
+                ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
+              }
+
+              function compareDates(inputDate, inputDate2) {
+                const inputDateTime = new Date(inputDate);
+                const inputDateTime2 = new Date(inputDate2);
+
+                const inputYear = inputDateTime.getFullYear();
+                const inputMonth = inputDateTime.getMonth() + 1;
+                const inputDay = inputDateTime.getDate();
+
+                const inputYear2 = inputDateTime2.getFullYear();
+                const inputMonth2 = inputDateTime2.getMonth() + 1;
+                const inputDay2 = inputDateTime2.getDate();
+
+                if (
+                  inputYear > inputYear2 ||
+                  (inputYear === inputYear2 && inputMonth > inputMonth2) ||
+                  (inputYear === inputYear2 &&
+                    inputMonth === inputMonth2 &&
+                    inputDay > inputDay2)
+                ) {
+                  //   return "Future"
+                  return 1;
+                } else if (
+                  inputYear === inputYear2 &&
+                  inputMonth === inputMonth2 &&
+                  inputDay === inputDay2
+                ) {
+                  //   return "Current"
+                  return 0;
+                } else {
+                  //   return "Past"
+                  return -1;
+                }
+              }
+
+              const inputDateTime = await User[0].PlanExpiredDate;
+
+              const inputDateTime2 = new Date();
+
+              const year = inputDateTime2.getFullYear();
+              const month = inputDateTime2.getMonth() + 1;
+              const day = inputDateTime2.getDate();
+
+              let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+                }${day}`;
+
+              var a = await compareDates(inputDateTime, inputDateTime3);
+
+              var Data3;
+              if (-1 < a) {
+                Data3 = 1;
+              } else {
+                Data3 = 0;
               }
 
               var a = {
@@ -8970,19 +9073,26 @@ class class2 {
 
           res.send(SendData);
         } else {
+          // const SendData = {
+          //   message: "Address not found",
+          //   ApiCallStatus: 0,
+          // };
           const SendData = {
-            message: "Address not found",
-            ApiCallStatus: 0,
-          };
+            message: "",
+            ApiCallStatus: 1
+          }
 
           res.send(SendData);
         }
       } else {
+        // const SendData = {
+        //   message: "Unexpected status code",
+        //   ApiCallStatus: 0,
+        // };
         const SendData = {
-          message: "Unexpected status code",
-          ApiCallStatus: 0,
-        };
-
+          message: "",
+          ApiCallStatus: 1
+        }
         res.send(SendData);
       }
     } catch (error) {
@@ -8992,10 +9102,14 @@ class class2 {
         console.error("Response data:", error.response.data);
       }
 
+      // const SendData = {
+      //   message: "Error",
+      //   ApiCallStatus: 0,
+      // };
       const SendData = {
-        message: "Error",
-        ApiCallStatus: 0,
-      };
+        message: "",
+        ApiCallStatus: 1
+      }
 
       res.send(SendData);
     }
