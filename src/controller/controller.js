@@ -275,12 +275,191 @@ class class1 {
     }
   };
 
+  // static b = async (req, res) => {
+  //   try {
+  //     var User = await Todo2.findOne({ UserName: req.body.UserName });
+  //     var User2 = await Todo2.findOne({ Phone: req.body.Phone });
+
+  //     if (!User && !User2) {
+  //       // const uploadMiddleware = multer().array("picture");
+
+  //       // console.log(uploadMiddleware);
+
+  //       // const uploadPromise = () => new Promise((resolve, reject) => {
+  //       //     uploadMiddleware(req, res, (err) => {
+  //       //         if (err instanceof multer.MulterError) {
+  //       //             const response = { "message": "Please Set All Key Pair Value", "status": HTTP.SUCCESS };
+  //       //             res.status(HTTP.SUCCESS).json(response);
+  //       //             reject("MulterError");
+  //       //         } else {
+  //       //             resolve();
+  //       //         }
+  //       //     });
+  //       // });
+
+  //       // await uploadPromise();
+
+  //       // const a = req.files.map(file => Ip + "/public/" + file.filename);
+
+  //       var a = [];
+  //       for (var i = 0; i < req.files.length; i++) {
+  //         await a.push(Ip + "/public/" + req.files[i].filename);
+  //       }
+
+  //       const Review = [];
+  //       const ReviewBy = [];
+
+  //       for (let i = 1; req.body[`Review${i}`] !== undefined; i++) {
+  //         Review.push(req.body[`Review${i}`]);
+  //       }
+
+  //       for (let i = 1; req.body[`ReviewBy${i}`] !== undefined; i++) {
+  //         ReviewBy.push(req.body[`ReviewBy${i}`]);
+  //       }
+
+  //       const result = ReviewBy.map((item, index) => ({
+  //         ReviewBy: item,
+  //         Review: Review[index],
+  //       }));
+
+  //       const hashedPassword = await bcrypt.hash(req.body.PassWord, 12);
+
+  //       var UserWaitTimeArray = [
+  //         {
+  //           Monday: [["", "0"]],
+  //           Tuesday: [["", "0"]],
+  //           Wednesday: [["", "0"]],
+  //           Thursday: [["", "0"]],
+  //           Friday: [["", "0"]],
+  //           Saturday: [["", "0"]],
+  //           Sunday: [["", "0"]],
+  //         },
+  //       ];
+
+  //       const words1 = req.body.City.replace(/^\s+|\s+$/g, "").split(" ");
+  //       const nonBlankArray1 = words1.filter((str) => str.trim() !== "");
+
+  //       const words2 = req.body.State.replace(/^\s+|\s+$/g, "").split(" ");
+  //       const nonBlankArray2 = words2.filter((str) => str.trim() !== "");
+
+  //       let result1 = "";
+  //       let result2 = "";
+
+  //       for (let i = 0; i < nonBlankArray1.length; i++) {
+  //         result1 += nonBlankArray1[i].toString() + " ";
+  //       }
+
+  //       for (let i = 0; i < nonBlankArray2.length; i++) {
+  //         result2 += nonBlankArray2[i].toString() + " ";
+  //       }
+
+  //       var CityName = await result1.toUpperCase();
+  //       var StateName = await result2.toUpperCase();
+
+  //       var CityNameOfficial = await CityName.trim();
+  //       var StateNameOfficial = await StateName.trim();
+
+  //       const suratTimezone = "Asia/Kolkata";
+  //       const currentTimeInSurat = moment()
+  //         .tz(suratTimezone)
+  //         .format("YYYY-MM-DDTHH:mm:ss");
+
+  //       const currentDate = new Date(currentTimeInSurat);
+
+  //       var currentYear = await currentDate.getFullYear();
+  //       var currentMonth;
+  //       var currentDay;
+
+  //       if (currentDate.getMonth() < 10) {
+  //         var currentMonth = await `0${currentDate.getMonth() + 1}`;
+  //       } else {
+  //         var currentMonth = (await currentDate.getMonth()) + 1;
+  //       }
+
+  //       if (currentDate.getDate() < 10) {
+  //         var currentDay = await `0${currentDate.getDate()}`;
+  //       } else {
+  //         var currentDay = await currentDate.getDate();
+  //       }
+
+  //       const formattedDateTime = `${currentYear}-${currentMonth}-${currentDay}`;
+
+  //       const currentDate2 = await new Date();
+
+  //       currentDate2.setDate(currentDate2.getDate() - 1);
+
+  //       const year = await currentDate2.getFullYear();
+  //       const month = (await currentDate2.getMonth()) + 1;
+  //       const day = await currentDate2.getDate();
+
+  //       let PlanExpiredDate = await `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+  //         }${day}`;
+
+  //       if (req.body.Country) {
+  //         var Country = await req.body.Country.toUpperCase();
+  //       } else {
+  //         var Country = "INDIA";
+  //       }
+  //       const formattedNumber = await formatPhoneNumber(
+  //         req.body.Phone,
+  //         Country
+  //       );
+  //       const formattedNumber2 = await formatPhoneNumber(
+  //         req.body.Phone2,
+  //         Country
+  //       );
+
+  //       const data = new Todo2({
+  //         UserName: await req.body.UserName.toLowerCase(),
+  //         ManagerName: req.body.ManagerName,
+  //         ManagerDestination: req.body.ManagerDestination,
+  //         PassWord: hashedPassword,
+  //         UnitName: req.body.UnitName,
+  //         UnitType: req.body.UnitType.toUpperCase(),
+  //         UnitAddress: req.body.UnitAddress,
+  //         latitude: req.body.latitude,
+  //         longitude: req.body.longitude,
+  //         Rating: req.body.Rating,
+  //         Profile: a,
+  //         Review: result,
+  //         Phone: formattedNumber,
+  //         Email: req.body.Email,
+  //         OfficialPhone: formattedNumber2,
+  //         ManagerName2: req.body.ManagerName2,
+  //         City: CityNameOfficial,
+  //         State: StateNameOfficial,
+  //         Country: Country,
+  //         UserWaitTime: UserWaitTimeArray,
+  //         AccountCreateDate: formattedDateTime,
+  //         PlanPurchase: "Single Payment",
+  //         PlanExpiredDate: PlanExpiredDate,
+  //       });
+
+  //       await data.save();
+
+  //       const response = {
+  //         message: "Business Account Create Successfully",
+  //         status: HTTP.SUCCESS,
+  //       };
+  //       res.status(HTTP.SUCCESS).json(response);
+  //     } else {
+  //       const response = { message: "User Exist", status: HTTP.UNAUTHORIZED };
+  //       res.status(HTTP.UNAUTHORIZED).json(response); // status code
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     var a = { message: `${err}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+  //     res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+  //   }
+  // };
   static b = async (req, res) => {
     try {
-      var User = await Todo2.findOne({ UserName: req.body.UserName });
-      var User2 = await Todo2.findOne({ Phone: req.body.Phone });
+
+      var User = await Todo2.findOne({ UserName: req.body.UserName })
+      var User2 = await Todo2.findOne({ Phone: req.body.Phone })
 
       if (!User && !User2) {
+
         // const uploadMiddleware = multer().array("picture");
 
         // console.log(uploadMiddleware);
@@ -303,7 +482,7 @@ class class1 {
 
         var a = [];
         for (var i = 0; i < req.files.length; i++) {
-          await a.push(Ip + "/public/" + req.files[i].filename);
+          await a.push(Ip + "/public/" + req.files[i].filename)
         }
 
         const Review = [];
@@ -318,39 +497,72 @@ class class1 {
         }
 
         const result = ReviewBy.map((item, index) => ({
-          ReviewBy: item,
-          Review: Review[index],
+          "ReviewBy": item,
+          "Review": Review[index]
         }));
 
         const hashedPassword = await bcrypt.hash(req.body.PassWord, 12);
 
-        var UserWaitTimeArray = [
-          {
-            Monday: [["", "0"]],
-            Tuesday: [["", "0"]],
-            Wednesday: [["", "0"]],
-            Thursday: [["", "0"]],
-            Friday: [["", "0"]],
-            Saturday: [["", "0"]],
-            Sunday: [["", "0"]],
-          },
-        ];
+        var UserWaitTimeArray = [{
+          "Monday": [
+            [
+              "",
+              "0"
+            ]
+          ],
+          "Tuesday": [
+            [
+              "",
+              "0"
+            ]
+          ],
+          "Wednesday": [
+            [
+              "",
+              "0"
+            ]
+          ],
+          "Thursday": [
+            [
+              "",
+              "0"
+            ]
+          ],
+          "Friday": [
+            [
+              "",
+              "0"
+            ]
+          ],
+          "Saturday": [
+            [
+              "",
+              "0"
+            ]
+          ],
+          "Sunday": [
+            [
+              "",
+              "0"
+            ]
+          ]
+        }];
 
-        const words1 = req.body.City.replace(/^\s+|\s+$/g, "").split(" ");
-        const nonBlankArray1 = words1.filter((str) => str.trim() !== "");
+        const words1 = req.body.City.replace(/^\s+|\s+$/g, '').split(" ");
+        const nonBlankArray1 = words1.filter((str) => str.trim() !== '');
 
-        const words2 = req.body.State.replace(/^\s+|\s+$/g, "").split(" ");
-        const nonBlankArray2 = words2.filter((str) => str.trim() !== "");
+        const words2 = req.body.State.replace(/^\s+|\s+$/g, '').split(" ");
+        const nonBlankArray2 = words2.filter((str) => str.trim() !== '');
 
-        let result1 = "";
-        let result2 = "";
+        let result1 = '';
+        let result2 = '';
 
         for (let i = 0; i < nonBlankArray1.length; i++) {
-          result1 += nonBlankArray1[i].toString() + " ";
+          result1 += nonBlankArray1[i].toString() + ' ';
         }
 
         for (let i = 0; i < nonBlankArray2.length; i++) {
-          result2 += nonBlankArray2[i].toString() + " ";
+          result2 += nonBlankArray2[i].toString() + ' ';
         }
 
         var CityName = await result1.toUpperCase();
@@ -359,10 +571,8 @@ class class1 {
         var CityNameOfficial = await CityName.trim();
         var StateNameOfficial = await StateName.trim();
 
-        const suratTimezone = "Asia/Kolkata";
-        const currentTimeInSurat = moment()
-          .tz(suratTimezone)
-          .format("YYYY-MM-DDTHH:mm:ss");
+        const suratTimezone = 'Asia/Kolkata';
+        const currentTimeInSurat = moment().tz(suratTimezone).format('YYYY-MM-DDTHH:mm:ss');
 
         const currentDate = new Date(currentTimeInSurat);
 
@@ -373,7 +583,7 @@ class class1 {
         if (currentDate.getMonth() < 10) {
           var currentMonth = await `0${currentDate.getMonth() + 1}`;
         } else {
-          var currentMonth = (await currentDate.getMonth()) + 1;
+          var currentMonth = await currentDate.getMonth() + 1;
         }
 
         if (currentDate.getDate() < 10) {
@@ -389,25 +599,18 @@ class class1 {
         currentDate2.setDate(currentDate2.getDate() - 1);
 
         const year = await currentDate2.getFullYear();
-        const month = (await currentDate2.getMonth()) + 1;
+        const month = await currentDate2.getMonth() + 1;
         const day = await currentDate2.getDate();
 
-        let PlanExpiredDate = await `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
-          }${day}`;
+        let PlanExpiredDate = await `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
 
         if (req.body.Country) {
           var Country = await req.body.Country.toUpperCase();
         } else {
           var Country = "INDIA";
         }
-        const formattedNumber = await formatPhoneNumber(
-          req.body.Phone,
-          Country
-        );
-        const formattedNumber2 = await formatPhoneNumber(
-          req.body.Phone2,
-          Country
-        );
+        const formattedNumber = await formatPhoneNumber(req.body.Phone, Country);
+        const formattedNumber2 = await formatPhoneNumber(req.body.Phone2, Country);
 
         const data = new Todo2({
           UserName: await req.body.UserName.toLowerCase(),
@@ -437,18 +640,18 @@ class class1 {
 
         await data.save();
 
-        const response = {
-          message: "Business Account Create Successfully",
-          status: HTTP.SUCCESS,
-        };
+        const response = { "message": "Business Account Create Successfully", "status": HTTP.SUCCESS };
         res.status(HTTP.SUCCESS).json(response);
+
       } else {
-        const response = { message: "User Exist", status: HTTP.UNAUTHORIZED };
+
+        const response = { "message": "User Exist", "status": HTTP.UNAUTHORIZED };
         res.status(HTTP.UNAUTHORIZED).json(response); // status code
       }
+
     } catch (err) {
       console.log(err);
-      var a = { message: `${err}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+      var a = { "message": `${err}`, "status": `${HTTP.INTERNAL_SERVER_ERROR}` }
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
@@ -2981,16 +3184,16 @@ class class1 {
                     "YYYY-MM-DDTHH:mm:ss"
                   );
 
-                  let data222 = new Todo7({
-                    UserName: UserNameData,
-                    Message:
-                      // "Your vehicle is now available for pickup at the gate. Thank you",
-                      "Your Request has been accepted. Thank you",
-                    ParkInTime: "",
-                    NotificationRemainingTime: formattedFutureTime3,
-                  });
+                  // let data222 = new Todo7({
+                  //   UserName: UserNameData,
+                  //   Message:
+                  //     // "Your vehicle is now available for pickup at the gate. Thank you",
+                  //     "Your Request has been accepted. Thank you",
+                  //   ParkInTime: "",
+                  //   NotificationRemainingTime: formattedFutureTime3,
+                  // });
 
-                  await data222.save();
+                  // await data222.save();
                   axios
                     .post(`${Ip}/StatusChange`, postData)
                     .then((response) => {
@@ -3060,12 +3263,12 @@ class class1 {
                       "YYYY-MM-DDTHH:mm:ss"
                     );
 
-                    let data2222 = new Todo7({
-                      UserName: UserNameData,
-                      Message: "Your vehicle is on the way, Thank You",
-                      ParkInTime: "",
-                      NotificationRemainingTime: formattedFutureTime32,
-                    });
+                    // let data2222 = new Todo7({
+                    //   UserName: UserNameData,
+                    //   Message: "Your vehicle is on the way, Thank You",
+                    //   ParkInTime: "",
+                    //   NotificationRemainingTime: formattedFutureTime32,
+                    // });
 
                     await data2222.save();
                   }
@@ -5264,35 +5467,294 @@ class class1 {
     }
   };
 
+  // static N = async (req, res) => {
+  //   try {
+  //     if (req.Phone) {
+  //       var User = await Todo.find({ Phone: req.Phone });
+
+  //       var Vehicles = [];
+
+  //       if (User[0].VehicleDetail) {
+  //         if (User[0].VehicleDetail[0]) {
+  //           if (User[0].VehicleDetail[0].status.trim() !== "") {
+  //             var ParkedCar = await Todo4.find({
+  //               RegistrationNumber: User[0].VehicleDetail[0].RegistrationNumber,
+  //             });
+
+  //             if (!ParkedCar[ParkedCar.length - 1].WaitTime) {
+  //               var User2 = await Todo2.find({
+  //                 UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
+  //               });
+
+  //               const postData = {
+  //                 RegistrationNumber:
+  //                   User[0].VehicleDetail[0].RegistrationNumber,
+  //                 UserName: User2[0].UserName,
+  //               };
+
+  //               const response = await axios.post(
+  //                 `${Ip}/UserWaitTime`,
+  //                 postData
+  //               );
+  //               const data = response.data.message;
+
+  //               ParkedCar[ParkedCar.length - 1].WaitTime = data;
+
+  //               var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
+  //               var User222 = await Todo8.find({ Username: User22 });
+  //               var User2222 = await User222[0].Name;
+  //               ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
+  //             } else {
+  //               var User2 = await Todo2.find({
+  //                 UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
+  //               });
+
+  //               const postData = {
+  //                 RegistrationNumber:
+  //                   User[0].VehicleDetail[0].RegistrationNumber,
+  //                 UserName: User2[0].UserName,
+  //               };
+
+  //               const response = await axios.post(
+  //                 `${Ip}/UserWaitTime`,
+  //                 postData
+  //               );
+  //               const data = response.data.message;
+
+  //               ParkedCar[ParkedCar.length - 1].WaitTime = data;
+
+  //               var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
+  //               var User222 = await Todo8.find({ Username: User22 });
+  //               var User2222 = await User222[0].Name;
+  //               ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
+  //             }
+
+  //             function compareDates(inputDate, inputDate2) {
+  //               const inputDateTime = new Date(inputDate);
+  //               const inputDateTime2 = new Date(inputDate2);
+
+  //               const inputYear = inputDateTime.getFullYear();
+  //               const inputMonth = inputDateTime.getMonth() + 1;
+  //               const inputDay = inputDateTime.getDate();
+
+  //               const inputYear2 = inputDateTime2.getFullYear();
+  //               const inputMonth2 = inputDateTime2.getMonth() + 1;
+  //               const inputDay2 = inputDateTime2.getDate();
+
+  //               if (
+  //                 inputYear > inputYear2 ||
+  //                 (inputYear === inputYear2 && inputMonth > inputMonth2) ||
+  //                 (inputYear === inputYear2 &&
+  //                   inputMonth === inputMonth2 &&
+  //                   inputDay > inputDay2)
+  //               ) {
+  //                 //   return "Future"
+  //                 return 1;
+  //               } else if (
+  //                 inputYear === inputYear2 &&
+  //                 inputMonth === inputMonth2 &&
+  //                 inputDay === inputDay2
+  //               ) {
+  //                 //   return "Current"
+  //                 return 0;
+  //               } else {
+  //                 //   return "Past"
+  //                 return -1;
+  //               }
+  //             }
+
+  //             const inputDateTime = await User[0].PlanExpiredDate;
+
+  //             const inputDateTime2 = new Date();
+
+  //             const year = inputDateTime2.getFullYear();
+  //             const month = inputDateTime2.getMonth() + 1;
+  //             const day = inputDateTime2.getDate();
+
+  //             let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+  //               }${day}`;
+
+  //             var a = await compareDates(inputDateTime, inputDateTime3);
+
+  //             var Data3;
+  //             if (-1 < a) {
+  //               Data3 = 1;
+  //             } else {
+  //               Data3 = 0;
+  //             }
+
+  //             var a = {
+  //               Data: User[0].VehicleDetail[0],
+  //               Status: ParkedCar[ParkedCar.length - 1],
+  //               FeatureStatus: Data3,
+  //             };
+
+  //             await Vehicles.push(a);
+  //           }
+  //         }
+
+  //         if (User[0].VehicleDetail[1]) {
+  //           if (User[0].VehicleDetail[1].status.trim() !== "") {
+  //             var ParkedCar = await Todo4.find({
+  //               RegistrationNumber: User[0].VehicleDetail[1].RegistrationNumber,
+  //             });
+
+  //             if (!ParkedCar[ParkedCar.length - 1].WaitTime) {
+  //               var User2 = await Todo2.find({
+  //                 UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
+  //               });
+
+  //               const postData = {
+  //                 RegistrationNumber:
+  //                   User[0].VehicleDetail[1].RegistrationNumber,
+  //                 UserName: User2[0].UserName,
+  //               };
+
+  //               const response = await axios.post(
+  //                 `${Ip}/UserWaitTime`,
+  //                 postData
+  //               );
+  //               const data = response.data.message;
+
+  //               ParkedCar[ParkedCar.length - 1].WaitTime = data;
+  //               var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
+  //               var User222 = await Todo8.find({ Username: User22 });
+  //               var User2222 = await User222[0].Name;
+  //             } else {
+  //               var User2 = await Todo2.find({
+  //                 UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
+  //               });
+
+  //               const postData = {
+  //                 RegistrationNumber:
+  //                   User[0].VehicleDetail[1].RegistrationNumber,
+  //                 UserName: User2[0].UserName,
+  //               };
+
+  //               const response = await axios.post(
+  //                 `${Ip}/UserWaitTime`,
+  //                 postData
+  //               );
+  //               const data = response.data.message;
+
+  //               ParkedCar[ParkedCar.length - 1].WaitTime = data;
+  //               var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
+  //               var User222 = await Todo8.find({ Username: User22 });
+  //               var User2222 = await User222[0].Name;
+  //               ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
+  //             }
+
+  //             function compareDates(inputDate, inputDate2) {
+  //               const inputDateTime = new Date(inputDate);
+  //               const inputDateTime2 = new Date(inputDate2);
+
+  //               const inputYear = inputDateTime.getFullYear();
+  //               const inputMonth = inputDateTime.getMonth() + 1;
+  //               const inputDay = inputDateTime.getDate();
+
+  //               const inputYear2 = inputDateTime2.getFullYear();
+  //               const inputMonth2 = inputDateTime2.getMonth() + 1;
+  //               const inputDay2 = inputDateTime2.getDate();
+
+  //               if (
+  //                 inputYear > inputYear2 ||
+  //                 (inputYear === inputYear2 && inputMonth > inputMonth2) ||
+  //                 (inputYear === inputYear2 &&
+  //                   inputMonth === inputMonth2 &&
+  //                   inputDay > inputDay2)
+  //               ) {
+  //                 //   return "Future"
+  //                 return 1;
+  //               } else if (
+  //                 inputYear === inputYear2 &&
+  //                 inputMonth === inputMonth2 &&
+  //                 inputDay === inputDay2
+  //               ) {
+  //                 //   return "Current"
+  //                 return 0;
+  //               } else {
+  //                 //   return "Past"
+  //                 return -1;
+  //               }
+  //             }
+
+  //             const inputDateTime = await User[0].PlanExpiredDate;
+
+  //             const inputDateTime2 = new Date();
+
+  //             const year = inputDateTime2.getFullYear();
+  //             const month = inputDateTime2.getMonth() + 1;
+  //             const day = inputDateTime2.getDate();
+
+  //             let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+  //               }${day}`;
+
+  //             var a = await compareDates(inputDateTime, inputDateTime3);
+
+  //             var Data3;
+  //             if (-1 < a) {
+  //               Data3 = 1;
+  //             } else {
+  //               Data3 = 0;
+  //             }
+
+  //             var a = {
+  //               Data: User[0].VehicleDetail[1],
+  //               Status: ParkedCar[ParkedCar.length - 1],
+  //             };
+  //             await Vehicles.push(a);
+  //           }
+  //         }
+  //       }
+
+  //       var message2 = {
+  //         message: "Data Load Successfully",
+  //         data: Vehicles,
+  //         status: `${HTTP.SUCCESS}`,
+  //       };
+  //       res.status(HTTP.SUCCESS).json(message2);
+  //     } else {
+  //       var a = {
+  //         message: "Please Provide User Account Token",
+  //         status: `${HTTP.UNAUTHORIZED}`,
+  //       };
+  //       res.status(HTTP.UNAUTHORIZED).json(a);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //     var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+  //     res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+  //   }
+  // };
+
   static N = async (req, res) => {
     try {
+
       if (req.Phone) {
+
         var User = await Todo.find({ Phone: req.Phone });
 
         var Vehicles = [];
 
         if (User[0].VehicleDetail) {
+
           if (User[0].VehicleDetail[0]) {
+
+
             if (User[0].VehicleDetail[0].status.trim() !== "") {
-              var ParkedCar = await Todo4.find({
-                RegistrationNumber: User[0].VehicleDetail[0].RegistrationNumber,
-              });
+
+              var ParkedCar = await Todo4.find({ RegistrationNumber: User[0].VehicleDetail[0].RegistrationNumber });
 
               if (!ParkedCar[ParkedCar.length - 1].WaitTime) {
-                var User2 = await Todo2.find({
-                  UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
-                });
+
+                var User2 = await Todo2.find({ UnitName: ParkedCar[ParkedCar.length - 1].Parklocation });
 
                 const postData = {
-                  RegistrationNumber:
-                    User[0].VehicleDetail[0].RegistrationNumber,
+                  RegistrationNumber: User[0].VehicleDetail[0].RegistrationNumber,
                   UserName: User2[0].UserName,
                 };
 
-                const response = await axios.post(
-                  `${Ip}/UserWaitTime`,
-                  postData
-                );
+                const response = await axios.post(`${Ip}/UserWaitTime`, postData);
                 const data = response.data.message;
 
                 ParkedCar[ParkedCar.length - 1].WaitTime = data;
@@ -5301,21 +5763,17 @@ class class1 {
                 var User222 = await Todo8.find({ Username: User22 });
                 var User2222 = await User222[0].Name;
                 ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
+
               } else {
-                var User2 = await Todo2.find({
-                  UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
-                });
+
+                var User2 = await Todo2.find({ UnitName: ParkedCar[ParkedCar.length - 1].Parklocation });
 
                 const postData = {
-                  RegistrationNumber:
-                    User[0].VehicleDetail[0].RegistrationNumber,
+                  RegistrationNumber: User[0].VehicleDetail[0].RegistrationNumber,
                   UserName: User2[0].UserName,
                 };
 
-                const response = await axios.post(
-                  `${Ip}/UserWaitTime`,
-                  postData
-                );
+                const response = await axios.post(`${Ip}/UserWaitTime`, postData);
                 const data = response.data.message;
 
                 ParkedCar[ParkedCar.length - 1].WaitTime = data;
@@ -5324,9 +5782,11 @@ class class1 {
                 var User222 = await Todo8.find({ Username: User22 });
                 var User2222 = await User222[0].Name;
                 ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
+
               }
 
               function compareDates(inputDate, inputDate2) {
+
                 const inputDateTime = new Date(inputDate);
                 const inputDateTime2 = new Date(inputDate2);
 
@@ -5338,26 +5798,17 @@ class class1 {
                 const inputMonth2 = inputDateTime2.getMonth() + 1;
                 const inputDay2 = inputDateTime2.getDate();
 
-                if (
-                  inputYear > inputYear2 ||
-                  (inputYear === inputYear2 && inputMonth > inputMonth2) ||
-                  (inputYear === inputYear2 &&
-                    inputMonth === inputMonth2 &&
-                    inputDay > inputDay2)
-                ) {
+                if (inputYear > inputYear2 || (inputYear === inputYear2 && inputMonth > inputMonth2) || (inputYear === inputYear2 && inputMonth === inputMonth2 && inputDay > inputDay2)) {
                   //   return "Future"
-                  return 1;
-                } else if (
-                  inputYear === inputYear2 &&
-                  inputMonth === inputMonth2 &&
-                  inputDay === inputDay2
-                ) {
+                  return 1
+                } else if (inputYear === inputYear2 && inputMonth === inputMonth2 && inputDay === inputDay2) {
                   //   return "Current"
-                  return 0;
+                  return 0
                 } else {
                   //   return "Past"
-                  return -1;
+                  return -1
                 }
+
               }
 
               const inputDateTime = await User[0].PlanExpiredDate;
@@ -5368,12 +5819,11 @@ class class1 {
               const month = inputDateTime2.getMonth() + 1;
               const day = inputDateTime2.getDate();
 
-              let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
-                }${day}`;
+              let inputDateTime3 = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
 
               var a = await compareDates(inputDateTime, inputDateTime3);
 
-              var Data3;
+              var Data3
               if (-1 < a) {
                 Data3 = 1;
               } else {
@@ -5381,145 +5831,76 @@ class class1 {
               }
 
               var a = {
-                Data: User[0].VehicleDetail[0],
-                Status: ParkedCar[ParkedCar.length - 1],
-                FeatureStatus: Data3,
-              };
+                "Data": User[0].VehicleDetail[0],
+                "Status": ParkedCar[ParkedCar.length - 1],
+                "FeatureStatus": Data3
+              }
 
               await Vehicles.push(a);
+
             }
+
           }
 
           if (User[0].VehicleDetail[1]) {
+
             if (User[0].VehicleDetail[1].status.trim() !== "") {
-              var ParkedCar = await Todo4.find({
-                RegistrationNumber: User[0].VehicleDetail[1].RegistrationNumber,
-              });
+
+              var ParkedCar = await Todo4.find({ RegistrationNumber: User[0].VehicleDetail[1].RegistrationNumber });
 
               if (!ParkedCar[ParkedCar.length - 1].WaitTime) {
-                var User2 = await Todo2.find({
-                  UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
-                });
+
+                var User2 = await Todo2.find({ UnitName: ParkedCar[ParkedCar.length - 1].Parklocation });
 
                 const postData = {
-                  RegistrationNumber:
-                    User[0].VehicleDetail[1].RegistrationNumber,
+                  RegistrationNumber: User[0].VehicleDetail[1].RegistrationNumber,
                   UserName: User2[0].UserName,
                 };
 
-                const response = await axios.post(
-                  `${Ip}/UserWaitTime`,
-                  postData
-                );
+                const response = await axios.post(`${Ip}/UserWaitTime`, postData);
                 const data = response.data.message;
 
                 ParkedCar[ParkedCar.length - 1].WaitTime = data;
-                var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
-                var User222 = await Todo8.find({ Username: User22 });
-                var User2222 = await User222[0].Name;
+
               } else {
-                var User2 = await Todo2.find({
-                  UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
-                });
+
+                var User2 = await Todo2.find({ UnitName: ParkedCar[ParkedCar.length - 1].Parklocation });
 
                 const postData = {
-                  RegistrationNumber:
-                    User[0].VehicleDetail[1].RegistrationNumber,
+                  RegistrationNumber: User[0].VehicleDetail[1].RegistrationNumber,
                   UserName: User2[0].UserName,
                 };
 
-                const response = await axios.post(
-                  `${Ip}/UserWaitTime`,
-                  postData
-                );
+                const response = await axios.post(`${Ip}/UserWaitTime`, postData);
                 const data = response.data.message;
 
                 ParkedCar[ParkedCar.length - 1].WaitTime = data;
-                var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
-                var User222 = await Todo8.find({ Username: User22 });
-                var User2222 = await User222[0].Name;
-                ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
-              }
 
-              function compareDates(inputDate, inputDate2) {
-                const inputDateTime = new Date(inputDate);
-                const inputDateTime2 = new Date(inputDate2);
-
-                const inputYear = inputDateTime.getFullYear();
-                const inputMonth = inputDateTime.getMonth() + 1;
-                const inputDay = inputDateTime.getDate();
-
-                const inputYear2 = inputDateTime2.getFullYear();
-                const inputMonth2 = inputDateTime2.getMonth() + 1;
-                const inputDay2 = inputDateTime2.getDate();
-
-                if (
-                  inputYear > inputYear2 ||
-                  (inputYear === inputYear2 && inputMonth > inputMonth2) ||
-                  (inputYear === inputYear2 &&
-                    inputMonth === inputMonth2 &&
-                    inputDay > inputDay2)
-                ) {
-                  //   return "Future"
-                  return 1;
-                } else if (
-                  inputYear === inputYear2 &&
-                  inputMonth === inputMonth2 &&
-                  inputDay === inputDay2
-                ) {
-                  //   return "Current"
-                  return 0;
-                } else {
-                  //   return "Past"
-                  return -1;
-                }
-              }
-
-              const inputDateTime = await User[0].PlanExpiredDate;
-
-              const inputDateTime2 = new Date();
-
-              const year = inputDateTime2.getFullYear();
-              const month = inputDateTime2.getMonth() + 1;
-              const day = inputDateTime2.getDate();
-
-              let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
-                }${day}`;
-
-              var a = await compareDates(inputDateTime, inputDateTime3);
-
-              var Data3;
-              if (-1 < a) {
-                Data3 = 1;
-              } else {
-                Data3 = 0;
               }
 
               var a = {
-                Data: User[0].VehicleDetail[1],
-                Status: ParkedCar[ParkedCar.length - 1],
-              };
+                "Data": User[0].VehicleDetail[1],
+                "Status": ParkedCar[ParkedCar.length - 1]
+              }
               await Vehicles.push(a);
+
             }
+
           }
+
         }
 
-        var message2 = {
-          message: "Data Load Successfully",
-          data: Vehicles,
-          status: `${HTTP.SUCCESS}`,
-        };
+        var message2 = { "message": "Data Load Successfully", "data": Vehicles, "status": `${HTTP.SUCCESS}` }
         res.status(HTTP.SUCCESS).json(message2);
+
       } else {
-        var a = {
-          message: "Please Provide User Account Token",
-          status: `${HTTP.UNAUTHORIZED}`,
-        };
+        var a = { "message": "Please Provide User Account Token", "status": `${HTTP.UNAUTHORIZED}` }
         res.status(HTTP.UNAUTHORIZED).json(a);
       }
+
     } catch (e) {
       console.log(e);
-      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+      var a = { "message": `${e}`, "status": `${HTTP.INTERNAL_SERVER_ERROR}` }
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
