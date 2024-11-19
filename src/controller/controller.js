@@ -640,13 +640,13 @@ class class1 {
 
         await data.save();
 
-        const response = { "message": "Business Account Create Successfully", "status": HTTP.SUCCESS };
+        const response = { message: "Business Account Create Successfully", "status": HTTP.SUCCESS };
         res.status(HTTP.SUCCESS).json(response);
 
       } else {
 
         const response = { "message": "User Exist", "status": HTTP.UNAUTHORIZED };
-        res.status(HTTP.UNAUTHORIZED).json(response); // status code
+        res.status(HTTP.UNAUTHORIZED).json(response);
       }
 
     } catch (err) {
