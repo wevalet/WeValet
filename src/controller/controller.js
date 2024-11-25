@@ -2105,7 +2105,6 @@ class class1 {
             var Parklocation = await User.BusinessUnitName;
 
             var AwsState = await Todo2.find({ UnitName: Parklocation });
-
             var countryName = await AwsState[0].Country;
             var OfficialState = await AwsState[0].State;
             var OfficialCity = await AwsState[0].City;
@@ -9368,133 +9367,63 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
-  // static G = async (req, res) => {
-  //   try {
-  //     const address = req.body.Address;
-
-  //     axios
-  //       .get(
-  //         `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-  //           address
-  //         )}&format=json`
-  //       )
-  //       .then(async (response) => {
-  //         if (response.status === 200) {
-  //           const data = response.data;
-
-  //           if (data.length > 0) {
-  //             const latitude = await data[0].lat;
-  //             const longitude = await data[0].lon;
-
-  //             const SendData = {
-  //               latitude: latitude,
-  //               longitude: longitude,
-  //               ApiCallStatus: 1,
-  //             };
-
-  //             res.send(SendData);
-  //           } else {
-  //             const SendData = {
-  //               message: "Address not found",
-  //               ApiCallStatus: 0,
-  //             };
-
-  //             res.send(SendData);
-  //           }
-  //         } else {
-  //           const SendData = {
-  //             message: "Unexpected status code",
-  //             ApiCallStatus: 0,
-  //           };
-
-  //           res.send(SendData);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         const SendData = {
-  //           message: "Error",
-  //           ApiCallStatus: 0,
-  //         };
-
-  //         res.send(SendData);
-  //       });
-  //   } catch (e) {
-  //     console.log(e);
-  //     var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
-  //     res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
-  //   }
-  // };
-
   static G = async (req, res) => {
     try {
       const address = req.body.Address;
 
-      const response = await axios.get(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json`,
-        {
-          headers: {
-            "User-Agent": "YourAppNameHere/1.0",
-            "Accept-Language": "en",
-          },
-        }
-      );
+      axios
+        .get(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+            address
+          )}&format=json`
+        )
+        .then(async (response) => {
+          if (response.status === 200) {
+            const data = response.data;
 
-      if (response.status === 200) {
-        const data = response.data;
+            if (data.length > 0) {
+              const latitude = await data[0].lat;
+              const longitude = await data[0].lon;
 
-        if (data.length > 0) {
-          const latitude = data[0].lat;
-          const longitude = data[0].lon;
+              const SendData = {
+                latitude: latitude,
+                longitude: longitude,
+                ApiCallStatus: 1,
+              };
 
+              res.send(SendData);
+            } else {
+              const SendData = {
+                message: "Address not found",
+                ApiCallStatus: 0,
+              };
+
+              res.send(SendData);
+            }
+          } else {
+            const SendData = {
+              message: "Unexpected status code",
+              ApiCallStatus: 0,
+            };
+
+            res.send(SendData);
+          }
+        })
+        .catch((error) => {
           const SendData = {
-            latitude: latitude,
-            longitude: longitude,
-            ApiCallStatus: 1,
+            message: "Error",
+            ApiCallStatus: 0,
           };
 
           res.send(SendData);
-        } else {
-          // const SendData = {
-          //   message: "Address not found",
-          //   ApiCallStatus: 0,
-          // };
-          const SendData = {
-            message: "",
-            ApiCallStatus: 1
-          }
-
-          res.send(SendData);
-        }
-      } else {
-        // const SendData = {
-        //   message: "Unexpected status code",
-        //   ApiCallStatus: 0,
-        // };
-        const SendData = {
-          message: "",
-          ApiCallStatus: 1
-        }
-        res.send(SendData);
-      }
-    } catch (error) {
-      console.error("Error during Axios request:", error.message);
-      if (error.response) {
-        console.error("Response status:", error.response.status);
-        console.error("Response data:", error.response.data);
-      }
-
-      // const SendData = {
-      //   message: "Error",
-      //   ApiCallStatus: 0,
-      // };
-      const SendData = {
-        message: "",
-        ApiCallStatus: 1
-      }
-
-      res.send(SendData);
+        });
+    } catch (e) {
+      console.log(e);
+      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
 
   static H = async (req, res) => {
     try {
