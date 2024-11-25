@@ -9367,6 +9367,7 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+<<<<<<< HEAD
   static G = async (req, res) => {
     try {
       const address = req.body.Address;
@@ -9423,6 +9424,64 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+=======
+   static G = async (req, res) => {
+     try {
+       const address = req.body.Address;
+
+       axios
+         .get(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+            address
+           )}&format=json`
+         )
+         .then(async (response) => {
+          if (response.status === 200) {
+            const data = response.data;
+
+             if (data.length > 0) {
+               const latitude = await data[0].lat;
+               const longitude = await data[0].lon;
+
+               const SendData = {
+                latitude: latitude,
+                 longitude: longitude,
+                 ApiCallStatus: 1,
+               };
+
+               res.send(SendData);
+            } else {
+               const SendData = {
+                 message: "Address not found",
+                 ApiCallStatus: 0,
+               };
+
+               res.send(SendData);
+             }
+          } else {
+             const SendData = {
+              message: "Unexpected status code",
+               ApiCallStatus: 0,
+            };
+
+             res.send(SendData);
+          }
+         })
+         .catch((error) => {
+         const SendData = {
+            message: "Error",
+             ApiCallStatus: 0,
+           };
+
+           res.send(SendData);
+        });
+     } catch (e) {
+       console.log(e);
+       var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+     }
+   };
+>>>>>>> 18a8450cd3ac8c374d433521d07393e6d62e7b15
 
 
   static H = async (req, res) => {
