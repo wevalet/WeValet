@@ -98,6 +98,9 @@ const BusinessSchema = new mongoose.Schema({
   UnitType: {
     type: String,
   },
+  UnitCoAddress: {
+    type: String,
+  },
   UnitAddress: {
     type: String,
   },
