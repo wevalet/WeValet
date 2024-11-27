@@ -5702,6 +5702,7 @@ class class1 {
               var a = {
                 Data: User[0].VehicleDetail[1],
                 Status: ParkedCar[ParkedCar.length - 1],
+                FeatureStatus: Data3
               };
               await Vehicles.push(a);
             }
