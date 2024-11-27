@@ -5468,294 +5468,35 @@ class class1 {
     }
   };
 
-  // static N = async (req, res) => {
-  //   try {
-  //     if (req.Phone) {
-  //       var User = await Todo.find({ Phone: req.Phone });
-
-  //       var Vehicles = [];
-
-  //       if (User[0].VehicleDetail) {
-  //         if (User[0].VehicleDetail[0]) {
-  //           if (User[0].VehicleDetail[0].status.trim() !== "") {
-  //             var ParkedCar = await Todo4.find({
-  //               RegistrationNumber: User[0].VehicleDetail[0].RegistrationNumber,
-  //             });
-
-  //             if (!ParkedCar[ParkedCar.length - 1].WaitTime) {
-  //               var User2 = await Todo2.find({
-  //                 UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
-  //               });
-
-  //               const postData = {
-  //                 RegistrationNumber:
-  //                   User[0].VehicleDetail[0].RegistrationNumber,
-  //                 UserName: User2[0].UserName,
-  //               };
-
-  //               const response = await axios.post(
-  //                 `${Ip}/UserWaitTime`,
-  //                 postData
-  //               );
-  //               const data = response.data.message;
-
-  //               ParkedCar[ParkedCar.length - 1].WaitTime = data;
-
-  //               var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
-  //               var User222 = await Todo8.find({ Username: User22 });
-  //               var User2222 = await User222[0].Name;
-  //               ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
-  //             } else {
-  //               var User2 = await Todo2.find({
-  //                 UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
-  //               });
-
-  //               const postData = {
-  //                 RegistrationNumber:
-  //                   User[0].VehicleDetail[0].RegistrationNumber,
-  //                 UserName: User2[0].UserName,
-  //               };
-
-  //               const response = await axios.post(
-  //                 `${Ip}/UserWaitTime`,
-  //                 postData
-  //               );
-  //               const data = response.data.message;
-
-  //               ParkedCar[ParkedCar.length - 1].WaitTime = data;
-
-  //               var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
-  //               var User222 = await Todo8.find({ Username: User22 });
-  //               var User2222 = await User222[0].Name;
-  //               ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
-  //             }
-
-  //             function compareDates(inputDate, inputDate2) {
-  //               const inputDateTime = new Date(inputDate);
-  //               const inputDateTime2 = new Date(inputDate2);
-
-  //               const inputYear = inputDateTime.getFullYear();
-  //               const inputMonth = inputDateTime.getMonth() + 1;
-  //               const inputDay = inputDateTime.getDate();
-
-  //               const inputYear2 = inputDateTime2.getFullYear();
-  //               const inputMonth2 = inputDateTime2.getMonth() + 1;
-  //               const inputDay2 = inputDateTime2.getDate();
-
-  //               if (
-  //                 inputYear > inputYear2 ||
-  //                 (inputYear === inputYear2 && inputMonth > inputMonth2) ||
-  //                 (inputYear === inputYear2 &&
-  //                   inputMonth === inputMonth2 &&
-  //                   inputDay > inputDay2)
-  //               ) {
-  //                 //   return "Future"
-  //                 return 1;
-  //               } else if (
-  //                 inputYear === inputYear2 &&
-  //                 inputMonth === inputMonth2 &&
-  //                 inputDay === inputDay2
-  //               ) {
-  //                 //   return "Current"
-  //                 return 0;
-  //               } else {
-  //                 //   return "Past"
-  //                 return -1;
-  //               }
-  //             }
-
-  //             const inputDateTime = await User[0].PlanExpiredDate;
-
-  //             const inputDateTime2 = new Date();
-
-  //             const year = inputDateTime2.getFullYear();
-  //             const month = inputDateTime2.getMonth() + 1;
-  //             const day = inputDateTime2.getDate();
-
-  //             let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
-  //               }${day}`;
-
-  //             var a = await compareDates(inputDateTime, inputDateTime3);
-
-  //             var Data3;
-  //             if (-1 < a) {
-  //               Data3 = 1;
-  //             } else {
-  //               Data3 = 0;
-  //             }
-
-  //             var a = {
-  //               Data: User[0].VehicleDetail[0],
-  //               Status: ParkedCar[ParkedCar.length - 1],
-  //               FeatureStatus: Data3,
-  //             };
-
-  //             await Vehicles.push(a);
-  //           }
-  //         }
-
-  //         if (User[0].VehicleDetail[1]) {
-  //           if (User[0].VehicleDetail[1].status.trim() !== "") {
-  //             var ParkedCar = await Todo4.find({
-  //               RegistrationNumber: User[0].VehicleDetail[1].RegistrationNumber,
-  //             });
-
-  //             if (!ParkedCar[ParkedCar.length - 1].WaitTime) {
-  //               var User2 = await Todo2.find({
-  //                 UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
-  //               });
-
-  //               const postData = {
-  //                 RegistrationNumber:
-  //                   User[0].VehicleDetail[1].RegistrationNumber,
-  //                 UserName: User2[0].UserName,
-  //               };
-
-  //               const response = await axios.post(
-  //                 `${Ip}/UserWaitTime`,
-  //                 postData
-  //               );
-  //               const data = response.data.message;
-
-  //               ParkedCar[ParkedCar.length - 1].WaitTime = data;
-  //               var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
-  //               var User222 = await Todo8.find({ Username: User22 });
-  //               var User2222 = await User222[0].Name;
-  //             } else {
-  //               var User2 = await Todo2.find({
-  //                 UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
-  //               });
-
-  //               const postData = {
-  //                 RegistrationNumber:
-  //                   User[0].VehicleDetail[1].RegistrationNumber,
-  //                 UserName: User2[0].UserName,
-  //               };
-
-  //               const response = await axios.post(
-  //                 `${Ip}/UserWaitTime`,
-  //                 postData
-  //               );
-  //               const data = response.data.message;
-
-  //               ParkedCar[ParkedCar.length - 1].WaitTime = data;
-  //               var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
-  //               var User222 = await Todo8.find({ Username: User22 });
-  //               var User2222 = await User222[0].Name;
-  //               ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
-  //             }
-
-  //             function compareDates(inputDate, inputDate2) {
-  //               const inputDateTime = new Date(inputDate);
-  //               const inputDateTime2 = new Date(inputDate2);
-
-  //               const inputYear = inputDateTime.getFullYear();
-  //               const inputMonth = inputDateTime.getMonth() + 1;
-  //               const inputDay = inputDateTime.getDate();
-
-  //               const inputYear2 = inputDateTime2.getFullYear();
-  //               const inputMonth2 = inputDateTime2.getMonth() + 1;
-  //               const inputDay2 = inputDateTime2.getDate();
-
-  //               if (
-  //                 inputYear > inputYear2 ||
-  //                 (inputYear === inputYear2 && inputMonth > inputMonth2) ||
-  //                 (inputYear === inputYear2 &&
-  //                   inputMonth === inputMonth2 &&
-  //                   inputDay > inputDay2)
-  //               ) {
-  //                 //   return "Future"
-  //                 return 1;
-  //               } else if (
-  //                 inputYear === inputYear2 &&
-  //                 inputMonth === inputMonth2 &&
-  //                 inputDay === inputDay2
-  //               ) {
-  //                 //   return "Current"
-  //                 return 0;
-  //               } else {
-  //                 //   return "Past"
-  //                 return -1;
-  //               }
-  //             }
-
-  //             const inputDateTime = await User[0].PlanExpiredDate;
-
-  //             const inputDateTime2 = new Date();
-
-  //             const year = inputDateTime2.getFullYear();
-  //             const month = inputDateTime2.getMonth() + 1;
-  //             const day = inputDateTime2.getDate();
-
-  //             let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
-  //               }${day}`;
-
-  //             var a = await compareDates(inputDateTime, inputDateTime3);
-
-  //             var Data3;
-  //             if (-1 < a) {
-  //               Data3 = 1;
-  //             } else {
-  //               Data3 = 0;
-  //             }
-
-  //             var a = {
-  //               Data: User[0].VehicleDetail[1],
-  //               Status: ParkedCar[ParkedCar.length - 1],
-  //             };
-  //             await Vehicles.push(a);
-  //           }
-  //         }
-  //       }
-
-  //       var message2 = {
-  //         message: "Data Load Successfully",
-  //         data: Vehicles,
-  //         status: `${HTTP.SUCCESS}`,
-  //       };
-  //       res.status(HTTP.SUCCESS).json(message2);
-  //     } else {
-  //       var a = {
-  //         message: "Please Provide User Account Token",
-  //         status: `${HTTP.UNAUTHORIZED}`,
-  //       };
-  //       res.status(HTTP.UNAUTHORIZED).json(a);
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //     var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
-  //     res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
-  //   }
-  // };
-
   static N = async (req, res) => {
     try {
-
       if (req.Phone) {
-
         var User = await Todo.find({ Phone: req.Phone });
 
         var Vehicles = [];
 
         if (User[0].VehicleDetail) {
-
           if (User[0].VehicleDetail[0]) {
-
-
             if (User[0].VehicleDetail[0].status.trim() !== "") {
-
-              var ParkedCar = await Todo4.find({ RegistrationNumber: User[0].VehicleDetail[0].RegistrationNumber });
+              var ParkedCar = await Todo4.find({
+                RegistrationNumber: User[0].VehicleDetail[0].RegistrationNumber,
+              });
 
               if (!ParkedCar[ParkedCar.length - 1].WaitTime) {
-
-                var User2 = await Todo2.find({ UnitName: ParkedCar[ParkedCar.length - 1].Parklocation });
+                var User2 = await Todo2.find({
+                  UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
+                });
 
                 const postData = {
-                  RegistrationNumber: User[0].VehicleDetail[0].RegistrationNumber,
+                  RegistrationNumber:
+                    User[0].VehicleDetail[0].RegistrationNumber,
                   UserName: User2[0].UserName,
                 };
 
-                const response = await axios.post(`${Ip}/UserWaitTime`, postData);
+                const response = await axios.post(
+                  `${Ip}/UserWaitTime`,
+                  postData
+                );
                 const data = response.data.message;
 
                 ParkedCar[ParkedCar.length - 1].WaitTime = data;
@@ -5764,17 +5505,21 @@ class class1 {
                 var User222 = await Todo8.find({ Username: User22 });
                 var User2222 = await User222[0].Name;
                 ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
-
               } else {
-
-                var User2 = await Todo2.find({ UnitName: ParkedCar[ParkedCar.length - 1].Parklocation });
+                var User2 = await Todo2.find({
+                  UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
+                });
 
                 const postData = {
-                  RegistrationNumber: User[0].VehicleDetail[0].RegistrationNumber,
+                  RegistrationNumber:
+                    User[0].VehicleDetail[0].RegistrationNumber,
                   UserName: User2[0].UserName,
                 };
 
-                const response = await axios.post(`${Ip}/UserWaitTime`, postData);
+                const response = await axios.post(
+                  `${Ip}/UserWaitTime`,
+                  postData
+                );
                 const data = response.data.message;
 
                 ParkedCar[ParkedCar.length - 1].WaitTime = data;
@@ -5783,11 +5528,9 @@ class class1 {
                 var User222 = await Todo8.find({ Username: User22 });
                 var User2222 = await User222[0].Name;
                 ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
-
               }
 
               function compareDates(inputDate, inputDate2) {
-
                 const inputDateTime = new Date(inputDate);
                 const inputDateTime2 = new Date(inputDate2);
 
@@ -5799,17 +5542,26 @@ class class1 {
                 const inputMonth2 = inputDateTime2.getMonth() + 1;
                 const inputDay2 = inputDateTime2.getDate();
 
-                if (inputYear > inputYear2 || (inputYear === inputYear2 && inputMonth > inputMonth2) || (inputYear === inputYear2 && inputMonth === inputMonth2 && inputDay > inputDay2)) {
+                if (
+                  inputYear > inputYear2 ||
+                  (inputYear === inputYear2 && inputMonth > inputMonth2) ||
+                  (inputYear === inputYear2 &&
+                    inputMonth === inputMonth2 &&
+                    inputDay > inputDay2)
+                ) {
                   //   return "Future"
-                  return 1
-                } else if (inputYear === inputYear2 && inputMonth === inputMonth2 && inputDay === inputDay2) {
+                  return 1;
+                } else if (
+                  inputYear === inputYear2 &&
+                  inputMonth === inputMonth2 &&
+                  inputDay === inputDay2
+                ) {
                   //   return "Current"
-                  return 0
+                  return 0;
                 } else {
                   //   return "Past"
-                  return -1
+                  return -1;
                 }
-
               }
 
               const inputDateTime = await User[0].PlanExpiredDate;
@@ -5820,11 +5572,12 @@ class class1 {
               const month = inputDateTime2.getMonth() + 1;
               const day = inputDateTime2.getDate();
 
-              let inputDateTime3 = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+              let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+                }${day}`;
 
               var a = await compareDates(inputDateTime, inputDateTime3);
 
-              var Data3
+              var Data3;
               if (-1 < a) {
                 Data3 = 1;
               } else {
@@ -5832,76 +5585,145 @@ class class1 {
               }
 
               var a = {
-                "Data": User[0].VehicleDetail[0],
-                "Status": ParkedCar[ParkedCar.length - 1],
-                "FeatureStatus": Data3
-              }
+                Data: User[0].VehicleDetail[0],
+                Status: ParkedCar[ParkedCar.length - 1],
+                FeatureStatus: Data3,
+              };
 
               await Vehicles.push(a);
-
             }
-
           }
 
           if (User[0].VehicleDetail[1]) {
-
             if (User[0].VehicleDetail[1].status.trim() !== "") {
-
-              var ParkedCar = await Todo4.find({ RegistrationNumber: User[0].VehicleDetail[1].RegistrationNumber });
+              var ParkedCar = await Todo4.find({
+                RegistrationNumber: User[0].VehicleDetail[1].RegistrationNumber,
+              });
 
               if (!ParkedCar[ParkedCar.length - 1].WaitTime) {
-
-                var User2 = await Todo2.find({ UnitName: ParkedCar[ParkedCar.length - 1].Parklocation });
+                var User2 = await Todo2.find({
+                  UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
+                });
 
                 const postData = {
-                  RegistrationNumber: User[0].VehicleDetail[1].RegistrationNumber,
+                  RegistrationNumber:
+                    User[0].VehicleDetail[1].RegistrationNumber,
                   UserName: User2[0].UserName,
                 };
 
-                const response = await axios.post(`${Ip}/UserWaitTime`, postData);
+                const response = await axios.post(
+                  `${Ip}/UserWaitTime`,
+                  postData
+                );
                 const data = response.data.message;
 
                 ParkedCar[ParkedCar.length - 1].WaitTime = data;
-
+                var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
+                var User222 = await Todo8.find({ Username: User22 });
+                var User2222 = await User222[0].Name;
               } else {
-
-                var User2 = await Todo2.find({ UnitName: ParkedCar[ParkedCar.length - 1].Parklocation });
+                var User2 = await Todo2.find({
+                  UnitName: ParkedCar[ParkedCar.length - 1].Parklocation,
+                });
 
                 const postData = {
-                  RegistrationNumber: User[0].VehicleDetail[1].RegistrationNumber,
+                  RegistrationNumber:
+                    User[0].VehicleDetail[1].RegistrationNumber,
                   UserName: User2[0].UserName,
                 };
 
-                const response = await axios.post(`${Ip}/UserWaitTime`, postData);
+                const response = await axios.post(
+                  `${Ip}/UserWaitTime`,
+                  postData
+                );
                 const data = response.data.message;
 
                 ParkedCar[ParkedCar.length - 1].WaitTime = data;
+                var User22 = await ParkedCar[ParkedCar.length - 1].CarParkBy;
+                var User222 = await Todo8.find({ Username: User22 });
+                var User2222 = await User222[0].Name;
+                ParkedCar[ParkedCar.length - 1].CarParkBy = User2222;
+              }
 
+              function compareDates(inputDate, inputDate2) {
+                const inputDateTime = new Date(inputDate);
+                const inputDateTime2 = new Date(inputDate2);
+
+                const inputYear = inputDateTime.getFullYear();
+                const inputMonth = inputDateTime.getMonth() + 1;
+                const inputDay = inputDateTime.getDate();
+
+                const inputYear2 = inputDateTime2.getFullYear();
+                const inputMonth2 = inputDateTime2.getMonth() + 1;
+                const inputDay2 = inputDateTime2.getDate();
+
+                if (
+                  inputYear > inputYear2 ||
+                  (inputYear === inputYear2 && inputMonth > inputMonth2) ||
+                  (inputYear === inputYear2 &&
+                    inputMonth === inputMonth2 &&
+                    inputDay > inputDay2)
+                ) {
+                  //   return "Future"
+                  return 1;
+                } else if (
+                  inputYear === inputYear2 &&
+                  inputMonth === inputMonth2 &&
+                  inputDay === inputDay2
+                ) {
+                  //   return "Current"
+                  return 0;
+                } else {
+                  //   return "Past"
+                  return -1;
+                }
+              }
+
+              const inputDateTime = await User[0].PlanExpiredDate;
+
+              const inputDateTime2 = new Date();
+
+              const year = inputDateTime2.getFullYear();
+              const month = inputDateTime2.getMonth() + 1;
+              const day = inputDateTime2.getDate();
+
+              let inputDateTime3 = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""
+                }${day}`;
+
+              var a = await compareDates(inputDateTime, inputDateTime3);
+
+              var Data3;
+              if (-1 < a) {
+                Data3 = 1;
+              } else {
+                Data3 = 0;
               }
 
               var a = {
-                "Data": User[0].VehicleDetail[1],
-                "Status": ParkedCar[ParkedCar.length - 1]
-              }
+                Data: User[0].VehicleDetail[1],
+                Status: ParkedCar[ParkedCar.length - 1],
+              };
               await Vehicles.push(a);
-
             }
-
           }
-
         }
 
-        var message2 = { "message": "Data Load Successfully", "data": Vehicles, "status": `${HTTP.SUCCESS}` }
+        var message2 = {
+          message: "Data Load Successfully",
+          data: Vehicles,
+          status: `${HTTP.SUCCESS}`,
+        };
         res.status(HTTP.SUCCESS).json(message2);
-
       } else {
-        var a = { "message": "Please Provide User Account Token", "status": `${HTTP.UNAUTHORIZED}` }
+        var a = {
+          message: "Please Provide User Account Token",
+          status: `${HTTP.UNAUTHORIZED}`,
+        };
         res.status(HTTP.UNAUTHORIZED).json(a);
       }
-
     } catch (e) {
       console.log(e);
-      var a = { "message": `${e}`, "status": `${HTTP.INTERNAL_SERVER_ERROR}` }
+      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
