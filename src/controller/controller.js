@@ -7296,7 +7296,7 @@ class class2 {
               await User[0].save();
 
               const response = {
-                message: "valet Account Create Successfully",
+                message: "Valet Account Created Successfully",
                 status: HTTP.SUCCESS,
               };
               res.status(HTTP.SUCCESS).json(response);
