@@ -7273,7 +7273,7 @@ class class2 {
 
             const transformedData = User3.map((item) => ({
               ...item._doc,
-              FullAddress: `${item.UnitAddress}, ${item.City}, ${item.State}, ${item.Zip}`,
+              UnitAddress: `${item.UnitAddress}, ${item.City}, ${item.State}, ${item.Zip}`,
             }));
 
             var message2 = {
