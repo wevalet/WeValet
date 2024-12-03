@@ -565,8 +565,12 @@ class class1 {
           result2 += nonBlankArray2[i].toString() + ' ';
         }
 
-        var CityName = await result1.toUpperCase();
-        var StateName = await result2.toUpperCase();
+        // var CityName = await result1.toUpperCase();
+        // var StateName = await result2.toUpperCase();
+
+
+        var CityName = await result1
+        var StateName = await result2
 
         var CityNameOfficial = await CityName.trim();
         var StateNameOfficial = await StateName.trim();
@@ -7178,6 +7182,66 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+  // static h = async (req, res) => {
+  //   try {
+  //     if (req.body.Search && req.Phone) {
+  //       const headerValue = req.get("Authorization");
+
+  //       var User = await Todo.find({ Phone: req.Phone });
+  //       if (headerValue == User[0].token) {
+  //         const words = req.body.Search.replace(/^\s+|\s+$/g, "").split(" ");
+  //         const nonBlankArray = words.filter((str) => str.trim() !== "");
+
+  //         var a = req.body.Search.toUpperCase().split("IN ").length;
+
+  //         if (a > 1) {
+  //           var CityOrState = await req.body.Search.toUpperCase()
+  //             .split("IN ")[1]
+  //             .replace(/^\s+|\s+$/g, "");
+
+  //           var User2 = await Todo2.find({
+  //             $or: [{ State: CityOrState }, { City: CityOrState }],
+  //           });
+
+  //           var User3 = [];
+
+  //           for (var i = 0; i < User2.length; i++) {
+  //             if (User2[i].UnitType == nonBlankArray[0].toUpperCase()) {
+  //               await User3.push(User2[i]);
+  //             }
+  //           }
+  //           var message2 = {
+  //             message: "Data Load Successfully",
+  //             data: User3,
+  //             status: `${HTTP.SUCCESS}`,
+  //           };
+  //           res.status(HTTP.SUCCESS).json(message2);
+  //         } else {
+  //           var User2 = [];
+  //           var message2 = {
+  //             message: "Data Load Successfully",
+  //             data: User2,
+  //             status: `${HTTP.SUCCESS}`,
+  //           };
+  //           res.status(HTTP.SUCCESS).json(message2);
+  //         }
+  //       } else {
+  //         var a = {
+  //           message: "Token has expired",
+  //           status: `${HTTP.UNAUTHORIZED}`,
+  //         };
+  //         res.status(HTTP.UNAUTHORIZED).json(a);
+  //       }
+  //     } else {
+  //       var a = { message: "Insufficient Data", status: `${HTTP.BAD_REQUEST}` };
+  //       res.status(HTTP.BAD_REQUEST).json(a);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //     var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+  //     res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+  //   }
+  // };
   static h = async (req, res) => {
     try {
       if (req.body.Search && req.Phone) {
@@ -7207,9 +7271,14 @@ class class2 {
               }
             }
 
+            const transformedData = User3.map((item) => ({
+              ...item._doc,
+              FullAddress: `${item.UnitAddress}, ${item.City}, ${item.State}, ${item.Zip}`,
+            }));
+
             var message2 = {
               message: "Data Load Successfully",
-              data: User3,
+              data: transformedData,
               status: `${HTTP.SUCCESS}`,
             };
             res.status(HTTP.SUCCESS).json(message2);
@@ -7239,6 +7308,7 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static i = async (req, res) => {
     try {
       if (
