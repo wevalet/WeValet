@@ -725,6 +725,21 @@
                           </div>
                         </div>
                       </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label style="color: black">Zip</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Zip"
+                              id="myInput25"
+                              value=""
+                              style="color: black"
+                            />
+                          </div>
+                        </div>
+                      </div>
                       <div class="custom-file-upload">
                         <input type="file" id="fileInput" class="input-file" />
                         <label
@@ -1011,6 +1026,7 @@
           var inputValue17 = document.getElementById("fileInput").value;
           var inputValue18 = document.getElementById("myInput17").value;
           var inputValue20 = document.getElementById("myInput20").value;
+          var inputValue25 = document.getElementById("myInput25").value;
 
           var form = document.getElementById("myForm");
           var reviewInputs = form.querySelectorAll('[name^="Review"]');
@@ -1034,6 +1050,7 @@
           formData.append("City", inputValue16);
           formData.append("Country", inputValue18);
           formData.append("OGAddress", inputValue20);
+          formData.append("Zip", inputValue25);
           reviewInputs.forEach(function (input, index) {
             if (index % 2 === 0) {
               if (reviewInputs[index + 1].value) {

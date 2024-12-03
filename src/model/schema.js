@@ -151,6 +151,9 @@ const BusinessSchema = new mongoose.Schema({
   City: {
     type: String,
   },
+  Zip: {
+    type: String,
+  },
   UserWaitTime: [
     {
       data: Buffer,
