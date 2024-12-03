@@ -3240,13 +3240,13 @@ class class1 {
                     });
 
                   if (result.message > 5) {
-                    const futureTimeInSurat32 = currentTimeInSurat222.add(
-                      +1,
-                      "minutes"
-                    );
-                    const formattedFutureTime32 = futureTimeInSurat32.format(
-                      "YYYY-MM-DDTHH:mm:ss"
-                    );
+                    // const futureTimeInSurat32 = currentTimeInSurat222.add(
+                    //   +1,
+                    //   "minutes"
+                    // );
+                    // const formattedFutureTime32 = futureTimeInSurat32.format(
+                    //   "YYYY-MM-DDTHH:mm:ss"
+                    // );
 
                     let data2222 = new Todo7({
                       UserName: UserNameData,
@@ -3257,20 +3257,20 @@ class class1 {
 
                     await data2222.save();
                   } else {
-                    const futureTimeInSurat32 = currentTimeInSurat222.add(
-                      +1,
-                      "minutes"
-                    );
-                    const formattedFutureTime32 = futureTimeInSurat32.format(
-                      "YYYY-MM-DDTHH:mm:ss"
-                    );
+                    // const futureTimeInSurat32 = currentTimeInSurat222.add(
+                    //   +1,
+                    //   "minutes"
+                    // );
+                    // const formattedFutureTime32 = futureTimeInSurat32.format(
+                    //   "YYYY-MM-DDTHH:mm:ss"
+                    // );
 
-                    // let data2222 = new Todo7({
-                    //   UserName: UserNameData,
-                    //   Message: "Your vehicle is on the way, Thank You",
-                    //   ParkInTime: "",
-                    //   NotificationRemainingTime: formattedFutureTime32,
-                    // });
+                    let data2222 = new Todo7({
+                      UserName: UserNameData,
+                      Message: "Your vehicle is on the way, Thank You",
+                      ParkInTime: "",
+                      NotificationRemainingTime: formattedFutureTime32,
+                    });
 
                     await data2222.save();
                   }
