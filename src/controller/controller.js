@@ -624,7 +624,8 @@ class class1 {
           UnitName: req.body.UnitName,
           UnitType: req.body.UnitType.toUpperCase(),
           UnitCoAddress: req.body.UnitAddress,
-          UnitAddress: req.body.OGAddress,
+          // UnitAddress: req.body.OGAddress,
+          UnitAddress: `${req.body.OGAddress}, ${req.body.City}, ${req.body.State}, ${req.body.Zip}`,
           latitude: req.body.latitude,
           longitude: req.body.longitude,
           Rating: req.body.Rating,
@@ -5141,7 +5142,8 @@ class class1 {
             PassWord: item.PassWord,
             UnitName: item.UnitName,
             UnitType: item.UnitType,
-            UnitAddress: `${item.UnitAddress},${item.City},${item.State},${item?.Zip}`,
+            // UnitAddress: `${item.UnitAddress},${item.City},${item.State},${item?.Zip}`,
+            UnitAddress: item.UnitAddress,
             Zip: item.Zip,
             City: item.City,
             State: item.State,
@@ -7202,8 +7204,14 @@ class class2 {
               .split("IN ")[1]
               .replace(/^\s+|\s+$/g, "");
 
+            // var User2 = await Todo2.find({
+            //   $or: [{ State: CityOrState }, { City: CityOrState }],
+            // });
             var User2 = await Todo2.find({
-              $or: [{ State: CityOrState }, { City: CityOrState }],
+              $or: [
+                { State: { $regex: CityOrState, $options: "i" } },
+                { City: { $regex: CityOrState, $options: "i" } },
+              ],
             });
 
             var User3 = [];
