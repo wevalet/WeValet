@@ -2120,12 +2120,16 @@ class class1 {
             var OfficialState = await AwsState[0].State;
             var OfficialCity = await AwsState[0].City;
 
-            const suratTimezone = "Asia/Kolkata";
-            const currentTimeInSurat = moment()
-              .tz(suratTimezone)
-              .format("YYYY-MM-DDTHH:mm:ss");
+            // const suratTimezone = "Asia/Kolkata";
+            // const currentTimeInSurat = moment()
+            //   .tz(suratTimezone)
+            //   .format("YYYY-MM-DDTHH:mm:ss");
 
-            const currentDate = new Date(currentTimeInSurat);
+            // const currentDate = new Date(currentTimeInSurat);
+
+            const timeZone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
+            const currentTime = moment().tz(timeZone).format("YYYY-MM-DDTHH:mm:ss");
+            const currentDate = new Date(currentTime);
 
             var currentYear = await currentDate.getFullYear();
             var currentMonth;
@@ -2247,12 +2251,16 @@ class class1 {
               const locations = [];
 
               if (UserData[0].VehicleDetail) {
-                const suratTimezone = "Asia/Kolkata";
-                const currentTimeInSurat = moment()
-                  .tz(suratTimezone)
-                  .format("YYYY-MM-DDTHH:mm:ss");
+                // const suratTimezone = "Asia/Kolkata";
+                // const currentTimeInSurat = moment()
+                //   .tz(suratTimezone)
+                //   .format("YYYY-MM-DDTHH:mm:ss");
 
-                const currentDate = new Date(currentTimeInSurat);
+                // const currentDate = new Date(currentTimeInSurat);
+
+                const timeZone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York";
+                const currentTime = moment().tz(timeZone).format("YYYY-MM-DDTHH:mm:ss");
+                const currentDate = new Date(currentTime);
 
                 var currentYear = await currentDate.getFullYear();
                 var currentMonth;
@@ -2402,7 +2410,7 @@ class class1 {
 
               // ParkedCar1[0].valetTicketPicture = a;
               ParkedCar1[0].valetTicketPicture = locations;
-              ParkedCar1[0].ParkInTime = currentTimeInSurat;
+              ParkedCar1[0].ParkInTime = currentTime;
               ParkedCar1[0].status = "Parked";
               // ParkedCar1[0].status2 = "Parked";
               ParkedCar1[0].CarPictureUploadStatus = "0";
@@ -2412,7 +2420,7 @@ class class1 {
               let data2 = new Todo7({
                 UserName: response.data.message[0],
                 Message: "Car is parked",
-                ParkInTime: currentTimeInSurat,
+                ParkInTime: currentTime,
               });
 
               await data2.save();
