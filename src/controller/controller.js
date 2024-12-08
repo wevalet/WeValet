@@ -10206,6 +10206,67 @@ class QRCodeClass {
     }
   };
 
+  static QRParkedDetails = async (req, res) => {
+    try {
+      if (req.UserName) {
+        const headerValue = req.get("Authorization");
+        var User = await Todo8.findOne({ Username: req.UserName });
+        if (User) {
+          if (User.token == headerValue) {
+            const business = await Todo2.findOne({
+              UserName: User.BusinessManagerUserName,
+            });
+            if (!business) {
+              return res.status(HTTP.BAD_REQUEST).json({
+                message: "Business Not Found",
+                status: `${HTTP.BAD_REQUEST}`,
+              });
+            }
+
+            const data = await HotelQrCodeHistory.find({
+              valetId: User._id,
+              assigned: true,
+              retrieveRequest: false,
+              retrieved: false,
+              accepted: false,
+              retrievedDate: false
+            });
+
+            let finalData = []
+
+            const filteredData = data.map(({ tokenNumber, carNumber, otp }) => ({
+              tokenNumber,
+              carNumber,
+              otp,
+            }));
+            res.status(HTTP.SUCCESS).json({
+              message: "Data has been saved successfully!!",
+              data: filteredData,
+              status: `${HTTP.SUCCESS}`,
+            });
+            return false;
+          } else {
+            var a = {
+              message: "Token has expired",
+              status: `${HTTP.UNAUTHORIZED}`,
+            };
+            res.status(HTTP.UNAUTHORIZED).json(a);
+          }
+        } else {
+          var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
+          res.status(HTTP.NOT_FOUND).json(a);
+        }
+      } else {
+        var a = { message: "Insufficient Data", status: `${HTTP.BAD_REQUEST}` };
+        res.status(HTTP.BAD_REQUEST).json(a);
+      }
+    } catch (e) {
+      console.log(e);
+      var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+    }
+  };
+
   static verifyOtp = async (req, res) => {
     try {
       const { businessName, tokenNumber, carNumber, otp } = req.body;

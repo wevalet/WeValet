@@ -194,6 +194,11 @@ router.get(
   verifyToken,
   QRCodeClass.RequestedCarDetails
 );
+router.get(
+  "/QRParkedDetails",
+  verifyToken,
+  QRCodeClass.QRParkedDetails
+);
 router.post("/CarRetrieve", verifyToken, QRCodeClass.CarRetrieve);
 router.post("/AcceptCar", verifyToken, QRCodeClass.AcceptCar);
 router.get("/AcceptedCarDetails", verifyToken, QRCodeClass.AcceptedCarDetails);
