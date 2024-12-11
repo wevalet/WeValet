@@ -7371,9 +7371,9 @@ class class2 {
               var UnitName = User[0].UnitName;
 
               let data = new Todo8({
-                Name: req.body.Username,
+                Name: LowerCaseUsername,
                 Phone: req.body.Phone,
-                Username: LowerCaseUsername,
+                Username: req.body.Username,
                 Password: hashedPassword,
                 BusinessManagerUserName: req.UserName,
                 BusinessUnitName: UnitName,
