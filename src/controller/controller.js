@@ -746,9 +746,10 @@ class class1 {
     try {
       if (req.body.Phone) {
         console.log(req.body.Phone);
-        if (String(req.body.Phone).trim() === "+91 1234567890") {
-          return res.status(200).send("Test number matched.");
-        }
+        // if (String(req.body.Phone).trim() === "+91 1234567890") {
+        //   var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
+        //   res.status(HTTP.SUCCESS).json(a);
+        // }
         var user = await Todo.find({ Phone: req.body.Phone });
         if (user.length == 0) {
           var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
@@ -765,6 +766,15 @@ class class1 {
           }
 
           const otp = await generateRandom6DigitNumber();
+          if (String(req.body.Phone).trim() === "+91 1234567890") {
+            var updateuser = await Todo.findOneAndUpdate(
+              { Phone: req.body.Phone },
+              { $set: { otp: 123456 } }
+            );
+            await updateuser.save();
+            var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
+            return res.status(HTTP.SUCCESS).json(a);
+          }
 
           var PhoneNumberCheck = await req.body.Phone;
           var PhoneNumberCheckOfficial = await PhoneNumberCheck.slice(0, 3);
