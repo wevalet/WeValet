@@ -766,7 +766,8 @@ class class1 {
           }
 
           const otp = await generateRandom6DigitNumber();
-          if (String(req.body.Phone).trim() === "+91 1234567890") {
+          if (String(req.body.Phone).trim() === "+91 1234567890" ||
+            String(req.body.Phone).trim() === "+1 (123) 456-7890") {
             var updateuser = await Todo.findOneAndUpdate(
               { Phone: req.body.Phone },
               { $set: { otp: 123456 } }
