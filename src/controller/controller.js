@@ -193,8 +193,11 @@ class class1 {
               }${month}-${day < 10 ? "0" : ""}${day}`;
 
             if (req.body.RegistrationNumber) {
-              const suratTimezone = "Asia/Kolkata";
-              const currentTimeInSurat = moment().tz(suratTimezone);
+              var PhoneNumberCheckOfficial = await req.body.Phone.slice(0, 3);
+              const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
+              const timeZone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
+              // const suratTimezone = "Asia/Kolkata";
+              const currentTimeInSurat = moment().tz(timeZone);
               const futureTimeInSurat = currentTimeInSurat.add(-1, "minutes");
               const formattedFutureTime = futureTimeInSurat.format(
                 "YYYY-MM-DDTHH:mm:ss"
@@ -575,7 +578,8 @@ class class1 {
         var CityNameOfficial = await CityName.trim();
         var StateNameOfficial = await StateName.trim();
 
-        const suratTimezone = 'Asia/Kolkata';
+        // const suratTimezone = 'Asia/Kolkata';
+        const suratTimezone = req.body.Country == "INDIA" ? "Asia/Kolkata" : "America/New_York"
         const currentTimeInSurat = moment().tz(suratTimezone).format('YYYY-MM-DDTHH:mm:ss');
 
         const currentDate = new Date(currentTimeInSurat);
@@ -665,7 +669,6 @@ class class1 {
   static c = async (req, res) => {
     try {
       var User = await Todo.find({ Phone: req.Phone });
-
       if (User.length == 1) {
         // if (typeof User[0].VehicleDetail[0].CompanyName === 'undefined' && typeof User[0].VehicleDetail[0].Model === 'undefined' && typeof User[0].VehicleDetail[0].RegistrationNumber === 'undefined' && typeof User[0].VehicleDetail[0].Color === 'undefined' && User[0].VehicleDetail[0].Picture.length == 0) {
         //     User[0].VehicleDetail.shift();
@@ -699,7 +702,9 @@ class class1 {
             };
             res.status(HTTP.UNAUTHORIZED).json(response); // status code
           } else {
-            const suratTimezone = "Asia/Kolkata";
+            var PhoneNumberCheckOfficial = await User[0].Phone.slice(0, 3);
+            const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
+            const suratTimezone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York";
             const currentTimeInSurat = moment().tz(suratTimezone);
             const futureTimeInSurat = currentTimeInSurat.add(-1, "minutes");
             const formattedFutureTime = futureTimeInSurat.format(
@@ -1115,8 +1120,10 @@ class class1 {
         const headerValue = req.get("Authorization");
 
         var User = await Todo8.findOne({ Username: req.UserName });
-
         if (User) {
+
+          var PhoneNumberCheckOfficial = await User.Phone.slice(0, 3);
+          const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
           if (User.token == headerValue) {
             const valetTicketPictures = req.files["valetTicket"].map(
               (file) => Ip + "/public/" + file.filename
@@ -1125,7 +1132,7 @@ class class1 {
               (file) => Ip + "/public/" + file.filename
             );
 
-            const suratTimezone = "Asia/Kolkata";
+            const suratTimezone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
             const currentTimeInSurat = moment()
               .tz(suratTimezone)
               .format("YYYY-MM-DDTHH:mm:ss");
@@ -1673,7 +1680,7 @@ class class1 {
               const locations = [];
 
               if (UserData[0].VehicleDetail) {
-                const suratTimezone = "Asia/Kolkata";
+                const suratTimezone = CountryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
                 const currentTimeInSurat = moment()
                   .tz(suratTimezone)
                   .format("YYYY-MM-DDTHH:mm:ss");
@@ -1919,7 +1926,7 @@ class class1 {
             const locations = [];
 
             if (UserData[0].VehicleDetail) {
-              const suratTimezone = "Asia/Kolkata";
+              const suratTimezone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
               const currentTimeInSurat = moment()
                 .tz(suratTimezone)
                 .format("YYYY-MM-DDTHH:mm:ss");
@@ -2881,16 +2888,13 @@ class class1 {
         status: "Parked",
       });
 
-      console.log(ParkedCar);
-
       if (ParkedCar.length !== 0) {
         const headerValue = req.get("Authorization");
 
         var User = await Todo.findOne({ Phone: req.Phone });
-
         if (User) {
           if (
-            headerValue == User.token &&
+            headerValue == User.token ||
             ParkedCar[0].Member.includes(User.UserName)
           ) {
             var VehicleParkBusiness = await Todo8.findOne({
@@ -2955,8 +2959,9 @@ class class1 {
               RegistrationNumber: req.body.RegistrationNumber,
               Status: "Requested",
             };
-
-            const suratTimezone = "Asia/Kolkata";
+            var PhoneNumberCheckOfficial = await User.Phone.slice(0, 3);
+            const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
+            const suratTimezone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
             const currentTimeInSurat2 = moment()
               .tz(suratTimezone)
               .format("YYYY-MM-DDTHH:mm:ss");
@@ -3097,8 +3102,9 @@ class class1 {
         if (User) {
           if (headerValue == User.token) {
             var User2 = await Todo8.findOne({ Username: req.UserName });
-
-            const suratTimezone = "Asia/Kolkata";
+            var PhoneNumberCheckOfficial = await User.Phone.slice(0, 3);
+            const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
+            const suratTimezone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
             const currentTimeInSurat2 = moment()
               .tz(suratTimezone)
               .format("YYYY-MM-DDTHH:mm:ss");
@@ -3267,6 +3273,7 @@ class class1 {
                     });
 
                   if (result.message > 5) {
+                    console.log("IF")
                     // const futureTimeInSurat32 = currentTimeInSurat222.add(
                     //   +1,
                     //   "minutes"
@@ -5988,8 +5995,9 @@ class class1 {
           // for (var i = 0; i < req.files.length; i++) {
           //     await carPictures.push(Ip + "/public/" + req.files[i].filename)
           // }
-
-          const suratTimezone = "Asia/Kolkata";
+          var PhoneNumberCheckOfficial = await User[0].Phone.slice(0, 3);
+          const CountryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
+          const suratTimezone = CountryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
           const currentTimeInSurat = moment()
             .tz(suratTimezone)
             .format("YYYY-MM-DDTHH:mm:ss");
@@ -6125,7 +6133,9 @@ class class1 {
         var User = await Todo8.find({ Username: req.UserName });
 
         if (User[0].token == headerValue) {
-          const suratTimezone = "Asia/Kolkata";
+          var PhoneNumberCheckOfficial = await User[0].Phone.slice(0, 3);
+          const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
+          const suratTimezone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
           const currentTimeInSurat = moment()
             .tz(suratTimezone)
             .format("YYYY-MM-DDTHH:mm:ss");
@@ -6313,7 +6323,10 @@ class class1 {
 
         if (User) {
           if (headerValue == User.token) {
-            const suratTimezone = "Asia/Kolkata";
+            var PhoneNumberCheckOfficial = await User.Phone.slice(0, 3);
+            const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
+            console.log(countryName)
+            const suratTimezone = countryName == "INDIA" ? "Asia/Kolkata" : "America/New_York"
             const currentTimeInSurat2 = moment()
               .tz(suratTimezone)
               .format("YYYY-MM-DDTHH:mm:ss");
@@ -6475,8 +6488,9 @@ class class1 {
 
         if (User) {
           // Phase 1 start //
-
-          const suratTimezone = "Asia/Kolkata";
+          var PhoneNumberCheckOfficial = await User.Phone.slice(0, 3);
+          const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
+          const suratTimezone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
           const currentTimeInSurat2 = moment()
             .tz(suratTimezone)
             .format("YYYY-MM-DDTHH:mm:ss");
@@ -8254,7 +8268,6 @@ class class2 {
   static s = async (req, res) => {
     try {
       var User = await Todo7.find({});
-
       const suratTimezone = "Asia/Kolkata";
 
       const currentTimeInSurat2 = moment()
@@ -9134,10 +9147,11 @@ class class2 {
   static D = async (req, res) => {
     try {
       var User = await Todo.find({});
-
       for (var i = 0; i < User.length; i++) {
         if (User[i].VehicleDetail) {
-          const suratTimezone = "Asia/Kolkata";
+          var PhoneNumberCheckOfficial = await User[i].Phone.slice(0, 3);
+          const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
+          const suratTimezone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
           const currentTimeInSurat = moment().tz(suratTimezone);
           const futureTimeInSurat = currentTimeInSurat.add(5, "minutes");
           const formattedFutureTime =
