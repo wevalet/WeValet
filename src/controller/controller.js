@@ -91,8 +91,6 @@ admin.initializeApp({
 
 const fcm = admin.messaging();
 
-
-
 setInterval(async () => {
   try {
     // await class2.k();
@@ -146,6 +144,23 @@ const twilio = require("twilio");
 // const accountSid = process.env.AccountSid;
 // const authToken = process.env.AuthToken;
 // const client = twilio(accountSid, authToken);
+
+const tzlookup = require('tz-lookup');
+
+function getLocalTimeAndDateFromCoordinates(latitude, longitude) {
+  try {
+    const timezone = tzlookup(latitude, longitude);
+    const localMoment = moment().tz(timezone);
+    const localTime = localMoment.format('HH:mm:ss');
+    const localDate = localMoment.format('YYYY-MM-DD');
+    const fullDate = localMoment.format('YYYY-MM-DDTHH:mm:ss');
+    return { time: localTime, date: localDate, fullDate: fullDate };
+  } catch (error) {
+    console.error('Error fetching time zone:', error.message);
+    return { time: null, date: null };
+  }
+}
+
 
 class class1 {
   static a = async (req, res) => {
@@ -2122,7 +2137,6 @@ class class1 {
 
   static j = async (req, res) => {
     try {
-      console.log("User Name: " + req.UserName);
       if (req.UserName) {
         const headerValue = req.get("Authorization");
 
@@ -2130,6 +2144,16 @@ class class1 {
 
         if (User) {
           if (User.token == headerValue) {
+            var businessData = await Todo2.findOne({ Valets: User.Username })
+            var latitudeLocation = businessData.latitude
+            var longitudelocation = businessData.longitude
+
+            const result = getLocalTimeAndDateFromCoordinates(latitudeLocation, longitudelocation);
+
+            const latestTime = result.time
+            const latestDate = result.date
+            const latestFullTime = result.fullDate
+
             var Parklocation = await User.BusinessUnitName;
 
             var AwsState = await Todo2.find({ UnitName: Parklocation });
@@ -2280,6 +2304,12 @@ class class1 {
                 const currentTime = moment().tz(timeZone).format("YYYY-MM-DDTHH:mm:ss");
                 const currentDate = new Date(currentTime);
 
+                const result = getLocalTimeAndDateFromCoordinates(latitudeLocation, longitudelocation);
+
+                const latestTime = result.time
+                const latestDate = result.date
+                const latestFullTime = result.fullDate
+
                 var currentYear = await currentDate.getFullYear();
                 var currentMonth;
                 var currentDay;
@@ -2392,8 +2422,8 @@ class class1 {
               const formattedDateTime3 = `${currentHours}:${currentMinutes}:${currentSeconds}`;
 
               let data222 = new Todo10({
-                Date: formattedDateTime2,
-                Time: formattedDateTime3,
+                Date: latestDate,
+                Time: latestTime,
                 Pictures: locations,
                 RegistrationNumber: req.body.RegistrationNumber,
                 UserAction: "ParkIn",
@@ -2428,7 +2458,7 @@ class class1 {
 
               // ParkedCar1[0].valetTicketPicture = a;
               ParkedCar1[0].valetTicketPicture = locations;
-              ParkedCar1[0].ParkInTime = currentTime;
+              ParkedCar1[0].ParkInTime = latestFullTime;
               ParkedCar1[0].status = "Parked";
               // ParkedCar1[0].status2 = "Parked";
               ParkedCar1[0].CarPictureUploadStatus = "0";
@@ -2438,7 +2468,7 @@ class class1 {
               let data2 = new Todo7({
                 UserName: response.data.message[0],
                 Message: "Car is parked",
-                ParkInTime: currentTime,
+                ParkInTime: latestFullTime,
               });
 
               await data2.save();
@@ -3401,7 +3431,14 @@ class class1 {
         const headerValue = req.get("Authorization");
 
         var User = await Todo8.findOne({ Username: req.UserName });
+        var businessData = await Todo2.findOne({ Valets: User.Username })
+        var latitudeLocation = businessData.latitude
+        var longitudelocation = businessData.longitude
 
+        const result = getLocalTimeAndDateFromCoordinates(latitudeLocation, longitudelocation);
+        const latestTime = result.time
+        const latestDate = result.date
+        const latestFullTime = result.fullDate
         if (User) {
           ParkedCar[0].leaveTimeCounter = req.body.leaveTimeCounter;
 
@@ -3409,14 +3446,13 @@ class class1 {
             const currentTime = new Date();
 
             const currentDate22 = new Date();
-            const futureDate22 = new Date(
-              currentDate22.getTime() + req.body.UpdateTime * 1000
-            );
+            // const futureDate22 = new Date(
+            //   currentDate22.getTime() + req.body.UpdateTime * 1000
+            // );
+            const futureDate22 = latestFullTime + req.body.UpdateTime * 1000
             const formattedDate = futureDate22
-              .toISOString()
               .slice(0, 19)
               .replace("T", " ");
-
             ParkedCar[0].UpdateTimeDate = req.body.Date;
             ParkedCar[0].UserWaitTime[1] = formattedDate;
             ParkedCar[0].UserWaitTime[2] = req.body.UpdateTime;
