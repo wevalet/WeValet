@@ -6169,9 +6169,18 @@ class class1 {
         var User = await Todo8.find({ Username: req.UserName });
 
         if (User[0].token == headerValue) {
-          var PhoneNumberCheckOfficial = await User[0].Phone.slice(0, 3);
-          const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
-          const suratTimezone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
+
+          var businessData = await Todo2.findOne({ Valets: User.Username })
+          var latitudeLocation = businessData.latitude
+          var longitudelocation = businessData.longitude
+
+          const result = getLocalTimeAndDateFromCoordinates(latitudeLocation, longitudelocation);
+
+          const latestTime = result.time
+          const latestDate = result.date
+          const latestFullTime = result.fullDate
+
+          const suratTimezone = "Asia/Kolkata"
           const currentTimeInSurat = moment()
             .tz(suratTimezone)
             .format("YYYY-MM-DDTHH:mm:ss");
@@ -6200,7 +6209,8 @@ class class1 {
                 ParkOutlocation: req.body.Parklocation,
                 CarPickBy: req.body.CarPickBy,
                 CarDeliverkBy: req.UserName,
-                ParkOutTime: formattedDateTime,
+                // ParkOutTime: formattedDateTime,
+                ParkOutTime: latestFullTime,
                 status: "Deliver",
                 status2: "Deliver",
               },
@@ -6259,6 +6269,7 @@ class class1 {
                   UserName: FcmTokenUserName,
                   Message: "Vehicle has been delivered",
                   ParkInTime: formattedDateTime,
+                  ParkInTime: latestFullTime,
                 });
 
                 await data2.save();
@@ -6361,7 +6372,6 @@ class class1 {
           if (headerValue == User.token) {
             var PhoneNumberCheckOfficial = await User.Phone.slice(0, 3);
             const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
-            console.log(countryName)
             const suratTimezone = countryName == "INDIA" ? "Asia/Kolkata" : "America/New_York"
             const currentTimeInSurat2 = moment()
               .tz(suratTimezone)
