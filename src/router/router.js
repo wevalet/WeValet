@@ -236,7 +236,7 @@ router.get("/request-car", async (req, res) => {
     });
     if (!detail) {
       res.status(HTTP.NOT_FOUND).json({
-        message: "Car not found!!",
+        message: "Vehicle not found!!",
         status: `${HTTP.NOT_FOUND}`,
       });
       return false;

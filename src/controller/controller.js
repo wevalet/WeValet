@@ -1186,7 +1186,7 @@ class class1 {
 
             let data2 = new Todo7({
               UserName: response.data.message[0],
-              Message: "Car is parked",
+              Message: "Vehicle is parked",
               ParkInTime: currentTimeInSurat,
             });
 
@@ -1217,7 +1217,7 @@ class class1 {
                     .then((response) => {
                       const message = {
                         notification: {
-                          title: "Your Car has been parked",
+                          title: "Your vehicle has been parked",
                         },
                         android: {
                           notification: {
@@ -1856,7 +1856,7 @@ class class1 {
                 .post(`${Ip}/StatusChange`, postData)
                 .then((response) => {
                   var a = {
-                    message: "Car entry picture uploaded successfully.",
+                    message: "Vehicle entry picture uploaded successfully.",
                     status: `${HTTP.SUCCESS}`,
                   };
                   res.status(HTTP.SUCCESS).json(a);
@@ -2102,7 +2102,7 @@ class class1 {
               .post(`${Ip}/StatusChange`, postData)
               .then((response) => {
                 var a = {
-                  message: "Valet upload Car Picture Sucessfully",
+                  message: "Valet upload vehicle Picture Sucessfully",
                   status: `${HTTP.SUCCESS}`,
                 };
                 res.status(HTTP.SUCCESS).json(a);
@@ -2467,7 +2467,7 @@ class class1 {
 
               let data2 = new Todo7({
                 UserName: response.data.message[0],
-                Message: "Car is parked",
+                Message: "vehicle is parked",
                 ParkInTime: latestFullTime,
               });
 
@@ -2576,7 +2576,7 @@ class class1 {
               fetchData();
             } else {
               var a = {
-                message: "Car Not Find IN Intermediate Parking Mode",
+                message: "Vehicle Not Find IN Intermediate Parking Mode",
                 status: `${HTTP.NOT_FOUND}`,
               };
               res.status(HTTP.NOT_FOUND).json(a);
@@ -2667,7 +2667,7 @@ class class1 {
             }
 
             var a = {
-              message: "Car Status Updated",
+              message: "Vehicle Status Updated",
               status: `${HTTP.SUCCESS}`,
             };
             res.status(HTTP.SUCCESS).json(a);
@@ -3107,7 +3107,7 @@ class class1 {
         }
       } else {
         var a = {
-          message: "Car Not Find IN Parking Area",
+          message: "Vehicle Not Find IN Parking Area",
           status: `${HTTP.NOT_FOUND}`,
         };
         res.status(HTTP.NOT_FOUND).json(a);
@@ -3234,7 +3234,7 @@ class class1 {
 
                   let data22 = new Todo7({
                     UserName: UserNameData,
-                    Message: `Car is on the way , waiting time is : ${result.message} min`,
+                    Message: `Vehicle is on the way , waiting time is : ${result.message} min`,
                     ParkInTime: currentTimeInSurat2,
                   });
 
@@ -3409,7 +3409,7 @@ class class1 {
         }
       } else {
         var a = {
-          message: "Car Not Find IN Parking Area",
+          message: "Vehicle Not Find IN Parking Area",
           status: `${HTTP.NOT_FOUND}`,
         };
         res.status(HTTP.NOT_FOUND).json(a);
@@ -3487,7 +3487,7 @@ class class1 {
         }
       } else {
         var a = {
-          message: "Car Not Find IN Parking Area",
+          message: "Vehicle Not Find IN Parking Area",
           status: `${HTTP.NOT_FOUND}`,
         };
         res.status(HTTP.NOT_FOUND).json(a);
@@ -6165,12 +6165,10 @@ class class1 {
     try {
       if (req.UserName) {
         const headerValue = req.get("Authorization");
-
         var User = await Todo8.find({ Username: req.UserName });
-
         if (User[0].token == headerValue) {
 
-          var businessData = await Todo2.findOne({ Valets: User.Username })
+          var businessData = await Todo2.findOne({ Valets: User[0].Username })
           var latitudeLocation = businessData.latitude
           var longitudelocation = businessData.longitude
 
@@ -6440,7 +6438,7 @@ class class1 {
               .then((response) => {
                 const message2 = {
                   notification: {
-                    title: ` ${User.UserName} has cancelled the car request `,
+                    title: ` ${User.UserName} has cancelled the vehicle request `,
                   },
                   android: {
                     notification: {
@@ -6602,7 +6600,7 @@ class class1 {
 
           const message2 = {
             notification: {
-              title: ` ${User.UserName} has cancelled the car request `,
+              title: ` ${User.UserName} has cancelled the vehicle request `,
             },
             android: {
               notification: {
@@ -8332,7 +8330,7 @@ class class2 {
 
           let data2 = new Todo7({
             UserName: User.UserName,
-            Message: `${inputDate2} is waiting for someone to accept the car request`,
+            Message: `${inputDate2} is waiting for someone to accept the vehicle request`,
             ParkInTime: currentTimeInSurat2,
           });
 
@@ -8340,7 +8338,7 @@ class class2 {
 
           const message = {
             notification: {
-              title: `${inputDate2} is waiting for someone to accept the car request`,
+              title: `${inputDate2} is waiting for someone to accept the vehicle request`,
             },
             android: {
               notification: {
@@ -10403,7 +10401,7 @@ class QRCodeClass {
             });
             if (!check) {
               return res.status(HTTP.BAD_REQUEST).json({
-                message: "Car not found!!",
+                message: "Vehicle not found!!",
                 status: `${HTTP.BAD_REQUEST}`,
               });
             }
@@ -10428,7 +10426,7 @@ class QRCodeClass {
             console.log("Car Retrieved event emitted", { carId: id });
 
             res.status(HTTP.SUCCESS).json({
-              message: "Car has been retrieved successfully!!",
+              message: "Vehicle has been retrieved successfully!!",
               status: `${HTTP.SUCCESS}`,
             });
             return false;
@@ -10474,7 +10472,7 @@ class QRCodeClass {
             });
             if (!check) {
               return res.status(HTTP.BAD_REQUEST).json({
-                message: "Car not found!!",
+                message: "Vehicle not found!!",
                 status: `${HTTP.BAD_REQUEST}`,
               });
             }
@@ -10496,7 +10494,7 @@ class QRCodeClass {
             await updateRequest.save();
 
             res.status(HTTP.SUCCESS).json({
-              message: "Car has been accepted successfully!!",
+              message: "Vehicle has been accepted successfully!!",
               status: `${HTTP.SUCCESS}`,
             });
             return false;
