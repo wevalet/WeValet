@@ -7410,7 +7410,7 @@ class class2 {
 
         var User = await Todo2.find({ UserName: req.UserName });
         if (headerValue == User[0].token) {
-          var LowerCaseUsername = await req.body.Name.toLowerCase();
+          var LowerCaseUsername = await req.body.Name
 
           var User1 = await Todo8.findOne({ Username: LowerCaseUsername });
           var User2 = await Todo8.findOne({ Phone: req.body.Phone });
