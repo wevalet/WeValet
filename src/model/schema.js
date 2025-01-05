@@ -94,6 +94,7 @@ const BusinessSchema = new mongoose.Schema({
   },
   UnitName: {
     type: String,
+    unique: true,
   },
   UnitType: {
     type: String,

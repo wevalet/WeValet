@@ -475,8 +475,9 @@ class class1 {
 
       var User = await Todo2.findOne({ UserName: req.body.UserName })
       var User2 = await Todo2.findOne({ Phone: req.body.Phone })
+      var User3 = await Todo2.findOne({ UnitName: req.body.UnitName })
 
-      if (!User && !User2) {
+      if (!User && !User2 && !User3) {
 
         // const uploadMiddleware = multer().array("picture");
 
@@ -7412,11 +7413,11 @@ class class2 {
         if (headerValue == User[0].token) {
           var LowerCaseUsername = await req.body.Name
 
-          var User1 = await Todo8.findOne({ Username: LowerCaseUsername });
+          var User1 = await Todo8.findOne({ Username: req.body.Username });
           var User2 = await Todo8.findOne({ Phone: req.body.Phone });
 
           if (!User1 && !User2) {
-            var UserData = await Todo2.findOne({ UserName: LowerCaseUsername });
+            var UserData = await Todo2.findOne({ UserName: req.body.Username });
 
             if (UserData) {
               const response = {
@@ -7455,7 +7456,7 @@ class class2 {
               });
               await data.save();
 
-              await User[0].Valets.push(LowerCaseUsername);
+              await User[0].Valets.push(req.body.Username);
               await User[0].save();
 
               const response = {
@@ -7530,6 +7531,7 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static k = async (req, res) => {
     try {
       if (req.UserName && req.body.UserName) {
@@ -7540,9 +7542,13 @@ class class2 {
         if (User) {
           if (headerValue == User.token) {
             var User2 = await Todo8.find({ Username: req.body.UserName });
-
             if (User.UserName == User2[0].BusinessManagerUserName) {
               await Todo8.find({ Username: req.body.UserName }).deleteMany();
+
+              await Todo2.findOneAndUpdate(
+                { UserName: User2[0].BusinessManagerUserName },
+                { $pull: { Valets: req.body.UserName } }
+              );
 
               var LowerCaseUsername = await req.body.UserName.toLowerCase();
 
@@ -7584,6 +7590,7 @@ class class2 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static l = async (req, res) => {
     try {
       if (req.UserName) {
