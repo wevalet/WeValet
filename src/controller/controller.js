@@ -949,7 +949,7 @@ class class1 {
   static f = async (req, res) => {
     try {
       if (req.body.Fcm) {
-        var LowerCaseUsername = await req.body.UserName.toLowerCase();
+        var LowerCaseUsername = await req.body.UserName
 
         var User = await Todo2.findOne({ UserName: LowerCaseUsername });
         var User2 = await Todo8.findOne({ Username: LowerCaseUsername });
@@ -7413,7 +7413,9 @@ class class2 {
         if (headerValue == User[0].token) {
           var LowerCaseUsername = await req.body.Name
 
-          var User1 = await Todo8.findOne({ Username: req.body.Username });
+          const User1 = await Todo8.findOne({
+            Username: { $regex: `^${req.body.Username}$`, $options: 'i' }
+          });
           var User2 = await Todo8.findOne({ Phone: req.body.Phone });
 
           if (!User1 && !User2) {
