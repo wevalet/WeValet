@@ -12,6 +12,8 @@ var {
   Todo15,
   HotelQrCode,
   HotelQrCodeHistory,
+  TermsAndCondition,
+  PrivacyPolicy,
 } = require("../model/schema");
 const HTTP = require("../../constant/response.constant");
 
@@ -10843,4 +10845,40 @@ class QRCodeClass {
   };
 }
 
-module.exports = { class1, class2, QRCodeClass };
+class CustomerService {
+  static TermsCondition = async (req, res) => {
+    try {
+      const data = await TermsAndCondition.findOne();
+      return res.status(HTTP.SUCCESS).json({
+        message: "Data load successfully!",
+        data: data.htmlContent,
+        status: `${HTTP.SUCCESS}`,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json({
+        message: error.message,
+        status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+      });
+    }
+  }
+
+  static PrivacyPolicy = async (req, res) => {
+    try {
+      const data = await PrivacyPolicy.findOne();
+      return res.status(HTTP.SUCCESS).json({
+        message: "Data load successfully!",
+        data: data.htmlContent,
+        status: `${HTTP.SUCCESS}`,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json({
+        message: error.message,
+        status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+      });
+    }
+  }
+}
+
+module.exports = { class1, class2, QRCodeClass, CustomerService };

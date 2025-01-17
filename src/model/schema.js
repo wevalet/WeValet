@@ -506,6 +506,33 @@ var HotelQrCodeHistory = mongoose.model(
   HotelQrCodeHistorySchema
 );
 
+const TermsAndConditionSchema = new mongoose.Schema({
+  content: {
+    type: String,
+    required: true,
+  },
+  htmlContent: {
+    type: String,
+    required: true,
+  },
+});
+
+const TermsAndCondition = mongoose.model("TermsAndConditionCollection", TermsAndConditionSchema);
+
+
+const PrivacyPolicySchema = new mongoose.Schema({
+  content: {
+    type: String,
+    required: true,
+  },
+  htmlContent: {
+    type: String,
+    required: true,
+  },
+});
+
+const PrivacyPolicy = mongoose.model("PrivacyPolicyCollection", PrivacyPolicySchema);
+
 module.exports = {
   Todo,
   Todo2,
@@ -520,4 +547,6 @@ module.exports = {
   Todo15,
   HotelQrCode,
   HotelQrCodeHistory,
+  TermsAndCondition,
+  PrivacyPolicy
 };

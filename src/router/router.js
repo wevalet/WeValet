@@ -1,7 +1,7 @@
 var express = require("express");
 const router = express.Router();
 
-var { class1, class2, QRCodeClass } = require("../controller/controller");
+var { class1, class2, QRCodeClass, CustomerService } = require("../controller/controller");
 
 var jwt = require("jsonwebtoken");
 var path = require("path");
@@ -202,6 +202,10 @@ router.get(
 router.post("/CarRetrieve", verifyToken, QRCodeClass.CarRetrieve);
 router.post("/AcceptCar", verifyToken, QRCodeClass.AcceptCar);
 router.get("/AcceptedCarDetails", verifyToken, QRCodeClass.AcceptedCarDetails);
+
+//Terms and condition and Privacy policy
+router.get("/terms-condition", CustomerService.TermsCondition);
+router.get("/privacy-policy", CustomerService.PrivacyPolicy);
 
 // USER SECTION
 router.post("/RequestForCar", QRCodeClass.RequestForCar);
