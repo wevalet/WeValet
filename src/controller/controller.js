@@ -5137,7 +5137,8 @@ class class1 {
     try {
       var PetLogic3 = await Todo.findOne({ Phone: req.Phone });
 
-      if (PetLogic3 && req.body.latitude && req.body.longitude) {
+      // if (PetLogic3 && req.body.latitude && req.body.longitude) {
+      if (PetLogic3 || req.body.latitude || req.body.longitude) {
         const headerValue = req.get("Authorization");
 
         if (headerValue == PetLogic3.token) {
@@ -5226,7 +5227,6 @@ class class1 {
           }));
 
           const targetLocation = req.body;
-
           transformedData.forEach((element) => {
             if (element.Country !== "INDIA") {
               element.kilometer =
@@ -5252,7 +5252,8 @@ class class1 {
           transformedData.sort((a, b) => a.kilometer - b.kilometer);
 
           const message = {
-            data: DataArray,
+            // data: DataArray,
+            data: transformedData,
             status: `${HTTP.SUCCESS}`,
             Active: Data3,
           };
