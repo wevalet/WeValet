@@ -2470,7 +2470,7 @@ class class1 {
 
               let data2 = new Todo7({
                 UserName: response.data.message[0],
-                Message: "vehicle is parked",
+                Message: "Vehicle is parked",
                 ParkInTime: latestFullTime,
               });
 
