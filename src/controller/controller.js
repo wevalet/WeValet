@@ -52,7 +52,7 @@ const os = require("os");
 if (os.hostname() == "DESKTOP-796LHPC") {
   var Ip = process.env.IpAddress;
 } else {
-  var Ip = "http://65.2.158.253:3500";
+  var Ip = "https://65.2.158.253:3500";
   // var Ip = "http://localhost:3500";
 }
 
