@@ -1,6 +1,7 @@
 const express = require("express");
-const http = require("http");
+const https = require("https");
 const cors = require("cors");
+const fs = require("fs");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 require("./db/conn");
@@ -39,8 +40,12 @@ var ejs_folder_path = path.join(__dirname, "../templates");
 app.set("view engine", "ejs");
 app.set("views", ejs_folder_path);
 
+const privateKey = fs.readFileSync('../keys/private.key', 'utf8');
+const certificate = fs.readFileSync('../keys/RootCA.cer', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+
 // Create an HTTP server
-const server = http.createServer(app);
+const server = https.createServer(credentials, app);
 
 // Initialize Socket.io after CORS setup
 initializeSocket(server);
