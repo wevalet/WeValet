@@ -1,5 +1,5 @@
 const express = require("express");
-const https = require("https");
+const http = require("http");
 const cors = require("cors");
 const fs = require("fs");
 const bodyParser = require("body-parser");
@@ -40,18 +40,8 @@ var ejs_folder_path = path.join(__dirname, "../templates");
 app.set("view engine", "ejs");
 app.set("views", ejs_folder_path);
 
-let credentials;
-try {
-    const privateKey = fs.readFileSync(path.join(__dirname, "../keys/private.key"), "utf8");
-    const certificate = fs.readFileSync(path.join(__dirname, "../keys/certificate.crt"), "utf8");
-    credentials = { key: privateKey, cert: certificate };
-} catch (err) {
-    console.error("Error loading SSL files:", err);
-    process.exit(1);
-}
-
 // Create an HTTP server
-const server = https.createServer(credentials, app);
+const server = http.createServer(app);
 
 // Initialize Socket.io after CORS setup
 initializeSocket(server);
