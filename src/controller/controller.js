@@ -813,17 +813,17 @@ class class1 {
 
           if (PhoneNumberCheckOfficial == +91) {
             console.log("Call OTP Service");
-            axios
-              .get(
-                `http://3.111.243.189//indexotp.php?number=${req.body.Phone}&otp=${otp}`
-              )
-              .then((response) => {
-                var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
-                res.status(HTTP.SUCCESS).json(a);
-              })
+axios
+            .get(
+            `http://3.111.243.189//indexotp.php?number=${req.body.Phone}&otp=${otp}`
+            )
+.then((response) => {
+            var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
+                            res.status(HTTP.SUCCESS).json(a);
+            })
               .catch((error) => {
-                console.error(`Error: ${error}`);
-              });
+              console.error(`Error: ${error}`);
+            });
           } else {
             // var updateuser = await Todo.findOneAndUpdate({ Phone: req.body.Phone }, { $set: { otp: otp } });
             // await updateuser.save();
@@ -7800,7 +7800,7 @@ class class2 {
   };
   static m = async (req, res) => {
     try {
-      var PetLogic1 = await Todo.findOne({ Phone: req.Phone });
+      var PetLogic1 = await Todo.findOne({ Phone: "+91 9315100611" });
       var PetLogic2 = await Todo2.findOne({ UserName: req.UserName });
 
       if (PetLogic1) {
@@ -7809,6 +7809,7 @@ class class2 {
         // var User = await PetLogic1
         var PetLogic3 = await PetLogic2;
       }
+      console.log("555 ok",PetLogic3);
 
       if (PetLogic3) {
         const headerValue = req.get("Authorization");
@@ -7824,45 +7825,59 @@ class class2 {
           var User3 = [];
 
           for (var i = 0; i < User2.length; i++) {
+
+
+            const originalDate = new Date(User2[i].ParkInTime);
+
+            const y = originalDate.getUTCFullYear();
+            const m = originalDate.getUTCMonth() + 1; // getUTCMonth returns 0-11
+            const d = String(originalDate.getUTCDate()).padStart(2, '0');
+            const time = originalDate.toISOString().split('T')[1]; // Get the time part
+            
+            const customParkInTime = `${y}-${m}-${d}T${time}`;
+            User2[i].ParkInTime = customParkInTime;
+
+
             const inputDate = new Date(User2[i].ParkInTime);
-            const options = { month: "long" };
-            const formattedDate = new Intl.DateTimeFormat(
-              "en-US",
-              options
-            ).format(inputDate);
+            console.log("inputDate ::",inputDate)
+            // const options = { month: "long" };
+            // const formattedDate = new Intl.DateTimeFormat(
+            //   "en-US",
+            //   options
+            // ).format(inputDate);
 
-            const year = inputDate.getFullYear();
-            const month = String(inputDate.getMonth() + 1).padStart(2, "0");
-            const day = String(inputDate.getDate()).padStart(2, "0");
-            const hours = String(inputDate.getHours()).padStart(2, "0");
-            const minutes = String(inputDate.getMinutes()).padStart(2, "0");
-            const seconds = String(inputDate.getSeconds()).padStart(2, "0");
+            // const year = inputDate.getFullYear();
+            // const month = String(inputDate.getMonth() + 1).padStart(2, "0");
+            // const day = String(inputDate.getDate()).padStart(2, "0");
+            // const hours = String(inputDate.getHours()).padStart(2, "0");
+            // const minutes = String(inputDate.getMinutes()).padStart(2, "0");
+            // const seconds = String(inputDate.getSeconds()).padStart(2, "0");
 
-            function addSuffix(number) {
-              if (number % 100 >= 11 && number % 100 <= 13) {
-                return number + "th";
-              }
+            // function addSuffix(number) {
+            //   if (number % 100 >= 11 && number % 100 <= 13) {
+            //     return number + "th";
+            //   }
 
-              switch (number % 10) {
-                case 1:
-                  return number + "st";
-                case 2:
-                  return number + "nd";
-                case 3:
-                  return number + "rd";
-                default:
-                  return number + "th";
-              }
-            }
+            //   switch (number % 10) {
+            //     case 1:
+            //       return number + "st";
+            //     case 2:
+            //       return number + "nd";
+            //     case 3:
+            //       return number + "rd";
+            //     default:
+            //       return number + "th";
+            //   }
+            // }
 
-            const formattedTime3 = inputDate
-              .toISOString()
-              .slice(0, 19)
-              .replace("T", " ");
+            // const formattedTime3 = inputDate
+            //   .toISOString()
+            //   .slice(0, 19)
+            //   .replace("T", " ");
 
-            const FinalFormattedDate = `${formattedDate} ${addSuffix(
-              day
-            )}, ${hours}:${minutes}`;
+            // const FinalFormattedDate = `${formattedDate} ${addSuffix(
+            //   day
+            // )}, ${hours}:${minutes}`;
 
             var a = {
               _id: User2[i]._id,
