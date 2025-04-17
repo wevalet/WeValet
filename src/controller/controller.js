@@ -52,7 +52,7 @@ const os = require("os");
 if (os.hostname() == "DESKTOP-796LHPC") {
   var Ip = process.env.IpAddress;
 } else {
-  var Ip = "https://wevalet.co.in/";
+  var Ip = "https://wevalet.co.in";
   // var Ip = "http://localhost:3500";
 }
 
@@ -819,7 +819,7 @@ axios
             )
 .then((response) => {
             var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
-                            res.status(HTTP.SUCCESS).json(a);
+                res.status(HTTP.SUCCESS).json(a);
             })
               .catch((error) => {
               console.error(`Error: ${error}`);
@@ -10377,7 +10377,7 @@ class QRCodeClass {
       });
 
       if (!check) {
-        return res.status(HTTP.BAD_REQUEST).json({
+        return res.status(HTTP.BAD_REQUEST).json({  
           message: "Data not found!!",
           status: `${HTTP.BAD_REQUEST}`,
         });
@@ -10439,7 +10439,7 @@ class QRCodeClass {
             console.log("Car Retrieved event emitted", { carId: id });
 
             res.status(HTTP.SUCCESS).json({
-              message: "Vehicle has been retrieved successfully!!",
+              message: "Vehicle has been delivered successfully!!",
               status: `${HTTP.SUCCESS}`,
             });
             return false;
