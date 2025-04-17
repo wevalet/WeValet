@@ -820,11 +820,10 @@ axios
 .then((response) => {
             var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
                 res.status(HTTP.SUCCESS).json(a);
-            })
-              .catch((error) => {
-              console.error(`Error: ${error}`);
-            });
-          } else {
+            } catch (error) {
+              console.error("msg91 calling error :: ::",error);
+            }
+          }  else {
             // var updateuser = await Todo.findOneAndUpdate({ Phone: req.body.Phone }, { $set: { otp: otp } });
             // await updateuser.save();
             async function convertPhoneNumber(Parameter1) {
@@ -10439,7 +10438,7 @@ class QRCodeClass {
             console.log("Car Retrieved event emitted", { carId: id });
 
             res.status(HTTP.SUCCESS).json({
-              message: "Vehicle has been delivered successfully!!",
+              message: "Vehicle has been Delivered successfully!!",
               status: `${HTTP.SUCCESS}`,
             });
             return false;
