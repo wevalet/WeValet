@@ -813,17 +813,18 @@ class class1 {
 
           if (PhoneNumberCheckOfficial == +91) {
             console.log("Call OTP Service");
-axios
-            .get(
-            `http://3.111.243.189//indexotp.php?number=${req.body.Phone}&otp=${otp}`
-            )
-.then((response) => {
-            var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
+            axios
+              .get(
+                `http://3.111.243.189//indexotp.php?number=${req.body.Phone}&otp=${otp}`
+              )
+              .then((response) => {
+                var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
                 res.status(HTTP.SUCCESS).json(a);
-            } catch (error) {
-              console.error("msg91 calling error :: ::",error);
-            }
-          }  else {
+              })
+              .catch((error) => {
+                console.error(`Error: ${error}`);
+              });
+          } else {
             // var updateuser = await Todo.findOneAndUpdate({ Phone: req.body.Phone }, { $set: { otp: otp } });
             // await updateuser.save();
             async function convertPhoneNumber(Parameter1) {
