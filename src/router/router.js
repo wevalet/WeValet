@@ -1,7 +1,7 @@
 var express = require("express");
 const router = express.Router();
 
-var { class1, class2, QRCodeClass, CustomerService } = require("../controller/controller");
+var { class1, class2, QRCodeClass, CustomerService, UserService } = require("../controller/controller");
 
 var jwt = require("jsonwebtoken");
 var path = require("path");
@@ -265,5 +265,7 @@ router.get("/QRGenerate", (req, res) => {
     status: null,
   });
 });
+
+router.post("/delete-user", verifyToken, UserService.DeleteUser);
 
 module.exports = router;

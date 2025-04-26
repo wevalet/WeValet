@@ -169,7 +169,8 @@ class class1 {
     try {
       var User = await Todo.findOne({ Phone: req.body.Phone });
 
-      if (!User) {
+
+      if (User && User.isUserDelete == true) {
         var User2 = await Todo.find({});
 
         var VehicleDetailArray = [];
@@ -686,7 +687,7 @@ class class1 {
   };
   static c = async (req, res) => {
     try {
-      var User = await Todo.find({ Phone: req.Phone });
+      var User = await Todo.find({ Phone: req.Phone, isUserDelete: false });
       if (User.length == 1) {
         // if (typeof User[0].VehicleDetail[0].CompanyName === 'undefined' && typeof User[0].VehicleDetail[0].Model === 'undefined' && typeof User[0].VehicleDetail[0].RegistrationNumber === 'undefined' && typeof User[0].VehicleDetail[0].Color === 'undefined' && User[0].VehicleDetail[0].Picture.length == 0) {
         //     User[0].VehicleDetail.shift();
@@ -768,12 +769,11 @@ class class1 {
   static d = async (req, res) => {
     try {
       if (req.body.Phone) {
-        console.log(req.body.Phone);
         // if (String(req.body.Phone).trim() === "+91 1234567890") {
         //   var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
         //   res.status(HTTP.SUCCESS).json(a);
         // }
-        var user = await Todo.find({ Phone: req.body.Phone });
+        var user = await Todo.find({ Phone: req.body.Phone, isUserDelete: false });
         if (user.length == 0) {
           var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
           res.status(HTTP.NOT_FOUND).json(a);
@@ -792,7 +792,7 @@ class class1 {
           if (String(req.body.Phone).trim() === "+91 1234567890" ||
             String(req.body.Phone).trim() === "+1 (123) 456-7890") {
             var updateuser = await Todo.findOneAndUpdate(
-              { Phone: req.body.Phone },
+              { Phone: req.body.Phone, isUserDelete: false },
               { $set: { otp: 123456 } }
             );
             await updateuser.save();
@@ -804,7 +804,7 @@ class class1 {
           var PhoneNumberCheckOfficial = await PhoneNumberCheck.slice(0, 3);
 
           var updateuser = await Todo.findOneAndUpdate(
-            { Phone: req.body.Phone },
+            { Phone: req.body.Phone, isUserDelete: false },
             { $set: { otp: otp } }
           );
           await updateuser.save();
@@ -910,16 +910,18 @@ class class1 {
   static e = async (req, res) => {
     try {
       if (req.body.Phone && req.body.otp && req.body.Fcm) {
-        var user = await Todo.find({ Phone: req.body.Phone });
+        var user = await Todo.find({ Phone: req.body.Phone, isUserDelete: false });
         if (user.length == 0) {
           var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
           res.status(HTTP.NOT_FOUND).json(a);
         } else {
+          console.log("DB OTP", user[0].otp)
+          console.log("Body OTP", req.body.otp)
           if (user[0].otp == req.body.otp) {
             const token = jwt.sign({ Phone: req.body.Phone }, SECRET_KEY);
 
             var updateuser = await Todo.findOneAndUpdate(
-              { Phone: req.body.Phone },
+              { Phone: req.body.Phone, isUserDelete: false },
               { $unset: { otp: 1 }, $set: { token: token, Fcm: req.body.Fcm } },
               { new: true }
             );
@@ -2924,7 +2926,7 @@ class class1 {
       if (ParkedCar.length !== 0) {
         const headerValue = req.get("Authorization");
 
-        var User = await Todo.findOne({ Phone: req.Phone });
+        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
         if (User) {
           if (
             headerValue == User.token ||
@@ -5008,7 +5010,7 @@ class class1 {
 
   static H = async (req, res) => {
     try {
-      var PetLogic3 = await Todo.findOne({ Phone: req.Phone });
+      var PetLogic3 = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
 
       if (PetLogic3 && req.body.latitude && req.body.longitude) {
         const headerValue = req.get("Authorization");
@@ -5050,7 +5052,7 @@ class class1 {
             }
           }
 
-          const data2 = await Todo.find({ Phone: req.Phone });
+          const data2 = await Todo.find({ Phone: req.Phone,isUserDelete:false });
 
           const inputDateTime = await data2[0].PlanExpiredDate;
 
@@ -5135,7 +5137,7 @@ class class1 {
 
   static I = async (req, res) => {
     try {
-      var PetLogic3 = await Todo.findOne({ Phone: req.Phone });
+      var PetLogic3 = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
 
       // if (PetLogic3 && req.body.latitude && req.body.longitude) {
       if (PetLogic3 || req.body.latitude || req.body.longitude) {
@@ -5178,7 +5180,7 @@ class class1 {
             }
           }
 
-          const data2 = await Todo.find({ Phone: req.Phone });
+          const data2 = await Todo.find({ Phone: req.Phone,isUserDelete:false });
 
           const inputDateTime = await data2[0].PlanExpiredDate;
 
@@ -5505,7 +5507,7 @@ class class1 {
   static M = async (req, res) => {
     try {
       if (req.Phone) {
-        var User = await Todo.find({ Phone: req.Phone });
+        var User = await Todo.find({ Phone: req.Phone,isUserDelete:false });
         var Vehicles = [];
 
         if (User[0].VehicleDetail) {
@@ -5551,7 +5553,7 @@ class class1 {
   static N = async (req, res) => {
     try {
       if (req.Phone) {
-        var User = await Todo.find({ Phone: req.Phone });
+        var User = await Todo.find({ Phone: req.Phone,isUserDeleted:false });
 
         var Vehicles = [];
 
@@ -6368,7 +6370,7 @@ class class1 {
       if (ParkedCar.length !== 0) {
         const headerValue = req.get("Authorization");
 
-        var User = await Todo.findOne({ Phone: req.Phone });
+        var User = await Todo.findOne({ Phone: req.Phone,isUserDeleted:false });
 
         if (User) {
           if (headerValue == User.token) {
@@ -6949,7 +6951,7 @@ class class2 {
   static a = async (req, res) => {
     try {
       if (req.body.Phone && req.Phone && req.body.Name) {
-        var User2 = await Todo.find({ Phone: req.Phone });
+        var User2 = await Todo.find({ Phone: req.Phone, isUserDelete: false });
 
         const headerValue = req.get("Authorization");
 
@@ -7015,7 +7017,7 @@ class class2 {
         const formattedDateTime = `${year}:${month}:${day}`;
         const formattedDateTime2 = `${hours}:${minutes}:${seconds}`;
 
-        var User2 = await Todo.find({ Phone: req.Phone });
+        var User2 = await Todo.find({ Phone: req.Phone, isUserDelete: false });
 
         let data = new Todo6({
           Date: req.body.Date,
@@ -7082,7 +7084,7 @@ class class2 {
   static c = async (req, res) => {
     try {
       if (req.Phone) {
-        var User = await Todo.find({ Phone: req.Phone });
+        var User = await Todo.find({ Phone: req.Phone,isUserDelete:false });
 
         var a = [];
 
@@ -7112,7 +7114,7 @@ class class2 {
   static d = async (req, res) => {
     try {
       if (req.Phone) {
-        var User = await Todo.find({ Phone: req.Phone });
+        var User = await Todo.find({ Phone: req.Phone,isUserDelete:false });
 
         var Member = [];
 
@@ -7273,7 +7275,7 @@ class class2 {
       if (req.body.Search && req.Phone) {
         const headerValue = req.get("Authorization");
 
-        var User = await Todo.find({ Phone: req.Phone });
+        var User = await Todo.find({ Phone: req.Phone,isUserDelete:false });
         if (headerValue == User[0].token) {
           const words = req.body.Search.replace(/^\s+|\s+$/g, "").split(" ");
           const nonBlankArray = words.filter((str) => str.trim() !== "");
@@ -7800,8 +7802,8 @@ class class2 {
   };
   static m = async (req, res) => {
     try {
-      var PetLogic1 = await Todo.findOne({ Phone: req.Phone });
-      var PetLogic2 = await Todo2.findOne({ UserName: req.UserName });
+      var PetLogic1 = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
+      var PetLogic2 = await Todo2.findOne({ UserName: req.UserName,isUserDelete:false });
 
       if (PetLogic1) {
         var PetLogic3 = await PetLogic1;
@@ -7809,7 +7811,7 @@ class class2 {
         // var User = await PetLogic1
         var PetLogic3 = await PetLogic2;
       }
-      console.log("555 ok",PetLogic3);
+      console.log("555 ok", PetLogic3);
 
       if (PetLogic3) {
         const headerValue = req.get("Authorization");
@@ -8682,7 +8684,7 @@ class class2 {
 
         var SendData2 = [];
 
-        var User = await Todo.findOne({ Phone: req.Phone });
+        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
 
         if (User) {
           function compareDates(inputDate, inputDate2) {
@@ -8940,7 +8942,7 @@ class class2 {
         }${day}`;
 
       if (req.Phone && req.body.PlanType) {
-        var User = await Todo.findOne({ Phone: req.Phone });
+        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
 
         if (User) {
           User.PlanPurchase = req.body.PlanType;
@@ -8993,7 +8995,7 @@ class class2 {
       if (req.Phone) {
         const headerValue = req.get("Authorization");
 
-        var User = await Todo.findOne({ Phone: req.Phone });
+        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
 
         if (headerValue == User.token) {
           var FindAndDeleteMany = await Todo7.find({ UserName: User.UserName });
@@ -9495,7 +9497,7 @@ class class2 {
   static J = async (req, res) => {
     try {
       if (req.Phone) {
-        var User = await Todo.findOne({ Phone: req.Phone });
+        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
 
         if (User) {
           const headerValue = req.get("Authorization");
@@ -9544,7 +9546,7 @@ class class2 {
   static K = async (req, res) => {
     try {
       if (req.Phone && req.body.Date) {
-        var User = await Todo.findOne({ Phone: req.Phone });
+        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
         console.log(req.Phone, req.body.Date)
         if (User) {
           const headerValue = req.get("Authorization");
@@ -9680,7 +9682,7 @@ class class2 {
 
       if (req.Phone && req.body.Date && req.body.RegistrationNumber && req.body.UserAction) {
 
-        var User = await Todo.findOne({ Phone: req.Phone })
+        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false })
 
         if (User) {
 
@@ -10377,7 +10379,7 @@ class QRCodeClass {
       });
 
       if (!check) {
-        return res.status(HTTP.BAD_REQUEST).json({  
+        return res.status(HTTP.BAD_REQUEST).json({
           message: "Data not found!!",
           status: `${HTTP.BAD_REQUEST}`,
         });
@@ -10883,4 +10885,30 @@ class CustomerService {
   }
 }
 
-module.exports = { class1, class2, QRCodeClass, CustomerService };
+class UserService {
+  static DeleteUser = async (req, res) => {
+    try {
+      var user = await Todo.findOne({ Phone: req.Phone, isUserDelete: false });
+      if (!user) {
+        var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
+        res.status(HTTP.NOT_FOUND).json(a);
+      }
+
+      const userDelete = await Todo.findOneAndUpdate({ Phone: req.Phone, isUserDelete: false }, { $set: { isUserDelete: true } });
+      if (userDelete) {
+        var a = { message: "Account Delete Successfully", status: `${HTTP.SUCCESS}` };
+        res.status(HTTP.SUCCESS).json(a);
+      } else {
+        var a = { message: "Something Went Wrong. ", status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+        res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+      }
+    } catch {
+      res.status(HTTP.INTERNAL_SERVER_ERROR).json({
+        message: error.message,
+        status: `${HTTP.INTERNAL_SERVER_ERROR}`,
+      });
+    }
+  }
+}
+
+module.exports = { class1, class2, QRCodeClass, CustomerService, UserService };
