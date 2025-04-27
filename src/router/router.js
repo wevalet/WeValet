@@ -266,6 +266,6 @@ router.get("/QRGenerate", (req, res) => {
   });
 });
 
-router.post("/delete-user", verifyToken, UserService.DeleteUser);
+router.post("/user-deletion", verifyToken, UserService.DeleteUser);
 
 module.exports = router;
