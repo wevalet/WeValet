@@ -171,110 +171,110 @@ class class1 {
 
 
       if (User && User.isUserDelete == true) {
-        var User2 = await Todo.find({});
+        // var User2 = await Todo.find({});
 
-        var VehicleDetailArray = [];
-        for (var i = 0; i < User2.length; i++) {
-          if (User2[i].VehicleDetail) {
-            for (var j = 0; j < User2[i].VehicleDetail.length; j++) {
-              await VehicleDetailArray.push(
-                User2[i].VehicleDetail[j].RegistrationNumber
-              );
-            }
+        // var VehicleDetailArray = [];
+        // for (var i = 0; i < User2.length; i++) {
+        //   if (User2[i].VehicleDetail) {
+        //     for (var j = 0; j < User2[i].VehicleDetail.length; j++) {
+        //       await VehicleDetailArray.push(
+        //         User2[i].VehicleDetail[j].RegistrationNumber
+        //       );
+        //     }
+        //   }
+        // }
+
+        // if (VehicleDetailArray.includes(req.body.RegistrationNumber)) {
+        //   const response = {
+        //     message: "Please  choose Another RegistrationNumber",
+        //     status: HTTP.UNAUTHORIZED,
+        //   };
+        //   res.status(HTTP.UNAUTHORIZED).json(response); // status code
+        // } else {
+        var PictureArray = [];
+        if (req.files && req.files.length > 0) {
+          for (var i = 0; i < req.files.length; i++) {
+            await PictureArray.push(Ip + "/public/" + req.files[i].filename);
           }
         }
 
-        if (VehicleDetailArray.includes(req.body.RegistrationNumber)) {
-          const response = {
-            message: "Please  choose Another RegistrationNumber",
-            status: HTTP.UNAUTHORIZED,
-          };
-          res.status(HTTP.UNAUTHORIZED).json(response); // status code
-        } else {
-          var PictureArray = [];
-          if (req.files && req.files.length > 0) {
-            for (var i = 0; i < req.files.length; i++) {
-              await PictureArray.push(Ip + "/public/" + req.files[i].filename);
-            }
-          }
+        if (req.body.UserName && req.body.Phone) {
+          const currentDate2 = await new Date();
 
-          if (req.body.UserName && req.body.Phone) {
-            const currentDate2 = await new Date();
+          currentDate2.setDate(currentDate2.getDate() - 1);
 
-            currentDate2.setDate(currentDate2.getDate() - 1);
+          const year = await currentDate2.getFullYear();
+          const month = (await currentDate2.getMonth()) + 1;
+          const day = await currentDate2.getDate();
 
-            const year = await currentDate2.getFullYear();
-            const month = (await currentDate2.getMonth()) + 1;
-            const day = await currentDate2.getDate();
+          let PlanExpiredDate = await `${year}-${month < 10 ? "0" : ""
+            }${month}-${day < 10 ? "0" : ""}${day}`;
 
-            let PlanExpiredDate = await `${year}-${month < 10 ? "0" : ""
-              }${month}-${day < 10 ? "0" : ""}${day}`;
+          if (req.body.RegistrationNumber) {
+            var PhoneNumberCheckOfficial = await req.body.Phone.slice(0, 3);
+            const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
+            const timeZone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
+            // const suratTimezone = "Asia/Kolkata";
+            const currentTimeInSurat = moment().tz(timeZone);
+            const futureTimeInSurat = currentTimeInSurat.add(-1, "minutes");
+            const formattedFutureTime = futureTimeInSurat.format(
+              "YYYY-MM-DDTHH:mm:ss"
+            );
 
-            if (req.body.RegistrationNumber) {
-              var PhoneNumberCheckOfficial = await req.body.Phone.slice(0, 3);
-              const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
-              const timeZone = countryName === "INDIA" ? "Asia/Kolkata" : "America/New_York"
-              // const suratTimezone = "Asia/Kolkata";
-              const currentTimeInSurat = moment().tz(timeZone);
-              const futureTimeInSurat = currentTimeInSurat.add(-1, "minutes");
-              const formattedFutureTime = futureTimeInSurat.format(
-                "YYYY-MM-DDTHH:mm:ss"
-              );
-
-              let data = new Todo({
-                UserName: req.body.UserName,
-                Email: req.body.Email,
-                Phone: req.body.Phone,
-                VehicleDetail: [
-                  {
-                    CompanyName: req.body.CompanyName,
-                    Model: req.body.Model,
-                    RegistrationNumber: req.body.RegistrationNumber,
-                    status: "",
-                    Color: req.body.Color,
-                    Year: req.body.Year,
-                    BodyType: req.body.BodyType,
-                    Picture: PictureArray,
-                    StatusChange: formattedFutureTime,
-                  },
-                ],
-                TimeUpdateStatus: 0,
-                Request: 0,
-                PlanPurchase: "",
-                PlanExpiredDate: PlanExpiredDate,
-                OfficialPlanExpiredDate: "",
-                ActiveParkingUser: [req.body.UserName],
-              });
-              await data.save();
-            } else {
-              let data = new Todo({
-                UserName: req.body.UserName,
-                Email: req.body.Email,
-                Phone: formatPhoneNumber(req.body.Phone),
-                VehicleDetail: [],
-                TimeUpdateStatus: 0,
-                Request: 0,
-                PlanPurchase: "",
-                PlanExpiredDate: PlanExpiredDate,
-                OfficialPlanExpiredDate: "",
-                ActiveParkingUser: [req.body.UserName],
-              });
-              await data.save();
-            }
-
-            var a = {
-              message: "User Account Create Successfully",
-              status: `${HTTP.SUCCESS}`,
-            };
-            res.status(HTTP.SUCCESS).json(a);
+            let data = new Todo({
+              UserName: req.body.UserName,
+              Email: req.body.Email,
+              Phone: req.body.Phone,
+              VehicleDetail: [
+                {
+                  CompanyName: req.body.CompanyName,
+                  Model: req.body.Model,
+                  RegistrationNumber: req.body.RegistrationNumber,
+                  status: "",
+                  Color: req.body.Color,
+                  Year: req.body.Year,
+                  BodyType: req.body.BodyType,
+                  Picture: PictureArray,
+                  StatusChange: formattedFutureTime,
+                },
+              ],
+              TimeUpdateStatus: 0,
+              Request: 0,
+              PlanPurchase: "",
+              PlanExpiredDate: PlanExpiredDate,
+              OfficialPlanExpiredDate: "",
+              ActiveParkingUser: [req.body.UserName],
+            });
+            await data.save();
           } else {
-            var a = {
-              message: "Insufficient Data",
-              status: `${HTTP.BAD_REQUEST}`,
-            };
-            res.status(HTTP.BAD_REQUEST).json(a);
+            let data = new Todo({
+              UserName: req.body.UserName,
+              Email: req.body.Email,
+              Phone: formatPhoneNumber(req.body.Phone),
+              VehicleDetail: [],
+              TimeUpdateStatus: 0,
+              Request: 0,
+              PlanPurchase: "",
+              PlanExpiredDate: PlanExpiredDate,
+              OfficialPlanExpiredDate: "",
+              ActiveParkingUser: [req.body.UserName],
+            });
+            await data.save();
           }
+
+          var a = {
+            message: "User Account Create Successfully",
+            status: `${HTTP.SUCCESS}`,
+          };
+          res.status(HTTP.SUCCESS).json(a);
+        } else {
+          var a = {
+            message: "Insufficient Data",
+            status: `${HTTP.BAD_REQUEST}`,
+          };
+          res.status(HTTP.BAD_REQUEST).json(a);
         }
+        // }
       } else {
         const response = { message: "User Exist", status: HTTP.UNAUTHORIZED };
         res.status(HTTP.UNAUTHORIZED).json(response); // status code
@@ -774,6 +774,7 @@ class class1 {
         //   res.status(HTTP.SUCCESS).json(a);
         // }
         var user = await Todo.find({ Phone: req.body.Phone, isUserDelete: false });
+        console.log("uSEr", user)
         if (user.length == 0) {
           var a = { message: "Account Not Exist", status: `${HTTP.NOT_FOUND}` };
           res.status(HTTP.NOT_FOUND).json(a);
@@ -2926,7 +2927,7 @@ class class1 {
       if (ParkedCar.length !== 0) {
         const headerValue = req.get("Authorization");
 
-        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
+        var User = await Todo.findOne({ Phone: req.Phone, isUserDelete: false });
         if (User) {
           if (
             headerValue == User.token ||
@@ -5010,7 +5011,7 @@ class class1 {
 
   static H = async (req, res) => {
     try {
-      var PetLogic3 = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
+      var PetLogic3 = await Todo.findOne({ Phone: req.Phone, isUserDelete: false });
 
       if (PetLogic3 && req.body.latitude && req.body.longitude) {
         const headerValue = req.get("Authorization");
@@ -5052,7 +5053,7 @@ class class1 {
             }
           }
 
-          const data2 = await Todo.find({ Phone: req.Phone,isUserDelete:false });
+          const data2 = await Todo.find({ Phone: req.Phone, isUserDelete: false });
 
           const inputDateTime = await data2[0].PlanExpiredDate;
 
@@ -5137,7 +5138,7 @@ class class1 {
 
   static I = async (req, res) => {
     try {
-      var PetLogic3 = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
+      var PetLogic3 = await Todo.findOne({ Phone: req.Phone, isUserDelete: false });
 
       // if (PetLogic3 && req.body.latitude && req.body.longitude) {
       if (PetLogic3 || req.body.latitude || req.body.longitude) {
@@ -5180,7 +5181,7 @@ class class1 {
             }
           }
 
-          const data2 = await Todo.find({ Phone: req.Phone,isUserDelete:false });
+          const data2 = await Todo.find({ Phone: req.Phone, isUserDelete: false });
 
           const inputDateTime = await data2[0].PlanExpiredDate;
 
@@ -5507,7 +5508,7 @@ class class1 {
   static M = async (req, res) => {
     try {
       if (req.Phone) {
-        var User = await Todo.find({ Phone: req.Phone,isUserDelete:false });
+        var User = await Todo.find({ Phone: req.Phone, isUserDelete: false });
         var Vehicles = [];
 
         if (User[0].VehicleDetail) {
@@ -5553,7 +5554,7 @@ class class1 {
   static N = async (req, res) => {
     try {
       if (req.Phone) {
-        var User = await Todo.find({ Phone: req.Phone,isUserDeleted:false });
+        var User = await Todo.find({ Phone: req.Phone, isUserDeleted: false });
 
         var Vehicles = [];
 
@@ -6370,7 +6371,7 @@ class class1 {
       if (ParkedCar.length !== 0) {
         const headerValue = req.get("Authorization");
 
-        var User = await Todo.findOne({ Phone: req.Phone,isUserDeleted:false });
+        var User = await Todo.findOne({ Phone: req.Phone, isUserDeleted: false });
 
         if (User) {
           if (headerValue == User.token) {
@@ -7084,7 +7085,7 @@ class class2 {
   static c = async (req, res) => {
     try {
       if (req.Phone) {
-        var User = await Todo.find({ Phone: req.Phone,isUserDelete:false });
+        var User = await Todo.find({ Phone: req.Phone, isUserDelete: false });
 
         var a = [];
 
@@ -7114,7 +7115,7 @@ class class2 {
   static d = async (req, res) => {
     try {
       if (req.Phone) {
-        var User = await Todo.find({ Phone: req.Phone,isUserDelete:false });
+        var User = await Todo.find({ Phone: req.Phone, isUserDelete: false });
 
         var Member = [];
 
@@ -7275,7 +7276,7 @@ class class2 {
       if (req.body.Search && req.Phone) {
         const headerValue = req.get("Authorization");
 
-        var User = await Todo.find({ Phone: req.Phone,isUserDelete:false });
+        var User = await Todo.find({ Phone: req.Phone, isUserDelete: false });
         if (headerValue == User[0].token) {
           const words = req.body.Search.replace(/^\s+|\s+$/g, "").split(" ");
           const nonBlankArray = words.filter((str) => str.trim() !== "");
@@ -7802,8 +7803,8 @@ class class2 {
   };
   static m = async (req, res) => {
     try {
-      var PetLogic1 = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
-      var PetLogic2 = await Todo2.findOne({ UserName: req.UserName,isUserDelete:false });
+      var PetLogic1 = await Todo.findOne({ Phone: req.Phone, isUserDelete: false });
+      var PetLogic2 = await Todo2.findOne({ UserName: req.UserName, isUserDelete: false });
 
       if (PetLogic1) {
         var PetLogic3 = await PetLogic1;
@@ -8684,7 +8685,7 @@ class class2 {
 
         var SendData2 = [];
 
-        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
+        var User = await Todo.findOne({ Phone: req.Phone, isUserDelete: false });
 
         if (User) {
           function compareDates(inputDate, inputDate2) {
@@ -8942,7 +8943,7 @@ class class2 {
         }${day}`;
 
       if (req.Phone && req.body.PlanType) {
-        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
+        var User = await Todo.findOne({ Phone: req.Phone, isUserDelete: false });
 
         if (User) {
           User.PlanPurchase = req.body.PlanType;
@@ -8995,7 +8996,7 @@ class class2 {
       if (req.Phone) {
         const headerValue = req.get("Authorization");
 
-        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
+        var User = await Todo.findOne({ Phone: req.Phone, isUserDelete: false });
 
         if (headerValue == User.token) {
           var FindAndDeleteMany = await Todo7.find({ UserName: User.UserName });
@@ -9497,7 +9498,7 @@ class class2 {
   static J = async (req, res) => {
     try {
       if (req.Phone) {
-        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
+        var User = await Todo.findOne({ Phone: req.Phone, isUserDelete: false });
 
         if (User) {
           const headerValue = req.get("Authorization");
@@ -9546,7 +9547,7 @@ class class2 {
   static K = async (req, res) => {
     try {
       if (req.Phone && req.body.Date) {
-        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false });
+        var User = await Todo.findOne({ Phone: req.Phone, isUserDelete: false });
         console.log(req.Phone, req.body.Date)
         if (User) {
           const headerValue = req.get("Authorization");
@@ -9682,7 +9683,7 @@ class class2 {
 
       if (req.Phone && req.body.Date && req.body.RegistrationNumber && req.body.UserAction) {
 
-        var User = await Todo.findOne({ Phone: req.Phone,isUserDelete:false })
+        var User = await Todo.findOne({ Phone: req.Phone, isUserDelete: false })
 
         if (User) {
 
