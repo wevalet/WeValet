@@ -11,6 +11,7 @@ var UserSchema = new mongoose.Schema({
   },
   Phone: {
     type: String,
+    unique: true,
     required: true,
   },
   VehicleDetail: [
@@ -61,10 +62,6 @@ var UserSchema = new mongoose.Schema({
   },
   OfficialPlanExpiredDate: {
     type: String,
-  },
-  isUserDelete: {
-    type: Boolean,
-    default: false,
   },
 });
 
