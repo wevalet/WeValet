@@ -5120,7 +5120,7 @@ class class1 {
           const message = {
             data: DataArray,
             status: `${HTTP.SUCCESS}`,
-            Active: Data3,
+            Active: 1,
           };
           res.status(HTTP.SUCCESS).json({ message });
         } else {
@@ -5283,6 +5283,7 @@ class class1 {
       res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
     }
   };
+
   static J = async (req, res) => {
     try {
       if (req.UserName) {
