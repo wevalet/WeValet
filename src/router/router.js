@@ -15,6 +15,31 @@ function verifyToken(req, res, next) {
   const token = req.headers["authorization"];
 
   if (!token) {
+    return res
+      .status(HTTP.FORBIDDEN)
+      .json({ message: "Token not provided", status: `${HTTP.FORBIDDEN}` });
+  }
+
+  var SECRET_KEY = process.env.SECRET_KEY || "YOURSECRETKEYGOESHERE";
+
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) {
+      return res
+        .status(HTTP.UNAUTHORIZED)
+        .json({ message: "Invalid token", status: `${HTTP.UNAUTHORIZED}` });
+    }
+
+    req.isAuthenticated = true;
+    req.UserName = decoded.UserName;
+    req.Phone = decoded.Phone;
+    next();
+  });
+}
+
+function locationToken(req, res, next) {
+  const token = req.headers["authorization"];
+
+  if (!token) {
 
     req.isAuthenticated = false;
     return next();
@@ -104,8 +129,8 @@ router.get("/Mall", class1.D);
 router.get("/Mall/:id1/:id2/:id3", class1.E);
 router.get("/Other", class1.F);
 router.get("/Other/:id1/:id2/:id3", class1.G);
-router.post("/location", verifyToken, class1.H);
-router.post("/location2", verifyToken, class1.I);
+router.post("/location", locationToken, class1.H);
+router.post("/location2", locationToken, class1.I);
 router.get("/CustomerRequest", verifyToken, class1.J);
 router.get("/AcceptedCustomerRequest", verifyToken, class1.K);
 router.post("/CustomerRequestByRegistrationNumber", verifyToken, class1.L);
