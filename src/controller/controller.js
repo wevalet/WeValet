@@ -5016,12 +5016,17 @@ class class1 {
 
   static H = async (req, res) => {
     try {
-      var PetLogic3 = await Todo.findOne({ Phone: req.Phone });
+      // var PetLogic3 = await Todo.findOne({ Phone: req.Phone });
 
-      if (PetLogic3 && req.body.latitude && req.body.longitude) {
+      let PetLogic3 = null;
+      if (req.isAuthenticated) {
+        PetLogic3 = await Todo.findOne({ Phone: req.Phone });
+      }
+
+      if ((PetLogic3 || !req.isAuthenticated) && req.body.latitude && req.body.longitude) {
         const headerValue = req.get("Authorization");
 
-        if (headerValue == PetLogic3.token) {
+        if (!req.isAuthenticated || (PetLogic3 && headerValue === PetLogic3.token)) {
           const data = await Todo2.find({});
 
           function compareDates(inputDate, inputDate2) {
@@ -5060,7 +5065,7 @@ class class1 {
 
           const data2 = await Todo.find({ Phone: req.Phone });
 
-          const inputDateTime = await data2[0].PlanExpiredDate;
+          const inputDateTime = await data2[0]?.PlanExpiredDate;
 
           const inputDateTime2 = new Date();
 
@@ -5143,13 +5148,17 @@ class class1 {
 
   static I = async (req, res) => {
     try {
-      var PetLogic3 = await Todo.findOne({ Phone: req.Phone });
-
+      // var PetLogic3 = await Todo.findOne({ Phone: req.Phone });
+      let PetLogic3 = null;
+      if (req.isAuthenticated) {
+        PetLogic3 = await Todo.findOne({ Phone: req.Phone });
+      }
       // if (PetLogic3 && req.body.latitude && req.body.longitude) {
-      if (PetLogic3 || req.body.latitude || req.body.longitude) {
+      // if (PetLogic3 || req.body.latitude || req.body.longitude) {
+      if ((PetLogic3 || !req.isAuthenticated) && (req.body.latitude || req.body.longitude)) {
         const headerValue = req.get("Authorization");
 
-        if (headerValue == PetLogic3.token) {
+        if (!req.isAuthenticated || (PetLogic3 && headerValue === PetLogic3.token)) {
           const data = await Todo2.find({});
 
           function compareDates(inputDate, inputDate2) {
@@ -5188,7 +5197,7 @@ class class1 {
 
           const data2 = await Todo.find({ Phone: req.Phone });
 
-          const inputDateTime = await data2[0].PlanExpiredDate;
+          const inputDateTime = await data2[0]?.PlanExpiredDate;
 
           const inputDateTime2 = new Date();
 
