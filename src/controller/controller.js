@@ -5269,8 +5269,8 @@ class class1 {
           transformedData.sort((a, b) => a.kilometer - b.kilometer);
 
           const message = {
-            // data: DataArray,
-            data: transformedData,
+            data: DataArray,
+            // data: transformedData,
             status: `${HTTP.SUCCESS}`,
             Active: Data3,
           };
