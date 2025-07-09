@@ -5829,101 +5829,174 @@ class class1 {
 
   static O = async (req, res) => {
     try {
-      var userName = "";
-      if (req.UserName) {
-        var User = await Todo.find({});
+      let { RegistrationNumber } = req.body;
+      let aggQuery = [
+        {
+          $match: {
+            "VehicleDetail.RegistrationNumber": {
+              $regex: RegistrationNumber,
+              $options: "i",
+            },
+          },
+        },
+        {
+          $addFields: {
+            VehicleDetail: {
+              $filter: {
+                input: "$VehicleDetail",
+                as: "vehicle",
+                cond: {
+                  $regexMatch: {
+                    input:
+                      "$$vehicle.RegistrationNumber",
+                    regex: RegistrationNumber,
+                    options: "i",
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          $addFields: {
+            VehicleDetail: {
+              $map: {
+                input: "$VehicleDetail",
+                as: "vehicle",
+                in: {
+                  $mergeObjects: [
+                    "$$vehicle",
+                    {
+                      Member: {
+                        $setUnion: [
+                          ["$UserName"],
+                          "$ActiveParkingUser",
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+        {
+          $unwind: {
+            path: "$VehicleDetail",
+            preserveNullAndEmptyArrays: false,
+          },
+        },
+        {
+          $replaceRoot: {
+            newRoot: "$VehicleDetail",
+          },
+        },
+      ]
+      let users = await Todo.aggregate(aggQuery);
 
-        var Vehicles = [];
-        var Vehicles2 = [];
-        var AllMember = [];
+      var message = {
+        message: "data fetched",
+        data: users,
+        status: `${HTTP.SUCCESS}`,
+      };
+      return res.status(HTTP.SUCCESS).json(message);
 
-        for (var i = 0; i < User.length; i++) {
-          var Member = [];
 
-          if (User[i].Member) {
-            // await Member.push(User[i].UserName);
-            // console.log(User[i].UserName)
-            // User[i].UserName
+      // var userName = "";
+      // if (req.UserName) {
+      // var User = await Todo.find({});
 
-            for (var j = 0; j < User[i].VehicleDetail.length; j++) {
-              // await Member.push(User[i].Member[j][0].Name);
-              if (
-                User[i].VehicleDetail[j].RegistrationNumber ==
-                req.body.RegistrationNumber
-              ) {
-                userName = User[i].UserName;
-                AllMember.push(userName);
-                // console.log(userName)
-                for (var l = 0; l < User[i].ActiveParkingUser.length; l++) {
-                  if (userName != User[i].ActiveParkingUser[l]) {
-                    console.log("Inner Array: " + User[i].ActiveParkingUser[l]);
-                    await AllMember.push(User[i].ActiveParkingUser[l]);
-                  }
+      // var Vehicles = [];
+      // var Vehicles2 = [];
+      // var AllMember = [];
 
-                  // if (User[i].Member[l].name === 'undefined') {
-                  //     await AllMember.push(User[i].Member[l].name)
-                  // } else {
-                  //     // console.log(User[i].Member[l].name)
+      // for (var i = 0; i < User.length; i++) {
+      //   var Member = [];
 
-                  // }
-                }
-              }
-            }
-          }
+      //   if (User[i].Member) {
+      //     // await Member.push(User[i].UserName);
+      //     // console.log(User[i].UserName)
+      //     // User[i].UserName
 
-          var Member = await User[i].ActiveParkingUser;
+      //     for (var j = 0; j < User[i].VehicleDetail.length; j++) {
+      //       // await Member.push(User[i].Member[j][0].Name);
+      //       if (
+      //         User[i].VehicleDetail[j].RegistrationNumber ==
+      //         req.body.RegistrationNumber
+      //       ) {
+      //         userName = User[i].UserName;
+      //         AllMember.push(userName);
+      //         // console.log(userName)
+      //         for (var l = 0; l < User[i].ActiveParkingUser.length; l++) {
+      //           if (userName != User[i].ActiveParkingUser[l]) {
+      //             console.log("Inner Array: " + User[i].ActiveParkingUser[l]);
+      //             await AllMember.push(User[i].ActiveParkingUser[l]);
+      //           }
 
-          if (User[i].VehicleDetail) {
-            if (User[i].VehicleDetail[0]) {
-              await Vehicles.push(User[i].VehicleDetail[0].RegistrationNumber);
-              User[i].VehicleDetail[0].Member = AllMember;
-              await Vehicles2.push(User[i].VehicleDetail[0]);
-            }
+      //           // if (User[i].Member[l].name === 'undefined') {
+      //           //     await AllMember.push(User[i].Member[l].name)
+      //           // } else {
+      //           //     // console.log(User[i].Member[l].name)
 
-            if (User[i].VehicleDetail[1]) {
-              await Vehicles.push(User[i].VehicleDetail[1].RegistrationNumber);
-              User[i].VehicleDetail[1].Member = AllMember;
-              await Vehicles2.push(User[i].VehicleDetail[1]);
-            }
-          }
-        }
+      //           // }
+      //         }
+      //       }
+      //     }
+      //   }
 
-        if (Vehicles.includes(req.body.RegistrationNumber)) {
-          function findIndexInArray(array, value) {
-            for (let i = 0; i < array.length; i++) {
-              if (array[i] === value) {
-                return i;
-              }
-            }
-            return -1;
-          }
+      //   var Member = await User[i].ActiveParkingUser;
 
-          const index = findIndexInArray(Vehicles, req.body.RegistrationNumber);
+      //   if (User[i].VehicleDetail) {
+      //     if (User[i].VehicleDetail[0]) {
+      //       await Vehicles.push(User[i].VehicleDetail[0].RegistrationNumber);
+      //       User[i].VehicleDetail[0].Member = AllMember;
+      //       await Vehicles2.push(User[i].VehicleDetail[0]);
+      //     }
 
-          var data = Vehicles2[index];
+      //     if (User[i].VehicleDetail[1]) {
+      //       await Vehicles.push(User[i].VehicleDetail[1].RegistrationNumber);
+      //       User[i].VehicleDetail[1].Member = AllMember;
+      //       await Vehicles2.push(User[i].VehicleDetail[1]);
+      //     }
+      //   }
+      // }
 
-          console.log(AllMember);
+      // if (Vehicles.includes(req.body.RegistrationNumber)) {
+      //   function findIndexInArray(array, value) {
+      //     for (let i = 0; i < array.length; i++) {
+      //       if (array[i] === value) {
+      //         return i;
+      //       }
+      //     }
+      //     return -1;
+      //   }
 
-          var message2 = {
-            message: "Valid Car",
-            data: data,
-            status: `${HTTP.SUCCESS}`,
-          };
-          res.status(HTTP.SUCCESS).json(message2);
-        } else {
-          var message2 = {
-            message: "InValid Car",
-            status: `${HTTP.NOT_FOUND}`,
-          };
-          res.status(HTTP.NOT_FOUND).json(message2);
-        }
-      } else {
-        var a = {
-          message: "Please Choose Another Account Token",
-          status: `${HTTP.UNAUTHORIZED}`,
-        };
-        res.status(HTTP.UNAUTHORIZED).json(a);
-      }
+      //   const index = findIndexInArray(Vehicles, req.body.RegistrationNumber);
+
+      //   var data = Vehicles2[index];
+
+      //   console.log(AllMember);
+
+      //   var message2 = {
+      //     message: "Valid Car",
+      //     data: data,
+      //     status: `${HTTP.SUCCESS}`,
+      //   };
+      //   res.status(HTTP.SUCCESS).json(message2);
+      // } else {
+      //   var message2 = {
+      //     message: "InValid Car",
+      //     status: `${HTTP.NOT_FOUND}`,
+      //   };
+      //   res.status(HTTP.NOT_FOUND).json(message2);
+      // }
+      // } else {
+      //   var a = {
+      //     message: "Please Choose Another Account Token",
+      //     status: `${HTTP.UNAUTHORIZED}`,
+      //   };
+      //   res.status(HTTP.UNAUTHORIZED).json(a);
+      // }
     } catch (e) {
       console.log(e);
       var a = { message: `${e}`, status: `${HTTP.INTERNAL_SERVER_ERROR}` };
