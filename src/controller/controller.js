@@ -718,9 +718,9 @@ class class1 {
           if (VehicleDetailArray.includes(a.toUpperCase())) {
             const response = {
               message: "Please choose Another RegistrationNumber",
-              status: HTTP.UNAUTHORIZED,
+              status: HTTP.CONFLICT,
             };
-            res.status(HTTP.UNAUTHORIZED).json(response); // status code
+            res.status(HTTP.CONFLICT).json(response); // status code
           } else {
             var PhoneNumberCheckOfficial = await User[0].Phone.slice(0, 3);
             const countryName = PhoneNumberCheckOfficial === "+91" ? "INDIA" : "US";
@@ -5894,7 +5894,16 @@ class class1 {
       ]
       let users = await Todo.aggregate(aggQuery);
 
-      var message = {
+      if (!users.length) {
+        let resp = {
+          message: "data not found",
+          data: users,
+          status: `${HTTP.NOT_FOUND}`
+        }
+        return res.status(HTTP.NOT_FOUND).json(resp);
+      }
+
+      let message = {
         message: "data fetched",
         data: users,
         status: `${HTTP.SUCCESS}`,
