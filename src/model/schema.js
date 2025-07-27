@@ -491,7 +491,7 @@ const HotelQrCodeHistorySchema = new mongoose.Schema({
   carNumber: { type: String, required: false, default: false },
   businessId: { type: String, required: true },
   valetId: { type: String, required: true },
-  otp: { type: String, required: false },
+  otp: { type: String, default: null },
   assignedDate: { type: String, required: true },
   assigned: { type: Boolean, default: false },
   retrieveRequestDate: { type: String, default: false },
