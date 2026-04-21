@@ -16,6 +16,7 @@ const axios = require("axios");
  * @returns {Promise<object>} MSG91 API response data
  */
 async function sendOtpSms(phone, otp) {
+  console.log(`sendOtpSms called with phone: ${phone}, otp: ${otp}`);
   if (!phone || !otp) {
     throw new Error("sendOtpSms: phone and otp are required");
   }
@@ -23,8 +24,8 @@ async function sendOtpSms(phone, otp) {
     throw new Error("sendOtpSms: MSG91_URL, MSG91_AUTH_KEY, and MSG91_TEMPLATE_ID must be set in .env");
   }
 
-  const mobileNumber = String(phone).replace(/\+/g, "");
-    
+  const mobileNumber = String(phone).replace(/[+\s]/g, "");
+
   const payload = {
     template_id: process.env.MSG91_TEMPLATE_ID,
     realTimeResponse: "1",
