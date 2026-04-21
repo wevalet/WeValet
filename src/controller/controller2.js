@@ -12,6 +12,7 @@ const session = require("express-session");
 var SECRET_KEY = process.env.SECRET_KEY || "YOURSECRETKEYGOESHERE";
 
 const axios = require('axios');
+const { sendOtpSms } = require("../utils/sendSms");
 
 const multer = require('multer');
 
@@ -2450,16 +2451,9 @@ class class1 {
                     res.status(HTTP.NOT_FOUND).json(a);
                 }
 
-                axios.get(`http://3.109.217.93/index.php?number=${req.body.Phone}&otp=${otp}`)
-                    .then((response) => {
-
-                        var a = { "message": "Otp Send", "status": `${HTTP.SUCCESS}` }
-                        res.status(HTTP.SUCCESS).json(a);
-
-                    })
-                    .catch((error) => {
-                        console.error(`Error: ${error}`);
-                    });
+                await sendOtpSms(req.body.Phone, otp);
+                var a = { "message": "Otp Send", "status": `${HTTP.SUCCESS}` };
+                res.status(HTTP.SUCCESS).json(a);
 
 
 
@@ -5975,16 +5969,9 @@ class class2 {
                     res.status(HTTP.NOT_FOUND).json(a);
                 }
 
-                axios.get(`http://3.109.217.93/index.php?number=${req.body.Phone}&otp=${otp}`)
-                    .then((response) => {
-
-                        var a = { "message": "Otp Send", "status": `${HTTP.SUCCESS}` }
-                        res.status(HTTP.SUCCESS).json(a);
-
-                    })
-                    .catch((error) => {
-                        console.error(`Error: ${error}`);
-                    });
+                await sendOtpSms(req.body.Phone, otp);
+                var a = { "message": "Otp Send", "status": `${HTTP.SUCCESS}` };
+                res.status(HTTP.SUCCESS).json(a);
 
 
 

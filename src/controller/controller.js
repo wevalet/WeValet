@@ -81,6 +81,7 @@ async function generateQRCode(qrUrl) {
 }
 
 const axios = require("axios");
+const { sendOtpSms } = require("../utils/sendSms");
 
 const multer = require("multer");
 
@@ -815,17 +816,16 @@ class class1 {
 
           if (PhoneNumberCheckOfficial == +91) {
             console.log("Call OTP Service");
-            axios
-              .get(
-                `http://3.111.243.189//indexotp.php?number=${req.body.Phone}&otp=${otp}`
-              )
-              .then((response) => {
-                var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
-                res.status(HTTP.SUCCESS).json(a);
-              })
-              .catch((error) => {
-                console.error(`Error: ${error}`);
-              });
+            try {
+              await sendOtpSms(req.body.Phone, otp);
+              var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
+              res.status(HTTP.SUCCESS).json(a);
+            } catch (smsErr) {
+              console.error("SMS sending failed:", smsErr.message);
+              var a = { message: "Failed to send OTP. Please try again.", status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+              res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+            }
+
           } else {
             // var updateuser = await Todo.findOneAndUpdate({ Phone: req.body.Phone }, { $set: { otp: otp } });
             // await updateuser.save();
@@ -6856,17 +6856,15 @@ class class1 {
           res.status(HTTP.NOT_FOUND).json(a);
         }
 
-        axios
-          .get(
-            `http://3.109.217.93/index.php?number=${req.body.Phone}&otp=${otp}`
-          )
-          .then((response) => {
-            var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
-            res.status(HTTP.SUCCESS).json(a);
-          })
-          .catch((error) => {
-            console.error(`Error: ${error}`);
-          });
+        try {
+          await sendOtpSms(req.body.Phone, otp);
+          var a = { message: "Otp Send", status: `${HTTP.SUCCESS}` };
+          res.status(HTTP.SUCCESS).json(a);
+        } catch (smsErr) {
+          console.error("SMS sending failed:", smsErr.message);
+          var a = { message: "Failed to send OTP. Please try again.", status: `${HTTP.INTERNAL_SERVER_ERROR}` };
+          res.status(HTTP.INTERNAL_SERVER_ERROR).json(a);
+        }
       } else {
         var a = { message: "Insufficient Data", status: `${HTTP.BAD_REQUEST}` };
         res.status(HTTP.BAD_REQUEST).json(a);
