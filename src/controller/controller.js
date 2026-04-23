@@ -10219,7 +10219,7 @@ class QRCodeClass {
   static RequestForCar = async (req, res) => {
     try {
       const { businessName, tokenNumber, carNumber, otp } = req.body;
-      if (!businessName || !tokenNumber || !otp) {
+      if (!businessName || !tokenNumber) {
         return res.status(HTTP.BAD_REQUEST).json({
           message: "Insufficient Data",
           status: `${HTTP.BAD_REQUEST}`,
@@ -10238,7 +10238,7 @@ class QRCodeClass {
         tokenNumber: tokenNumber,
         // carNumber: carNumber,
         businessId: business._id,
-        otp: otp,
+        // otp: otp,
         assigned: true,
         retrieveRequest: false,
       });
@@ -10254,7 +10254,7 @@ class QRCodeClass {
           tokenNumber: tokenNumber,
           // carNumber: carNumber,
           businessId: business._id,
-          otp: otp,
+          // otp: otp,
           assigned: true,
           retrieveRequest: false,
         },
