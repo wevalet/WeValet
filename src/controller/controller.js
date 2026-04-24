@@ -6153,7 +6153,7 @@ class class1 {
 
           if (currentDate.getMonth() < 10) {
             var currentMonth = await `0${currentDate.getMonth() + 1}`;
-          } else {
+          } else {  
             var currentMonth = (await currentDate.getMonth()) + 1;
           }
 
@@ -9470,38 +9470,35 @@ class class2 {
     try {
       const address = req.body.Address;
 
+      console.log(
+        `curl -X GET "https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1" ` +
+        `-H "User-Agent: WeValet/1.0" ` +
+        `-H "Referer: https://wevalet.app"`
+      );
       axios
         .get(
-          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-            address
-          )}&format=json`
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`,
+          {
+            headers: {
+              "User-Agent": "WeValet/1.0",
+              "Referer": "https://wevalet.app",
+            },
+          }
         )
-        .then(async (response) => {
-          if (response.status === 200) {
-            const data = response.data;
+        .then((response) => {
+          const data = response.data;
 
-            if (data.length > 0) {
-              const latitude = await data[0].lat;
-              const longitude = await data[0].lon;
+          if (data.length > 0) {
+            const SendData = {
+              latitude: data[0].lat,
+              longitude: data[0].lon,
+              ApiCallStatus: 1,
+            };
 
-              const SendData = {
-                latitude: latitude,
-                longitude: longitude,
-                ApiCallStatus: 1,
-              };
-
-              res.send(SendData);
-            } else {
-              const SendData = {
-                message: "Address not found",
-                ApiCallStatus: 0,
-              };
-
-              res.send(SendData);
-            }
+            res.send(SendData);
           } else {
             const SendData = {
-              message: "Unexpected status code",
+              message: "Address not found",
               ApiCallStatus: 0,
             };
 
