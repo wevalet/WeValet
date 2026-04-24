@@ -9485,20 +9485,32 @@ class class2 {
             },
           }
         )
-        .then((response) => {
-          const data = response.data;
+        .then(async (response) => {
+          if (response.status === 200) {
+            const data = response.data;
 
-          if (data.length > 0) {
-            const SendData = {
-              latitude: data[0].lat,
-              longitude: data[0].lon,
-              ApiCallStatus: 1,
-            };
+            if (data.length > 0) {
+              const latitude = await data[0].lat;
+              const longitude = await data[0].lon;
 
-            res.send(SendData);
+              const SendData = {
+                latitude: latitude,
+                longitude: longitude,
+                ApiCallStatus: 1,
+              };
+
+              res.send(SendData);
+            } else {
+              const SendData = {
+                message: "Address not found",
+                ApiCallStatus: 0,
+              };
+
+              res.send(SendData);
+            }
           } else {
             const SendData = {
-              message: "Address not found",
+              message: "Unexpected status code",
               ApiCallStatus: 0,
             };
 
