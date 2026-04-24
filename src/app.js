@@ -3,6 +3,7 @@ const http = require("http");
 const cors = require("cors");
 const fs = require("fs");
 const bodyParser = require("body-parser");
+const morgan = require("morgan");
 require("dotenv").config();
 require("./db/conn");
 const router = require("./router/router");
@@ -45,6 +46,29 @@ const server = http.createServer(app);
 
 // Initialize Socket.io after CORS setup
 initializeSocket(server);
+
+// Structured production-style request logger
+morgan.token("body", (req) => {
+    if (req.method === "POST" || req.method === "PUT") {
+        const sanitized = { ...req.body };
+        if (sanitized.password) sanitized.password = "***";
+        return JSON.stringify(sanitized);
+    }
+    return "-";
+});
+
+morgan.token("colored-status", (req, res) => {
+    const status = res.statusCode;
+    if (status >= 500) return `\x1b[31m${status}\x1b[0m`; // red
+    if (status >= 400) return `\x1b[33m${status}\x1b[0m`; // yellow
+    if (status >= 300) return `\x1b[36m${status}\x1b[0m`; // cyan
+    return `\x1b[32m${status}\x1b[0m`;                    // green
+});
+
+const logFormat =
+    "[:date[iso]] :method :url | status::colored-status | :response-time ms | ip::remote-addr | body::body";
+
+app.use(morgan(logFormat));
 
 // Attach your routes
 app.use("/", router);
